@@ -30,7 +30,7 @@ const theme = createMuiTheme({
         backgroundColor: "#fffcfc",
         borderRadius: "4px"
       }
-    },
+    }
   }
 });
 
@@ -99,6 +99,16 @@ export default function App() {
     setDistance(totalSeconds / totalPaceSeconds);
   };
 
+  const reset = () => {
+    setSeconds("");
+    setMinutes("");
+    setHours("");
+    setPaceSeconds("");
+    setPaceMinutes("");
+    setPaceHours("");
+    setDistance("");
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Grid
@@ -115,7 +125,7 @@ export default function App() {
             <Box display="flex" justifyContent="center" alignItems="center">
               <TextField
                 InputProps={{
-                  inputProps: { min: 0, }
+                  inputProps: { min: 0 }
                 }}
                 placeholder="Hrs"
                 variant="outlined"
@@ -169,7 +179,7 @@ export default function App() {
               />
               <TextField
                 InputProps={{
-                  inputProps: { min: 0 }
+                  inputProps: { min: 0, max: 59 }
                 }}
                 onChange={e => setPaceMinutes(parseInt(e.target.value))}
                 placeholder="Min"
@@ -179,7 +189,7 @@ export default function App() {
               />
               <TextField
                 InputProps={{
-                  inputProps: { min: 0 }
+                  inputProps: { min: 0, max: 59 }
                 }}
                 onChange={e => setPaceSeconds(parseInt(e.target.value))}
                 placeholder="Sec"
@@ -235,6 +245,16 @@ export default function App() {
               </Button>
             </Box>
           </form>
+          <Button
+            fullWidth
+            className={classes.button}
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={reset}
+          >
+            Reset
+          </Button>
         </div>
       </Grid>
     </ThemeProvider>

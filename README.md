@@ -3,6 +3,8 @@ calculator for determining time/pace/distance for running
 
 built in loving memory of coolrunning's pace calculator
 
+built with react + material ui
+
 # get started
 ```sh
 $ git clone https://github.com/djm158/runcalculator

@@ -51,13 +51,10 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     minWidth: 120
   },
+  // TOOD: theme this
   button: {
     backgroundColor: "#5178fc",
     marginLeft: theme.spacing(1)
-  },
-  input: {
-    color: "#292d3a",
-    backgroundColor: "#fffcfc"
   }
 }));
 
@@ -120,7 +117,7 @@ export default function App() {
         justify="center"
         style={{ minHeight: "90vh" }}
       >
-        <div className="calculator">
+        <Box p="2rem" borderRadius={5} bgcolor="#191f33">
           <form className={classes.root}>
             <p>Time</p>
             <Box display="flex" justifyContent="center" alignItems="center">
@@ -258,7 +255,7 @@ export default function App() {
               Reset
             </Button>
           </Box>
-        </div>
+        </Box>
       </Grid>
     </ThemeProvider>
   );

@@ -117,7 +117,7 @@ export default function App() {
         justify="center"
         style={{ minHeight: "90vh" }}
       >
-        <Box p="2rem" borderRadius={5} bgcolor="#191f33">
+        <Box className="calculator" p="2rem" borderRadius={5} bgcolor="#191f33">
           <form className={classes.root}>
             <p>Time</p>
             <Box display="flex" justifyContent="center" alignItems="center">

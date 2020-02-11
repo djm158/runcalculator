@@ -24,6 +24,7 @@ p {
     background-color: #191f33;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
   }
   .calculator {
     max-width: 375px;

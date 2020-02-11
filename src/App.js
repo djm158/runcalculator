@@ -73,6 +73,7 @@ export default function App() {
   const [paceHours, setPaceHours] = useState("");
   const inputLabel = React.useRef(null);
 
+  // TODO: pull these out for easier testing
   const calculatePace = () => {
     if (distance === 0) return;
     const totalSeconds = hours * 60 * 60 + minutes * 60 + seconds;
@@ -245,16 +246,18 @@ export default function App() {
               </Button>
             </Box>
           </form>
-          <Button
-            fullWidth
-            className={classes.button}
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={reset}
-          >
-            Reset
-          </Button>
+          <Box mt={2}>
+            <Button
+              fullWidth
+              className={classes.button}
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={reset}
+            >
+              Reset
+            </Button>
+          </Box>
         </div>
       </Grid>
     </ThemeProvider>

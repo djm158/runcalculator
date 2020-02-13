@@ -1,17 +1,18 @@
+import "./styles.css";
+
 import React, { useState } from "react";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { calculateDistance, calculatePace, calculateTime } from "./calc";
+
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
 import InputLabel from "@material-ui/core/InputLabel";
-
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-
-import "./styles.css";
 
 const theme = createMuiTheme({
   overrides: {
@@ -70,31 +71,30 @@ export default function App() {
   const [paceHours, setPaceHours] = useState("");
   const inputLabel = React.useRef(null);
 
-  // TODO: pull these out for easier testing
-  const calculatePace = () => {
+  // TODO: store time as object and abstract this logic
+  const getTotalPaceSeconds = () =>
+    paceHours * 60 * 60 + paceMinutes * 60 + paceSeconds;
+  const getTotalSeconds = () => hours * 60 * 60 + minutes * 60 + seconds;
+
+  const setPace = () => {
     if (distance === 0) return;
-    const totalSeconds = hours * 60 * 60 + minutes * 60 + seconds;
-    const secondsPerDistance = totalSeconds / distance;
-    const mins = Math.floor(secondsPerDistance / 60);
-    setPaceHours(Math.floor(secondsPerDistance / 60 ** 2));
+    const { seconds: secs, minutes: mins, hours: hrs } = calculatePace(
+      getTotalSeconds(),
+      distance
+    );
+    setPaceHours(hrs);
     setPaceMinutes(mins);
-    setPaceSeconds((secondsPerDistance / 60 - mins) * 60);
+    setPaceSeconds(secs);
   };
 
-  const calculateTime = () => {
-    const totalPaceSeconds =
-      paceHours * 60 * 60 + paceMinutes * 60 + paceSeconds;
-    const time = totalPaceSeconds * distance;
-    setHours(Math.floor(time / 60 ** 2));
-    setMinutes(Math.floor(time / 60 - Math.floor(time / 60 ** 2)));
-    setSeconds((time / 60 - time / 60) * 60);
-  };
-
-  const calculateDistance = () => {
-    const totalSeconds = hours * 60 * 60 + minutes * 60 + seconds;
-    const totalPaceSeconds =
-      paceHours * 60 * 60 + paceMinutes * 60 + paceSeconds;
-    setDistance(totalSeconds / totalPaceSeconds);
+  const setTime = () => {
+    const { seconds: secs, minutes: mins, hours: hrs } = calculateTime(
+      getTotalPaceSeconds(),
+      distance
+    );
+    setHours(hrs);
+    setMinutes(mins);
+    setSeconds(secs);
   };
 
   const reset = () => {
@@ -155,7 +155,7 @@ export default function App() {
                 size="small"
                 variant="contained"
                 color="primary"
-                onClick={calculateTime}
+                onClick={setTime}
                 className={classes.button}
               >
                 Calculate
@@ -200,7 +200,7 @@ export default function App() {
                 size="small"
                 variant="contained"
                 color="primary"
-                onClick={calculatePace}
+                onClick={setPace}
               >
                 Calculate
               </Button>
@@ -237,7 +237,9 @@ export default function App() {
                 size="small"
                 variant="contained"
                 color="primary"
-                onClick={calculateDistance}
+                onClick={() => setDistance(
+                  calculateDistance(getTotalSeconds(), getTotalPaceSeconds())
+                )}
               >
                 Calculate
               </Button>

@@ -72,6 +72,7 @@ export default function App() {
   const inputLabel = React.useRef(null);
 
   // TODO: store time as object and abstract this logic
+  // maybe also use a time lib like moment
   const getTotalPaceSeconds = () =>
     paceHours * 60 * 60 + paceMinutes * 60 + paceSeconds;
   const getTotalSeconds = () => hours * 60 * 60 + minutes * 60 + seconds;
@@ -118,6 +119,7 @@ export default function App() {
         style={{ minHeight: "90vh" }}
       >
         <Box className="calculator" p="2rem" borderRadius={5} bgcolor="#191f33">
+          {/* TODO should these be three different forms? */}
           <form className={classes.root}>
             <p>Time</p>
             <Box display="flex" justifyContent="center" alignItems="center">

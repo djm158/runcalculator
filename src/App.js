@@ -219,7 +219,7 @@ export default function App() {
                 variant="outlined"
                 type="number"
                 value={distance}
-                onChange={e => setDistance(parseInt(e.target.value))}
+                onChange={e => setDistance(parseFloat(e.target.value))}
               />
               <FormControl variant="filled" className={classes.formControl}>
                 <InputLabel ref={inputLabel}>Unit</InputLabel>

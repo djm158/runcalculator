@@ -14,6 +14,11 @@ import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
+export enum Unit {
+  MILES = "Miles",
+  KILOMETERS = "Kilometers",
+}
+
 const theme = createMuiTheme({
   overrides: {
     MuiSelect: {
@@ -59,33 +64,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function App() {
+export const App = () => {
   const classes = useStyles();
-  const [distance, setDistance] = useState("");
-  const [distanceUnit, setDistanceUnit] = useState("Miles");
-  const [hours, setHours] = useState("");
-  const [minutes, setMinutes] = useState("");
-  const [paceHours, setPaceHours] = useState("");
-  const [paceMinutes, setPaceMinutes] = useState("");
-  const [paceSeconds, setPaceSeconds] = useState("");
-  const [paceUnit, setPaceUnit] = useState("Miles");
-  const [seconds, setSeconds] = useState("");
+  const [distance, setDistance] = useState<string | number>("");
+  const [distanceUnit, setDistanceUnit] = useState(Unit.MILES);
+  const [hours, setHours] = useState<string | number>("");
+  const [minutes, setMinutes] = useState<string | number>("");
+  const [paceHours, setPaceHours] = useState<string | number>("");
+  const [paceMinutes, setPaceMinutes] = useState<string | number>("");
+  const [paceSeconds, setPaceSeconds] = useState<string | number>("");
+  const [paceUnit, setPaceUnit] = useState(Unit.MILES);
+  const [seconds, setSeconds] = useState<string | number>("");
   const inputLabel = React.useRef(null);
-
 
   // TODO: store time as object and abstract this logic
   // maybe also use a time lib like moment
-  const getTotalPaceSeconds = () => {
-    return paceHours * 60 * 60 + paceMinutes * 60 + parseFloat(paceSeconds);
+  const getTotalPaceSeconds = (): number => {
+    return (
+      parseInt(paceHours as string) * 60 * 60 +
+      parseInt(paceMinutes as string) * 60 +
+      parseFloat(paceSeconds as string)
+    );
   };
 
-  const getTotalSeconds = () => hours * 60 * 60 + minutes * 60 + seconds;
+  const getTotalSeconds = (): number =>
+    parseInt(hours as string) * 60 * 60 +
+    parseInt(minutes as string) * 60 +
+    parseInt(seconds as string);
 
   const setPace = () => {
     if (distance === 0) return;
     const { seconds: secs, minutes: mins, hours: hrs } = calculatePace(
       getTotalSeconds(),
-      parseFloat(distance),
+      parseFloat(distance as string),
       paceUnit,
       distanceUnit
     );
@@ -97,7 +108,7 @@ export default function App() {
   const setTime = () => {
     const { seconds: secs, minutes: mins, hours: hrs } = calculateTime(
       getTotalPaceSeconds(),
-      parseFloat(distance)
+      parseFloat(distance as string)
     );
     setHours(hrs);
     setMinutes(mins);
@@ -137,7 +148,9 @@ export default function App() {
                 variant="outlined"
                 type="number"
                 value={hours}
-                onChange={(e) => setHours(parseInt(e.target.value))}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setHours(parseInt(e.target.value))
+                }
               />
               <TextField
                 InputProps={{
@@ -151,14 +164,13 @@ export default function App() {
               />
               <TextField
                 InputProps={{
-                  inputProps: { min: 0, max: 59 },
+                  inputProps: { min: 0, max: 59, step: 0.1 },
                 }}
                 placeholder="Sec"
                 variant="outlined"
                 type="number"
                 value={seconds}
                 onChange={(e) => setSeconds(e.target.value)}
-                step={0.1}
               />
               <Button
                 size="small"
@@ -196,14 +208,13 @@ export default function App() {
               />
               <TextField
                 InputProps={{
-                  inputProps: { min: 0, max: 59 },
+                  inputProps: { min: 0, max: 59, step: 0.1 },
                 }}
                 onChange={(e) => setPaceSeconds(e.target.value)}
                 placeholder="Sec"
                 type="number"
                 value={paceSeconds}
                 variant="outlined"
-                step={0.1}
               />
               <Button
                 className={classes.button}
@@ -221,39 +232,49 @@ export default function App() {
                 labelId="pace-unit"
                 id="pace-unit-select"
                 value={paceUnit}
-                onChange={(e) => setPaceUnit(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<{
+                    name?: string | undefined;
+                    value: unknown;
+                  }>
+                ) => setPaceUnit(e.target.value as Unit)}
                 labelWidth={120}
               >
-                <MenuItem value={"Miles"}>Miles</MenuItem>
-                <MenuItem value={"Kilometers"}>Kilometers</MenuItem>
+                <MenuItem value={Unit.MILES}>Miles</MenuItem>
+                <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
               </Select>
             </FormControl>
+            e.target.value
           </form>
           <form className={classes.distanceGroup}>
             <p>Distance</p>
             <Box display="flex" alignItems="center">
               <TextField
                 InputProps={{
-                  inputProps: { min: 0 },
+                  inputProps: { min: 0, step: 0.1 },
                 }}
                 placeholder="Distance"
                 variant="outlined"
                 type="number"
                 value={distance}
-                step={0.1}
                 onChange={(e) => setDistance(e.target.value)}
               />
               <FormControl variant="filled" className={classes.formControl}>
                 <InputLabel ref={inputLabel}>Unit</InputLabel>
                 <Select
-                  labelId="demo-simple-select-outlined-label"
+                  labelId="distance-unit"
                   id="unit-select"
                   value={distanceUnit}
-                  onChange={(e) => setDistanceUnit(e.target.value)}
+                  onChange={(
+                    e: React.ChangeEvent<{
+                      name?: string | undefined;
+                      value: unknown;
+                    }>
+                  ) => setDistanceUnit(e.target.value as Unit)}
                   labelWidth={120}
                 >
-                  <MenuItem value={"Miles"}>Miles</MenuItem>
-                  <MenuItem value={"Kilometers"}>Kilometers</MenuItem>
+                  <MenuItem value={Unit.MILES}>Miles</MenuItem>
+                  <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
                 </Select>
               </FormControl>
               <Button
@@ -292,4 +313,4 @@ export default function App() {
       </Grid>
     </ThemeProvider>
   );
-}
+};

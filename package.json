@@ -3,13 +3,18 @@
   "version": "1.0.0",
   "description": "Calculates time, distance, and pace",
   "keywords": [],
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "dependencies": {
     "@material-ui/core": "4.9.0",
+    "@types/jest": "^26.0.10",
+    "@types/node": "^14.6.0",
+    "@types/react": "^16.9.46",
+    "@types/react-dom": "^16.9.8",
     "material-ui": "0.20.2",
     "react": "16.12.0",
     "react-dom": "16.12.0",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "typescript": "^4.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

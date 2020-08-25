@@ -61,15 +61,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const classes = useStyles();
+  const [distance, setDistance] = useState("");
   const [distanceUnit, setDistanceUnit] = useState("Miles");
+  const [hours, setHours] = useState("");
+  const [minutes, setMinutes] = useState("");
+  const [paceHours, setPaceHours] = useState("");
+  const [paceMinutes, setPaceMinutes] = useState("");
+  const [paceSeconds, setPaceSeconds] = useState("");
   const [paceUnit, setPaceUnit] = useState("Miles");
   const [seconds, setSeconds] = useState("");
-  const [minutes, setMinutes] = useState("");
-  const [hours, setHours] = useState("");
-  const [distance, setDistance] = useState("");
-  const [paceSeconds, setPaceSeconds] = useState("");
-  const [paceMinutes, setPaceMinutes] = useState("");
-  const [paceHours, setPaceHours] = useState("");
+  const inputLabel = React.useRef(null);
 
 
   // TODO: store time as object and abstract this logic

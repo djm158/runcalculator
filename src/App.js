@@ -20,48 +20,49 @@ const theme = createMuiTheme({
       filled: {
         "&:focus": {
           background: "#fffcfc",
-          borderRadius: "4px"
+          borderRadius: "4px",
         },
-        borderRadius: "4px"
-      }
+        borderRadius: "4px",
+      },
     },
     MuiInputBase: {
       input: {
         color: "#292d3a",
         backgroundColor: "#fffcfc",
-        borderRadius: "4px"
-      }
-    }
-  }
+        borderRadius: "4px",
+      },
+    },
+  },
 });
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(0.8),
-      width: 70
-    }
+      width: 100,
+    },
   },
   distanceGroup: {
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
-      width: 98
-    }
+      width: 120,
+    },
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120
+    minWidth: 120,
   },
   // TOOD: theme this
   button: {
     backgroundColor: "#5178fc",
-    marginLeft: theme.spacing(1)
-  }
+    marginLeft: theme.spacing(1),
+  },
 }));
 
 export default function App() {
   const classes = useStyles();
-  const [unit, setUnit] = useState("Miles");
+  const [distanceUnit, setDistanceUnit] = useState("Miles");
+  const [paceUnit, setPaceUnit] = useState("Miles");
   const [seconds, setSeconds] = useState("");
   const [minutes, setMinutes] = useState("");
   const [hours, setHours] = useState("");
@@ -69,19 +70,23 @@ export default function App() {
   const [paceSeconds, setPaceSeconds] = useState("");
   const [paceMinutes, setPaceMinutes] = useState("");
   const [paceHours, setPaceHours] = useState("");
-  const inputLabel = React.useRef(null);
+
 
   // TODO: store time as object and abstract this logic
   // maybe also use a time lib like moment
-  const getTotalPaceSeconds = () =>
-    paceHours * 60 * 60 + paceMinutes * 60 + paceSeconds;
+  const getTotalPaceSeconds = () => {
+    return paceHours * 60 * 60 + paceMinutes * 60 + parseFloat(paceSeconds);
+  };
+
   const getTotalSeconds = () => hours * 60 * 60 + minutes * 60 + seconds;
 
   const setPace = () => {
     if (distance === 0) return;
     const { seconds: secs, minutes: mins, hours: hrs } = calculatePace(
       getTotalSeconds(),
-      distance
+      parseFloat(distance),
+      paceUnit,
+      distanceUnit
     );
     setPaceHours(hrs);
     setPaceMinutes(mins);
@@ -91,7 +96,7 @@ export default function App() {
   const setTime = () => {
     const { seconds: secs, minutes: mins, hours: hrs } = calculateTime(
       getTotalPaceSeconds(),
-      distance
+      parseFloat(distance)
     );
     setHours(hrs);
     setMinutes(mins);
@@ -125,33 +130,34 @@ export default function App() {
             <Box display="flex" justifyContent="center" alignItems="center">
               <TextField
                 InputProps={{
-                  inputProps: { min: 0 }
+                  inputProps: { min: 0 },
                 }}
                 placeholder="Hrs"
                 variant="outlined"
                 type="number"
                 value={hours}
-                onChange={e => setHours(parseInt(e.target.value))}
+                onChange={(e) => setHours(parseInt(e.target.value))}
               />
               <TextField
                 InputProps={{
-                  inputProps: { min: 0, max: 59 }
+                  inputProps: { min: 0, max: 59 },
                 }}
                 placeholder="Min"
                 variant="outlined"
                 type="number"
                 value={minutes}
-                onChange={e => setMinutes(parseInt(e.target.value))}
+                onChange={(e) => setMinutes(parseInt(e.target.value))}
               />
               <TextField
                 InputProps={{
-                  inputProps: { min: 0, max: 59 }
+                  inputProps: { min: 0, max: 59 },
                 }}
                 placeholder="Sec"
                 variant="outlined"
                 type="number"
                 value={seconds}
-                onChange={e => setSeconds(parseInt(e.target.value))}
+                onChange={(e) => setSeconds(e.target.value)}
+                step={0.1}
               />
               <Button
                 size="small"
@@ -169,9 +175,9 @@ export default function App() {
             <Box display="flex" justifyContent="center" alignItems="center">
               <TextField
                 InputProps={{
-                  inputProps: { min: 0 }
+                  inputProps: { min: 0 },
                 }}
-                onChange={e => setPaceHours(parseInt(e.target.value))}
+                onChange={(e) => setPaceHours(parseInt(e.target.value))}
                 placeholder="Hrs"
                 type="number"
                 value={paceHours}
@@ -179,9 +185,9 @@ export default function App() {
               />
               <TextField
                 InputProps={{
-                  inputProps: { min: 0, max: 59 }
+                  inputProps: { min: 0, max: 59 },
                 }}
-                onChange={e => setPaceMinutes(parseInt(e.target.value))}
+                onChange={(e) => setPaceMinutes(parseInt(e.target.value))}
                 placeholder="Min"
                 type="number"
                 value={paceMinutes}
@@ -189,13 +195,14 @@ export default function App() {
               />
               <TextField
                 InputProps={{
-                  inputProps: { min: 0, max: 59 }
+                  inputProps: { min: 0, max: 59 },
                 }}
-                onChange={e => setPaceSeconds(parseInt(e.target.value))}
+                onChange={(e) => setPaceSeconds(e.target.value)}
                 placeholder="Sec"
                 type="number"
                 value={paceSeconds}
                 variant="outlined"
+                step={0.1}
               />
               <Button
                 className={classes.button}
@@ -207,27 +214,41 @@ export default function App() {
                 Calculate
               </Button>
             </Box>
+            <FormControl variant="filled" className={classes.formControl}>
+              <InputLabel ref={inputLabel}>Unit</InputLabel>
+              <Select
+                labelId="pace-unit"
+                id="pace-unit-select"
+                value={paceUnit}
+                onChange={(e) => setPaceUnit(e.target.value)}
+                labelWidth={120}
+              >
+                <MenuItem value={"Miles"}>Miles</MenuItem>
+                <MenuItem value={"Kilometers"}>Kilometers</MenuItem>
+              </Select>
+            </FormControl>
           </form>
           <form className={classes.distanceGroup}>
             <p>Distance</p>
-            <Box display="flex" justifyContent="center" alignItems="center">
+            <Box display="flex" alignItems="center">
               <TextField
                 InputProps={{
-                  inputProps: { min: 0 }
+                  inputProps: { min: 0 },
                 }}
                 placeholder="Distance"
                 variant="outlined"
                 type="number"
                 value={distance}
-                onChange={e => setDistance(parseFloat(e.target.value))}
+                step={0.1}
+                onChange={(e) => setDistance(e.target.value)}
               />
               <FormControl variant="filled" className={classes.formControl}>
                 <InputLabel ref={inputLabel}>Unit</InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="unit-select"
-                  value={unit}
-                  onChange={e => setUnit(e.target.value)}
+                  value={distanceUnit}
+                  onChange={(e) => setDistanceUnit(e.target.value)}
                   labelWidth={120}
                 >
                   <MenuItem value={"Miles"}>Miles</MenuItem>
@@ -239,9 +260,16 @@ export default function App() {
                 size="small"
                 variant="contained"
                 color="primary"
-                onClick={() => setDistance(
-                  calculateDistance(getTotalSeconds(), getTotalPaceSeconds())
-                )}
+                onClick={() =>
+                  setDistance(
+                    calculateDistance(
+                      getTotalSeconds(),
+                      getTotalPaceSeconds(),
+                      paceUnit,
+                      distanceUnit
+                    )
+                  )
+                }
               >
                 Calculate
               </Button>

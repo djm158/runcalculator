@@ -30,3 +30,8 @@ $ npm test
 ```sh
 $ npm start
 ```
+
+# TODO
+* generate splits
+* keyboard shortcut for clear (esc)
+* add typescript

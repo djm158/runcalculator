@@ -7,7 +7,7 @@ built in loving memory of coolrunning's pace calculator
 
 built with react + material ui
 
-[!Image of Run Calculator](https://runcalc.s3.us-east-2.amazonaws.com/runcalc.png)
+![Image of Run Calculator](https://runcalc.s3.us-east-2.amazonaws.com/runcalc.png)
 
 # get started
 ```sh

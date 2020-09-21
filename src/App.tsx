@@ -244,7 +244,6 @@ export const App = () => {
                 <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
               </Select>
             </FormControl>
-            e.target.value
           </form>
           <form className={classes.distanceGroup}>
             <p>Distance</p>

@@ -1,7 +1,7 @@
 import "./styles.css";
 
 import React, { useState } from "react";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import { calculateDistance, calculatePace, calculateTime } from "./calc";
 
 import Box from "@material-ui/core/Box";
@@ -13,13 +13,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
+import { useFormik } from "formik";
 
 export enum Unit {
   MILES = "Miles",
   KILOMETERS = "Kilometers",
 }
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiSelect: {
       filled: {
@@ -64,65 +65,116 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface FormState {
+  distanceUnit: Unit;
+  distance: number | string;
+  hours: number | string;
+  minutes: number | string;
+  seconds: number | string;
+  paceHours: number | string;
+  paceMinutes: number | string;
+  paceSeconds: number | string;
+  paceUnit: Unit;
+}
+
 export const App = () => {
   const classes = useStyles();
-  const [distance, setDistance] = useState<string | number>("");
-  const [distanceUnit, setDistanceUnit] = useState(Unit.MILES);
-  const [hours, setHours] = useState<string | number>("");
-  const [minutes, setMinutes] = useState<string | number>("");
-  const [paceHours, setPaceHours] = useState<string | number>("");
-  const [paceMinutes, setPaceMinutes] = useState<string | number>("");
-  const [paceSeconds, setPaceSeconds] = useState<string | number>("");
-  const [paceUnit, setPaceUnit] = useState(Unit.MILES);
-  const [seconds, setSeconds] = useState<string | number>("");
   const inputLabel = React.useRef(null);
+
+  const formik = useFormik<FormState>({
+    initialValues: {
+      distanceUnit: Unit.MILES,
+      distance: "",
+      hours: "",
+      minutes: "",
+      seconds: "",
+      paceHours: "",
+      paceMinutes: "",
+      paceSeconds: "",
+      paceUnit: Unit.MILES,
+    },
+    onSubmit: (vals) => console.log(vals),
+  });
+
+  const getTotal = (
+    hours: number | string,
+    minutes: number | string,
+    seconds: number | string
+  ) => {
+    const hrs = typeof hours === "string" ? 0 : hours;
+    const mins = typeof minutes === "string" ? 0 : minutes;
+    const secs = typeof seconds === "string" ? 0 : seconds;
+    const total = hrs * 60 * 60 + mins * 60 + secs;
+    return total;
+  };
 
   // TODO: store time as object and abstract this logic
   // maybe also use a time lib like moment
   const getTotalPaceSeconds = (): number => {
-    return (
-      parseInt(paceHours as string) * 60 * 60 +
-      parseInt(paceMinutes as string) * 60 +
-      parseFloat(paceSeconds as string)
-    );
+    const { paceHours, paceMinutes, paceSeconds } = formik.values;
+    const total = getTotal(paceHours, paceMinutes, paceSeconds);
+    return total;
   };
 
-  const getTotalSeconds = (): number =>
-    parseInt(hours as string) * 60 * 60 +
-    parseInt(minutes as string) * 60 +
-    parseInt(seconds as string);
+  const getTotalSeconds = (): number => {
+    const { hours, minutes, seconds } = formik.values;
+    const total = getTotal(hours, minutes, seconds);
+    return total;
+  };
 
   const setPace = () => {
+    const distance =
+      typeof formik.values.distance === "string" ? 0 : formik.values.distance;
     if (distance === 0) return;
-    const { seconds: secs, minutes: mins, hours: hrs } = calculatePace(
+    const {
+      seconds: secs,
+      minutes: mins,
+      hours: hrs,
+    } = calculatePace(
       getTotalSeconds(),
-      parseFloat(distance as string),
-      paceUnit,
-      distanceUnit
+      distance,
+      formik.values.paceUnit,
+      formik.values.distanceUnit
     );
-    setPaceHours(hrs);
-    setPaceMinutes(mins);
-    setPaceSeconds(secs);
+    formik.setValues({
+      ...formik.values,
+      paceHours: hrs,
+      paceMinutes: mins,
+      paceSeconds: secs,
+    });
   };
 
   const setTime = () => {
-    const { seconds: secs, minutes: mins, hours: hrs } = calculateTime(
-      getTotalPaceSeconds(),
-      parseFloat(distance as string)
-    );
-    setHours(hrs);
-    setMinutes(mins);
-    setSeconds(secs);
+    const distance =
+      typeof formik.values.distance === "string" ? 0 : formik.values.distance;
+    if (distance === 0) return;
+
+    const {
+      seconds: secs,
+      minutes: mins,
+      hours: hrs,
+    } = calculateTime(getTotalPaceSeconds(), distance);
+    formik.setValues({
+      ...formik.values,
+      hours: hrs,
+      minutes: mins,
+      seconds: secs,
+    });
   };
 
-  const reset = () => {
-    setSeconds("");
-    setMinutes("");
-    setHours("");
-    setPaceSeconds("");
-    setPaceMinutes("");
-    setPaceHours("");
-    setDistance("");
+  const setDistance = () => {
+    const totalSeconds = getTotalSeconds();
+    const totalPaceSeconds = getTotalPaceSeconds();
+    const distance =
+      totalPaceSeconds > 0
+        ? calculateDistance(
+            totalSeconds,
+            totalPaceSeconds,
+            formik.values.paceUnit,
+            formik.values.distanceUnit
+          )
+        : 0;
+    formik.setFieldValue("distance", distance);
   };
 
   return (
@@ -132,7 +184,7 @@ export const App = () => {
         spacing={0}
         direction="column"
         alignItems="center"
-        justify="center"
+        justifyContent="center"
         style={{ minHeight: "90vh" }}
       >
         <Box className="calculator" p="2rem" borderRadius={5} bgcolor="#191f33">
@@ -145,22 +197,22 @@ export const App = () => {
                   inputProps: { min: 0 },
                 }}
                 placeholder="Hrs"
+                name="hours"
                 variant="outlined"
                 type="number"
-                value={hours}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setHours(parseInt(e.target.value))
-                }
+                value={formik.values.hours}
+                onChange={formik.handleChange}
               />
               <TextField
                 InputProps={{
                   inputProps: { min: 0, max: 59 },
                 }}
                 placeholder="Min"
+                name="minutes"
                 variant="outlined"
                 type="number"
-                value={minutes}
-                onChange={(e) => setMinutes(parseInt(e.target.value))}
+                value={formik.values.minutes}
+                onChange={formik.handleChange}
               />
               <TextField
                 InputProps={{
@@ -169,8 +221,9 @@ export const App = () => {
                 placeholder="Sec"
                 variant="outlined"
                 type="number"
-                value={seconds}
-                onChange={(e) => setSeconds(e.target.value)}
+                name="seconds"
+                value={formik.values.seconds}
+                onChange={formik.handleChange}
               />
               <Button
                 size="small"
@@ -190,30 +243,33 @@ export const App = () => {
                 InputProps={{
                   inputProps: { min: 0 },
                 }}
-                onChange={(e) => setPaceHours(parseInt(e.target.value))}
+                onChange={formik.handleChange}
                 placeholder="Hrs"
+                name="paceHours"
                 type="number"
-                value={paceHours}
+                value={formik.values.paceHours}
                 variant="outlined"
               />
               <TextField
                 InputProps={{
                   inputProps: { min: 0, max: 59 },
                 }}
-                onChange={(e) => setPaceMinutes(parseInt(e.target.value))}
+                onChange={formik.handleChange}
                 placeholder="Min"
                 type="number"
-                value={paceMinutes}
+                name="paceMinutes"
+                value={formik.values.paceMinutes}
                 variant="outlined"
               />
               <TextField
                 InputProps={{
                   inputProps: { min: 0, max: 59, step: 0.1 },
                 }}
-                onChange={(e) => setPaceSeconds(e.target.value)}
+                onChange={formik.handleChange}
                 placeholder="Sec"
+                name="paceSeconds"
                 type="number"
-                value={paceSeconds}
+                value={formik.values.paceSeconds}
                 variant="outlined"
               />
               <Button
@@ -231,13 +287,9 @@ export const App = () => {
               <Select
                 labelId="pace-unit"
                 id="pace-unit-select"
-                value={paceUnit}
-                onChange={(
-                  e: React.ChangeEvent<{
-                    name?: string | undefined;
-                    value: unknown;
-                  }>
-                ) => setPaceUnit(e.target.value as Unit)}
+                name="paceUnit"
+                value={formik.values.paceUnit}
+                onChange={formik.handleChange}
                 labelWidth={120}
               >
                 <MenuItem value={Unit.MILES}>Miles</MenuItem>
@@ -253,23 +305,20 @@ export const App = () => {
                   inputProps: { min: 0, step: 0.1 },
                 }}
                 placeholder="Distance"
+                name="distance"
                 variant="outlined"
                 type="number"
-                value={distance}
-                onChange={(e) => setDistance(e.target.value)}
+                value={formik.values.distance}
+                onChange={formik.handleChange}
               />
               <FormControl variant="filled" className={classes.formControl}>
                 <InputLabel ref={inputLabel}>Unit</InputLabel>
                 <Select
                   labelId="distance-unit"
                   id="unit-select"
-                  value={distanceUnit}
-                  onChange={(
-                    e: React.ChangeEvent<{
-                      name?: string | undefined;
-                      value: unknown;
-                    }>
-                  ) => setDistanceUnit(e.target.value as Unit)}
+                  value={formik.values.distanceUnit}
+                  onChange={formik.handleChange}
+                  name="distanceUnit"
                   labelWidth={120}
                 >
                   <MenuItem value={Unit.MILES}>Miles</MenuItem>
@@ -281,16 +330,7 @@ export const App = () => {
                 size="small"
                 variant="contained"
                 color="primary"
-                onClick={() =>
-                  setDistance(
-                    calculateDistance(
-                      getTotalSeconds(),
-                      getTotalPaceSeconds(),
-                      paceUnit,
-                      distanceUnit
-                    )
-                  )
-                }
+                onClick={setDistance}
               >
                 Calculate
               </Button>
@@ -303,7 +343,7 @@ export const App = () => {
               size="small"
               variant="contained"
               color="primary"
-              onClick={reset}
+              onClick={formik.handleReset}
             >
               Reset
             </Button>

@@ -1,6 +1,9 @@
-import { Unit } from "./Calculator";
+export const MILES_TO_KILOMETERS = 1.60934;
 
-const MILES_TO_KILOMETERS = 1.60934;
+export enum Unit {
+  MILES = "Miles",
+  KILOMETERS = "Kilometers",
+}
 
 interface Time {
   seconds: number;

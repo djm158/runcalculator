@@ -1,5 +1,11 @@
-import { useRef } from "react";
-import { calculateDistance, calculatePace, calculateTime } from "./calc";
+import { ChangeEvent, useRef } from "react";
+import {
+  calculateDistance,
+  calculatePace,
+  calculateTime,
+  MILES_TO_KILOMETERS,
+  Unit,
+} from "./calc";
 
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
@@ -11,11 +17,6 @@ import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { useFormik } from "formik";
-
-export enum Unit {
-  MILES = "Miles",
-  KILOMETERS = "Kilometers",
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,6 +53,19 @@ interface FormState {
   paceSeconds: number | string;
   paceUnit: Unit;
 }
+
+const getTimeInSeconds = (
+  hours: number | string,
+  minutes: number | string,
+  seconds: number | string
+) => {
+  const hrs = typeof hours === "string" ? 0 : hours;
+  const mins = typeof minutes === "string" ? 0 : minutes;
+  const secs = typeof seconds === "string" ? 0 : seconds;
+  const total = hrs * 60 * 60 + mins * 60 + secs;
+  return total;
+};
+
 export const Calculator = () => {
   const classes = useStyles();
   const inputLabel = useRef(null);
@@ -71,29 +85,31 @@ export const Calculator = () => {
     onSubmit: (vals) => console.log(vals),
   });
 
-  const getTotal = (
-    hours: number | string,
-    minutes: number | string,
-    seconds: number | string
-  ) => {
-    const hrs = typeof hours === "string" ? 0 : hours;
-    const mins = typeof minutes === "string" ? 0 : minutes;
-    const secs = typeof seconds === "string" ? 0 : seconds;
-    const total = hrs * 60 * 60 + mins * 60 + secs;
-    return total;
+  // any bc of how material ui handles change event types
+  // https://stackoverflow.com/questions/58675993/typescript-react-select-onchange-handler-type-error
+  const handleDistanceUnitChange = (e: any) => {
+    console.log(e.value);
+    const { distance, distanceUnit } = formik.values;
+    const newValue = e.target.value;
+    if (typeof distance !== "string") {
+      if (distanceUnit === Unit.MILES && newValue === Unit.KILOMETERS) {
+        formik.setFieldValue("distance", distance / MILES_TO_KILOMETERS);
+      } else if (distanceUnit === Unit.KILOMETERS && newValue === Unit.MILES) {
+        formik.setFieldValue("distance", distance * MILES_TO_KILOMETERS);
+      }
+    }
+    formik.handleChange(e);
   };
 
-  // TODO: store time as object and abstract this logic
-  // maybe also use a time lib like moment
   const getTotalPaceSeconds = (): number => {
     const { paceHours, paceMinutes, paceSeconds } = formik.values;
-    const total = getTotal(paceHours, paceMinutes, paceSeconds);
+    const total = getTimeInSeconds(paceHours, paceMinutes, paceSeconds);
     return total;
   };
 
   const getTotalSeconds = (): number => {
     const { hours, minutes, seconds } = formik.values;
-    const total = getTotal(hours, minutes, seconds);
+    const total = getTimeInSeconds(hours, minutes, seconds);
     return total;
   };
 
@@ -291,7 +307,7 @@ export const Calculator = () => {
                 labelId="distance-unit"
                 id="unit-select"
                 value={formik.values.distanceUnit}
-                onChange={formik.handleChange}
+                onChange={handleDistanceUnitChange}
                 name="distanceUnit"
                 labelWidth={120}
               >

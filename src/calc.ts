@@ -1,4 +1,4 @@
-import { Unit } from "./App";
+import { Unit } from "./Calculator";
 
 const MILES_TO_KILOMETERS = 1.60934;
 

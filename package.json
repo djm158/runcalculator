@@ -1,7 +1,7 @@
 {
   "name": "running-calculator",
   "version": "1.0.0",
-  "description": "Calculates time, distance, and pace",
+  "description": "React app for runners. Calculates time, distance, and pace",
   "keywords": [],
   "main": "src/index.ts",
   "dependencies": {

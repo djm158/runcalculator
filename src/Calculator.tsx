@@ -85,22 +85,6 @@ export const Calculator = () => {
     onSubmit: (vals) => console.log(vals),
   });
 
-  // any bc of how material ui handles change event types
-  // https://stackoverflow.com/questions/58675993/typescript-react-select-onchange-handler-type-error
-  const handleDistanceUnitChange = (e: any) => {
-    console.log(e.value);
-    const { distance, distanceUnit } = formik.values;
-    const newValue = e.target.value;
-    if (typeof distance !== "string") {
-      if (distanceUnit === Unit.MILES && newValue === Unit.KILOMETERS) {
-        formik.setFieldValue("distance", distance / MILES_TO_KILOMETERS);
-      } else if (distanceUnit === Unit.KILOMETERS && newValue === Unit.MILES) {
-        formik.setFieldValue("distance", distance * MILES_TO_KILOMETERS);
-      }
-    }
-    formik.handleChange(e);
-  };
-
   const getTotalPaceSeconds = (): number => {
     const { paceHours, paceMinutes, paceSeconds } = formik.values;
     const total = getTimeInSeconds(paceHours, paceMinutes, paceSeconds);
@@ -307,7 +291,7 @@ export const Calculator = () => {
                 labelId="distance-unit"
                 id="unit-select"
                 value={formik.values.distanceUnit}
-                onChange={handleDistanceUnitChange}
+                onChange={formik.handleChange}
                 name="distanceUnit"
                 labelWidth={120}
               >

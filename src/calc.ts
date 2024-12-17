@@ -18,20 +18,20 @@ export const calculatePace = (
   distanceUnit: Unit
 ): Time => {
   if (distance === 0) {
-    return getTimeStruct(0);
+    return getTime(0);
   }
   if (paceUnit === distanceUnit) {
-    return getTimeStruct(seconds / distance);
+    return getTime(seconds / distance);
   } else if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
-    return getTimeStruct(seconds / (distance * MILES_TO_KILOMETERS));
+    return getTime(seconds / (distance * MILES_TO_KILOMETERS));
   } else if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
-    return getTimeStruct((seconds * MILES_TO_KILOMETERS) / distance);
+    return getTime((seconds * MILES_TO_KILOMETERS) / distance);
   }
-  return getTimeStruct(0);
+  return getTime(0);
 };
 
 export const calculateTime = (seconds: number, distance: number): Time => {
-  return getTimeStruct(seconds * distance);
+  return getTime(seconds * distance);
 };
 
 export const calculateDistance = (
@@ -45,12 +45,14 @@ export const calculateDistance = (
   } else if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
     return seconds / (paceSeconds * MILES_TO_KILOMETERS);
   } else if (paceUnit === Unit.KILOMETERS && distanceUnit === Unit.MILES) {
-    return (seconds * MILES_TO_KILOMETERS) / paceSeconds;
+    return seconds / (paceSeconds * MILES_TO_KILOMETERS);
+
+    // return (seconds * MILES_TO_KILOMETERS) / paceSeconds;
   }
   return 0;
 };
 
-const getTimeStruct = (time: number): Time => {
+const getTime = (time: number): Time => {
   const decimalHours = time / 60 ** 2;
   const hours = Math.floor(decimalHours);
   const decimalMinutes = (decimalHours - hours) * 60;

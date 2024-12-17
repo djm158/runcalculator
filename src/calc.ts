@@ -24,8 +24,8 @@ export const calculatePace = (
     return getTime(seconds / distance);
   } else if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
     return getTime(seconds / (distance * MILES_TO_KILOMETERS));
-  } else if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
-    return getTime((seconds * MILES_TO_KILOMETERS) / distance);
+  } else if (paceUnit === Unit.KILOMETERS && distanceUnit === Unit.MILES) {
+    return getTime(seconds / MILES_TO_KILOMETERS / distance);
   }
   return getTime(0);
 };
@@ -46,8 +46,6 @@ export const calculateDistance = (
     return seconds / (paceSeconds * MILES_TO_KILOMETERS);
   } else if (paceUnit === Unit.KILOMETERS && distanceUnit === Unit.MILES) {
     return seconds / (paceSeconds * MILES_TO_KILOMETERS);
-
-    // return (seconds * MILES_TO_KILOMETERS) / paceSeconds;
   }
   return 0;
 };

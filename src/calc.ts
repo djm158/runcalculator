@@ -1,4 +1,5 @@
 export const MILES_TO_KILOMETERS = 1.60934;
+export const KILOMETERS_TO_MILES = 1 / MILES_TO_KILOMETERS;
 
 export enum Unit {
   MILES = "Miles",
@@ -20,14 +21,12 @@ export const calculatePace = (
   if (distance === 0) {
     return getTime(0);
   }
-  if (paceUnit === distanceUnit) {
-    return getTime(seconds / distance);
-  } else if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
-    return getTime(seconds / (distance * MILES_TO_KILOMETERS));
+  if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
+    return getTime(seconds / (distance / MILES_TO_KILOMETERS));
   } else if (paceUnit === Unit.KILOMETERS && distanceUnit === Unit.MILES) {
-    return getTime(seconds / MILES_TO_KILOMETERS / distance);
+    return getTime(seconds / (distance / KILOMETERS_TO_MILES));
   }
-  return getTime(0);
+  return getTime(seconds / distance);
 };
 
 export const calculateTime = (seconds: number, distance: number): Time => {

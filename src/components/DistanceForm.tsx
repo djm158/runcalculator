@@ -68,6 +68,9 @@ export const DistanceForm = () => {
           type="number"
           value={formik.values.distance}
           onChange={formik.handleChange}
+          sx={{
+            width: 120,
+          }}
         />
         <FormControl variant="filled" sx={{ width: 120 }}>
           <InputLabel>Unit</InputLabel>

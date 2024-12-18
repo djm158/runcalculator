@@ -1,31 +1,19 @@
 import "./styles.css";
 
-import {
-  ThemeProvider,
-  Theme,
-  StyledEngineProvider,
-  createTheme,
-  adaptV4Theme,
-} from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Calculator } from "./Calculator";
 
-declare module "@mui/styles/defaultTheme" {
-  interface DefaultTheme extends Theme {}
-}
-
-const theme = createTheme(
-  adaptV4Theme({
-    overrides: {
-      MuiSelect: {
-        filled: {
-          "&:focus": {
-            background: "#fffcfc",
-            borderRadius: "4px",
-          },
-          borderRadius: "4px",
+const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#5178fc",
         },
       },
-      MuiInputBase: {
+    },
+    MuiInputBase: {
+      styleOverrides: {
         input: {
           color: "#292d3a",
           backgroundColor: "#fffcfc",
@@ -33,17 +21,13 @@ const theme = createTheme(
         },
       },
     },
-  })
-);
+  },
+});
 
 export const App = () => {
   return (
-    <StyledEngineProvider injectFirst>
-      (
-      <ThemeProvider theme={theme}>
-        <Calculator />
-      </ThemeProvider>
-      )
-    </StyledEngineProvider>
+    <ThemeProvider theme={theme}>
+      <Calculator />
+    </ThemeProvider>
   );
 };

@@ -42,7 +42,7 @@ export const calculateDistance = (
   if (paceUnit === distanceUnit) {
     return seconds / paceSeconds;
   } else if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
-    return seconds / (paceSeconds * MILES_TO_KILOMETERS);
+    return seconds / (paceSeconds * KILOMETERS_TO_MILES);
   } else if (paceUnit === Unit.KILOMETERS && distanceUnit === Unit.MILES) {
     return seconds / (paceSeconds * MILES_TO_KILOMETERS);
   }

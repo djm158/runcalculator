@@ -52,6 +52,7 @@ interface FormState {
   paceMinutes: number | string;
   paceSeconds: number | string;
   paceUnit: Unit;
+  raceDistance: keyof typeof predefinedRaces | "";
 }
 
 const getTimeInSeconds = (
@@ -64,6 +65,13 @@ const getTimeInSeconds = (
   const secs = typeof seconds === "string" ? 0 : seconds;
   const total = hrs * 60 * 60 + mins * 60 + secs;
   return total;
+};
+
+const predefinedRaces = {
+  "5k": 5,
+  "10k": 10,
+  "Half Marathon": 21.0975,
+  Marathon: 42.195,
 };
 
 export const Calculator = () => {
@@ -81,6 +89,7 @@ export const Calculator = () => {
       paceMinutes: "",
       paceSeconds: "",
       paceUnit: Unit.MILES,
+      raceDistance: "",
     },
     onSubmit: (vals) => console.log(vals),
   });
@@ -150,6 +159,17 @@ export const Calculator = () => {
           )
         : 0;
     formik.setFieldValue("distance", distance);
+  };
+
+  const handleRaceChange = (event: ChangeEvent<{ value: unknown }>) => {
+    const raceDistance =
+      predefinedRaces[event.target.value as keyof typeof predefinedRaces] || 0;
+    const distance =
+      formik.values.distanceUnit === Unit.MILES
+        ? raceDistance / MILES_TO_KILOMETERS
+        : raceDistance;
+    formik.setFieldValue("distance", distance);
+    formik.setFieldValue("raceDistance", event.target.value);
   };
 
   return (
@@ -309,6 +329,22 @@ export const Calculator = () => {
               Calculate
             </Button>
           </Box>
+          <FormControl variant="filled" className={classes.formControl}>
+            <InputLabel>Race</InputLabel>
+            <Select
+              labelId="race-select"
+              id="race-select"
+              onChange={handleRaceChange}
+              displayEmpty
+              value={formik.values.raceDistance}
+            >
+              {Object.keys(predefinedRaces).map((race) => (
+                <MenuItem key={race} value={race}>
+                  {race}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </form>
         <Box mt={2}>
           <Button

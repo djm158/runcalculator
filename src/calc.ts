@@ -1,10 +1,6 @@
-export const MILES_TO_KILOMETERS = 1.60934;
-export const KILOMETERS_TO_MILES = 1 / MILES_TO_KILOMETERS;
+import { Unit } from "./types";
 
-export enum Unit {
-  MILES = "Miles",
-  KILOMETERS = "Kilometers",
-}
+import { MILES_TO_KILOMETERS, KILOMETERS_TO_MILES } from "./const";
 
 interface Time {
   seconds: number;
@@ -59,4 +55,16 @@ const getTime = (time: number): Time => {
     minutes,
     hours,
   };
+};
+
+export const getTotalTimeInSeconds = (
+  hours: number | string,
+  minutes: number | string,
+  seconds: number | string
+) => {
+  const hrs = typeof hours === "string" ? 0 : hours;
+  const mins = typeof minutes === "string" ? 0 : minutes;
+  const secs = typeof seconds === "string" ? 0 : seconds;
+  const total = hrs * 60 * 60 + mins * 60 + secs;
+  return total;
 };

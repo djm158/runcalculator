@@ -1,4 +1,5 @@
-import { calculateDistance, calculatePace, calculateTime, Unit } from "./calc";
+import { calculateDistance, calculatePace, calculateTime } from "./calc";
+import { Unit } from "./types";
 
 it("calculates pace", () => {
   expect(calculatePace(60 * 60, 1, Unit.MILES, Unit.MILES)).toStrictEqual({

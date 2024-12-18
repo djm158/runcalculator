@@ -7,15 +7,15 @@ import {
   Unit,
 } from "./calc";
 
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import FormControl from "@material-ui/core/FormControl";
-import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import makeStyles from "@mui/styles/makeStyles";
 import { useFormik } from "formik";
 import { Splits, Split } from "./Splits";
 
@@ -46,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+type RaceDistance = keyof typeof predefinedRaces;
+
 interface FormState {
   distanceUnit: Unit;
   distance: number | string;
@@ -56,7 +58,7 @@ interface FormState {
   paceMinutes: number | string;
   paceSeconds: number | string;
   paceUnit: Unit;
-  raceDistance: keyof typeof predefinedRaces | "";
+  raceDistance: RaceDistance | "";
 }
 
 const getTimeInSeconds = (
@@ -166,9 +168,11 @@ export const Calculator = () => {
     formik.setFieldValue("distance", distance);
   };
 
-  const handleRaceChange = (event: ChangeEvent<{ value: unknown }>) => {
+  const handleRaceChange = (event: SelectChangeEvent<RaceDistance>) => {
+    event.target.value;
     const raceDistance =
-      predefinedRaces[event.target.value as keyof typeof predefinedRaces] || 0;
+      // casting required due to https://github.com/mui/material-ui/issues/33399
+      predefinedRaces[event.target.value as RaceDistance] || 0;
     const distance =
       formik.values.distanceUnit === Unit.MILES
         ? raceDistance / MILES_TO_KILOMETERS
@@ -206,7 +210,7 @@ export const Calculator = () => {
       <Box
         className={styles.calculator}
         p="2rem"
-        borderRadius={5}
+        borderRadius="5px"
         bgcolor="#191f33"
       >
         {/* TODO should these be three different forms? */}
@@ -311,7 +315,6 @@ export const Calculator = () => {
               name="paceUnit"
               value={formik.values.paceUnit}
               onChange={formik.handleChange}
-              labelWidth={120}
             >
               <MenuItem value={Unit.MILES}>Miles</MenuItem>
               <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
@@ -340,7 +343,6 @@ export const Calculator = () => {
                 value={formik.values.distanceUnit}
                 onChange={formik.handleChange}
                 name="distanceUnit"
-                labelWidth={120}
               >
                 <MenuItem value={Unit.MILES}>Miles</MenuItem>
                 <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>

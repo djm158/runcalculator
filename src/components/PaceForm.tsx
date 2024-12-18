@@ -35,7 +35,7 @@ export const PaceForm = () => {
     });
   };
   return (
-    <Box component="form" sx={{ marginTop: 2 }}>
+    <Box component="form">
       <p>Pace</p>
       <Box
         sx={{

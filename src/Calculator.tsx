@@ -74,9 +74,15 @@ export const Calculator = () => {
       >
         <Formik initialValues={initialValues} onSubmit={() => {}}>
           <>
-            <TimeForm />
-            <PaceForm />
-            <DistanceForm />
+            <Box
+              sx={{
+                "& > *": { marginBottom: 3 },
+              }}
+            >
+              <TimeForm />
+              <PaceForm />
+              <DistanceForm />
+            </Box>
             <Box sx={{ marginTop: 2 }}>
               <Button fullWidth onClick={formik.handleReset}>
                 Reset

@@ -1,5 +1,5 @@
 import MuiButton, { ButtonProps } from "@mui/material/Button";
 
 export const Button = (props: ButtonProps) => (
-  <MuiButton size="small" variant="contained" color="primary" {...props} />
+  <MuiButton size="small" variant="contained" {...props} />
 );

@@ -48,7 +48,7 @@ export const DistanceForm = () => {
     formik.setFieldValue("distance", distance);
   };
   return (
-    <Box component="form" sx={{ marginTop: 2 }}>
+    <Box component="form">
       <p>Distance</p>
       <Box
         sx={{

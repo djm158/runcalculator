@@ -1,4 +1,4 @@
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 
 import styles from "./splits.module.css";
 
@@ -15,7 +15,14 @@ interface SplitsProps {
 
 export const Splits = ({ splits }: SplitsProps) => {
   return (
-    <Box p="2rem" borderRadius={5} bgcolor="#191f33" mt={2}>
+    <Box
+      sx={{
+        padding: "2rem",
+        borderRadius: "5px",
+        backgroundColor: "#191f33",
+        marginTop: "2rem",
+      }}
+    >
       <table>
         <thead>
           <tr>

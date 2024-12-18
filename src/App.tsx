@@ -1,24 +1,24 @@
 import "./styles.css";
 
-import { ThemeProvider, createTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Calculator } from "./Calculator";
 
 const theme = createTheme({
-  overrides: {
-    MuiSelect: {
-      filled: {
-        "&:focus": {
-          background: "#fffcfc",
-          borderRadius: "4px",
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#5178fc",
         },
-        borderRadius: "4px",
       },
     },
     MuiInputBase: {
-      input: {
-        color: "#292d3a",
-        backgroundColor: "#fffcfc",
-        borderRadius: "4px",
+      styleOverrides: {
+        input: {
+          color: "#292d3a",
+          backgroundColor: "#fffcfc",
+          borderRadius: "4px",
+        },
       },
     },
   },

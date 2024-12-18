@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { useState } from "react";
 import {
   calculateDistance,
   calculatePace,
@@ -7,44 +7,20 @@ import {
   Unit,
 } from "./calc";
 
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import FormControl from "@material-ui/core/FormControl";
-import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
+import Box from "@mui/material/Box";
+import MuiButton, { ButtonProps } from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import Grid2 from "@mui/material/Grid2";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MuiTextField, { TextFieldProps } from "@mui/material/TextField";
 import { useFormik } from "formik";
 import { Splits, Split } from "./Splits";
 
 import styles from "./calculator.module.css";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(0.8),
-      width: 100,
-    },
-  },
-  distanceGroup: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: 120,
-    },
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  // TOOD: theme this
-  button: {
-    backgroundColor: "#5178fc",
-    marginLeft: theme.spacing(1),
-    flexShrink: 0,
-  },
-}));
+type RaceDistance = keyof typeof predefinedRaces;
 
 interface FormState {
   distanceUnit: Unit;
@@ -56,7 +32,7 @@ interface FormState {
   paceMinutes: number | string;
   paceSeconds: number | string;
   paceUnit: Unit;
-  raceDistance: keyof typeof predefinedRaces | "";
+  raceDistance: RaceDistance | "";
 }
 
 const getTimeInSeconds = (
@@ -78,9 +54,15 @@ const predefinedRaces = {
   Marathon: 42.195,
 };
 
+const Button = (props: ButtonProps) => (
+  <MuiButton size="small" variant="contained" color="primary" {...props} />
+);
+
+const TextField = (props: TextFieldProps) => (
+  <MuiTextField sx={{ width: 100 }} {...props} />
+);
+
 export const Calculator = () => {
-  const classes = useStyles();
-  const inputLabel = useRef(null);
   const [splits, setSplits] = useState<Split[]>([]);
 
   const formik = useFormik<FormState>({
@@ -166,9 +148,11 @@ export const Calculator = () => {
     formik.setFieldValue("distance", distance);
   };
 
-  const handleRaceChange = (event: ChangeEvent<{ value: unknown }>) => {
+  const handleRaceChange = (event: SelectChangeEvent<RaceDistance>) => {
+    event.target.value;
     const raceDistance =
-      predefinedRaces[event.target.value as keyof typeof predefinedRaces] || 0;
+      // casting required due to https://github.com/mui/material-ui/issues/33399
+      predefinedRaces[event.target.value as RaceDistance] || 0;
     const distance =
       formik.values.distanceUnit === Unit.MILES
         ? raceDistance / MILES_TO_KILOMETERS
@@ -195,7 +179,7 @@ export const Calculator = () => {
   };
 
   return (
-    <Grid
+    <Grid2
       container
       spacing={0}
       direction="column"
@@ -205,14 +189,24 @@ export const Calculator = () => {
     >
       <Box
         className={styles.calculator}
-        p="2rem"
-        borderRadius={5}
-        bgcolor="#191f33"
+        sx={{
+          padding: "2rem",
+          borderRadius: "5px",
+          backgroundColor: "#191f33",
+        }}
       >
         {/* TODO should these be three different forms? */}
-        <form className={classes.root}>
+        <Box component="form">
           <p>Time</p>
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              "& > div": { margin: 0.8 },
+              "& > :first-child": { marginLeft: 0 },
+            }}
+          >
             <TextField
               InputProps={{
                 inputProps: { min: 0 },
@@ -246,20 +240,22 @@ export const Calculator = () => {
               value={formik.values.seconds}
               onChange={formik.handleChange}
             />
-            <Button
-              size="small"
-              variant="contained"
-              color="primary"
-              onClick={setTime}
-              className={classes.button}
-            >
+            <Button sx={{ marginLeft: 0.5 }} onClick={setTime}>
               Calculate
             </Button>
           </Box>
-        </form>
-        <form className={classes.root}>
+        </Box>
+        <Box component="form" sx={{ marginTop: 2 }}>
           <p>Pace</p>
-          <Box display="flex" justifyContent="center" alignItems="center">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              "& > div": { margin: 0.8 },
+              "& > :first-child": { marginLeft: 0 },
+            }}
+          >
             <TextField
               InputProps={{
                 inputProps: { min: 0 },
@@ -293,34 +289,34 @@ export const Calculator = () => {
               value={formik.values.paceSeconds}
               variant="outlined"
             />
-            <Button
-              className={classes.button}
-              size="small"
-              variant="contained"
-              color="primary"
-              onClick={setPace}
-            >
+            <Button sx={{ marginLeft: 0.5 }} onClick={setPace}>
               Calculate
             </Button>
           </Box>
-          <FormControl variant="filled" className={classes.formControl}>
-            <InputLabel ref={inputLabel}>Unit</InputLabel>
+          <FormControl variant="filled" sx={{ width: 120, marginTop: 0.8 }}>
+            <InputLabel>Unit</InputLabel>
             <Select
               labelId="pace-unit"
               id="pace-unit-select"
               name="paceUnit"
               value={formik.values.paceUnit}
               onChange={formik.handleChange}
-              labelWidth={120}
             >
               <MenuItem value={Unit.MILES}>Miles</MenuItem>
               <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
             </Select>
           </FormControl>
-        </form>
-        <form className={classes.distanceGroup}>
+        </Box>
+        <Box component="form" sx={{ marginTop: 2 }}>
           <p>Distance</p>
-          <Box display="flex" alignItems="center">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              "& > div": { margin: 0.8 },
+              "& > :first-child": { marginLeft: 0 },
+            }}
+          >
             <TextField
               InputProps={{
                 inputProps: { min: 0, step: 0.1 },
@@ -332,31 +328,25 @@ export const Calculator = () => {
               value={formik.values.distance}
               onChange={formik.handleChange}
             />
-            <FormControl variant="filled" className={classes.formControl}>
-              <InputLabel ref={inputLabel}>Unit</InputLabel>
+            <FormControl variant="filled" sx={{ width: 120 }}>
+              <InputLabel>Unit</InputLabel>
               <Select
                 labelId="distance-unit"
                 id="unit-select"
                 value={formik.values.distanceUnit}
                 onChange={formik.handleChange}
                 name="distanceUnit"
-                labelWidth={120}
               >
                 <MenuItem value={Unit.MILES}>Miles</MenuItem>
                 <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
               </Select>
             </FormControl>
-            <Button
-              className={classes.button}
-              size="small"
-              variant="contained"
-              color="primary"
-              onClick={setDistance}
-            >
+            <Button sx={{ marginLeft: 0.5 }} onClick={setDistance}>
               Calculate
             </Button>
           </Box>
-          <FormControl variant="filled" className={classes.formControl}>
+
+          <FormControl variant="filled" sx={{ width: 120, marginTop: 0.8 }}>
             <InputLabel>Race</InputLabel>
             <Select
               labelId="race-select"
@@ -372,33 +362,19 @@ export const Calculator = () => {
               ))}
             </Select>
           </FormControl>
-        </form>
-        <Box mt={2}>
-          <Button
-            fullWidth
-            className={classes.button}
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={formik.handleReset}
-          >
+        </Box>
+        <Box sx={{ marginTop: 2 }}>
+          <Button fullWidth onClick={formik.handleReset}>
             Reset
           </Button>
         </Box>
-        <Box mt={2}>
-          <Button
-            fullWidth
-            className={classes.button}
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={() => setSplits(generateSplits())}
-          >
+        <Box sx={{ marginTop: 2 }}>
+          <Button fullWidth onClick={() => setSplits(generateSplits())}>
             Generate Splits
           </Button>
         </Box>
       </Box>
       {splits.length > 0 && <Splits splits={splits} />}
-    </Grid>
+    </Grid2>
   );
 };

@@ -1,0 +1,17 @@
+th,
+td {
+  padding: 0.5rem;
+}
+
+table {
+  color: #fff;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tr-dark {
+  background-color: #191f33;
+}
+.tr-light {
+  background-color: #2a2f45;
+}

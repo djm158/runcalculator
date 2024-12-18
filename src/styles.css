@@ -21,15 +21,11 @@ p {
   font-size: 16px;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 540px) {
   body {
     background-color: #191f33;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-  }
-  .calculator {
-    max-width: 375px;
-    padding: 0.2rem;
   }
 }

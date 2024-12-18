@@ -17,6 +17,9 @@ import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { useFormik } from "formik";
+import { Splits, Split } from "./Splits";
+
+import styles from "./calculator.module.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     backgroundColor: "#5178fc",
     marginLeft: theme.spacing(1),
+    flexShrink: 0,
   },
 }));
 
@@ -77,13 +81,6 @@ const predefinedRaces = {
 export const Calculator = () => {
   const classes = useStyles();
   const inputLabel = useRef(null);
-  interface Split {
-    split: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-  }
-
   const [splits, setSplits] = useState<Split[]>([]);
 
   const formik = useFormik<FormState>({
@@ -206,7 +203,12 @@ export const Calculator = () => {
       justifyContent="center"
       style={{ minHeight: "90vh" }}
     >
-      <Box className="calculator" p="2rem" borderRadius={5} bgcolor="#191f33">
+      <Box
+        className={styles.calculator}
+        p="2rem"
+        borderRadius={5}
+        bgcolor="#191f33"
+      >
         {/* TODO should these be three different forms? */}
         <form className={classes.root}>
           <p>Time</p>
@@ -396,36 +398,7 @@ export const Calculator = () => {
           </Button>
         </Box>
       </Box>
-      {splits.length > 0 && (
-        <Box
-          className="splits"
-          p="2rem"
-          borderRadius={5}
-          bgcolor="#191f33"
-          mt={2}
-        >
-          <table style={{ color: "#ffffff" }}>
-            <thead>
-              <tr>
-                <th>Split</th>
-                <th>Hours</th>
-                <th>Minutes</th>
-                <th>Seconds</th>
-              </tr>
-            </thead>
-            <tbody>
-              {splits.map((split, index) => (
-                <tr key={index}>
-                  <td>{split.split}</td>
-                  <td>{split.hours}</td>
-                  <td>{split.minutes}</td>
-                  <td>{split.seconds}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Box>
-      )}
+      {splits.length > 0 && <Splits splits={splits} />}
     </Grid>
   );
 };

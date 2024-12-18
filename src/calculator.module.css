@@ -1,0 +1,7 @@
+@media (max-width: 540px) {
+  .calculator {
+    width: 100%;
+    padding: 0.2rem;
+    padding: 0;
+  }
+}

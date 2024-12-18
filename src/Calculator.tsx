@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import {
   calculateDistance,
   calculatePace,
@@ -77,6 +77,14 @@ const predefinedRaces = {
 export const Calculator = () => {
   const classes = useStyles();
   const inputLabel = useRef(null);
+  interface Split {
+    split: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  }
+
+  const [splits, setSplits] = useState<Split[]>([]);
 
   const formik = useFormik<FormState>({
     initialValues: {
@@ -170,6 +178,23 @@ export const Calculator = () => {
         : raceDistance;
     formik.setFieldValue("distance", distance);
     formik.setFieldValue("raceDistance", event.target.value);
+  };
+
+  const generateSplits = () => {
+    const distance =
+      typeof formik.values.distance === "string" ? 0 : formik.values.distance;
+    const totalPaceSeconds = getTotalPaceSeconds();
+    const splits = [];
+    for (let i = 1; i <= distance; i++) {
+      const splitTime = calculateTime(totalPaceSeconds, i);
+      splits.push({
+        split: i,
+        hours: splitTime.hours,
+        minutes: splitTime.minutes,
+        seconds: splitTime.seconds,
+      });
+    }
+    return splits;
   };
 
   return (
@@ -358,7 +383,49 @@ export const Calculator = () => {
             Reset
           </Button>
         </Box>
+        <Box mt={2}>
+          <Button
+            fullWidth
+            className={classes.button}
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={() => setSplits(generateSplits())}
+          >
+            Generate Splits
+          </Button>
+        </Box>
       </Box>
+      {splits.length > 0 && (
+        <Box
+          className="splits"
+          p="2rem"
+          borderRadius={5}
+          bgcolor="#191f33"
+          mt={2}
+        >
+          <table style={{ color: "#ffffff" }}>
+            <thead>
+              <tr>
+                <th>Split</th>
+                <th>Hours</th>
+                <th>Minutes</th>
+                <th>Seconds</th>
+              </tr>
+            </thead>
+            <tbody>
+              {splits.map((split, index) => (
+                <tr key={index}>
+                  <td>{split.split}</td>
+                  <td>{split.hours}</td>
+                  <td>{split.minutes}</td>
+                  <td>{split.seconds}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Box>
+      )}
     </Grid>
   );
 };

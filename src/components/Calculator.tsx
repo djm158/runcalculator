@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { getTotalTimeInSeconds, calculateTime } from "./calc";
-
-import Box from "@mui/material/Box";
+import { Formik } from "formik";
 import Grid2 from "@mui/material/Grid2";
-import { Formik, useFormik } from "formik";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
+import { getTotalTimeInSeconds, calculateTime } from "../utils/calc";
 import { Splits, Split } from "./Splits";
-import { PaceForm, DistanceForm, TimeForm, Button } from "./components";
+import { PaceForm } from "./PaceForm";
+import { DistanceForm } from "./DistanceForm";
+import { TimeForm } from "./TimeForm";
+import { Unit, FormState } from "../types";
 
 import styles from "./calculator.module.css";
-import { Unit, FormState } from "./types";
 
 export const Calculator = () => {
   const [splits, setSplits] = useState<Split[]>([]);
@@ -75,42 +77,46 @@ export const Calculator = () => {
         }}
       >
         <Formik initialValues={initialValues} onSubmit={() => {}}>
-          {({ values, handleReset }) => (
-            <>
-              <Box
-                sx={{
-                  "& > *": { marginBottom: 3 },
-                }}
-              >
-                <TimeForm />
-                <PaceForm />
-                <DistanceForm />
-              </Box>
-              <Box sx={{ marginTop: 2 }}>
-                <Button fullWidth onClick={handleReset}>
-                  Reset
-                </Button>
-              </Box>
-              <Box sx={{ marginTop: 2 }}>
-                <Button
-                  fullWidth
-                  color="secondary"
-                  onClick={() =>
-                    setSplits(
-                      generateSplits({
-                        paceHours: values.paceHours,
-                        paceMinutes: values.paceMinutes,
-                        paceSeconds: values.paceSeconds,
-                        distance: values.distance,
-                      })
-                    )
-                  }
+          {({ values, handleReset }) => {
+            const { paceHours, paceMinutes, paceSeconds, distance } = values;
+            return (
+              <>
+                <Box
+                  sx={{
+                    "& > *": { marginBottom: 3 },
+                  }}
                 >
-                  Generate Splits
-                </Button>
-              </Box>
-            </>
-          )}
+                  <TimeForm />
+                  <PaceForm />
+                  <DistanceForm />
+                </Box>
+                <Box sx={{ marginTop: 2 }}>
+                  <Button fullWidth variant="contained" onClick={handleReset}>
+                    Reset
+                  </Button>
+                </Box>
+                <Box sx={{ marginTop: 2 }}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    onClick={() =>
+                      setSplits(
+                        generateSplits({
+                          paceHours,
+                          paceMinutes,
+                          paceSeconds,
+                          distance,
+                        })
+                      )
+                    }
+                  >
+                    Generate Splits
+                  </Button>
+                </Box>
+              </>
+            );
+          }}
         </Formik>
       </Box>
       {splits.length > 0 && <Splits splits={splits} />}

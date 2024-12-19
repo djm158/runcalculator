@@ -1,6 +1,6 @@
-import { Unit } from "./types";
+import { Unit } from "../types";
 
-import { MILES_TO_KILOMETERS, KILOMETERS_TO_MILES } from "./const";
+import { MILES_TO_KILOMETERS, KILOMETERS_TO_MILES } from "../const";
 
 interface Time {
   seconds: number;

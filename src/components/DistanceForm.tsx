@@ -1,14 +1,14 @@
 import { useFormikContext } from "formik";
 import { predefinedRaces, MILES_TO_KILOMETERS } from "../const";
-import { getTotalTimeInSeconds, calculateDistance } from "../calc";
+import { getTotalTimeInSeconds, calculateDistance } from "../utils/calc";
 import { FormState, RaceDistance, Unit } from "../types";
 import { TextField } from "./TextField";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Button } from "./Button";
 
 export const DistanceForm = () => {
   const formik = useFormikContext<FormState>();
@@ -85,7 +85,12 @@ export const DistanceForm = () => {
             <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
           </Select>
         </FormControl>
-        <Button sx={{ marginLeft: 0.5 }} onClick={setDistance}>
+        <Button
+          size="small"
+          variant="contained"
+          sx={{ marginLeft: 0.5 }}
+          onClick={setDistance}
+        >
           Calculate
         </Button>
       </Box>

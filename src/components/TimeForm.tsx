@@ -1,10 +1,10 @@
 import { useFormikContext } from "formik";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 import { FormState } from "../types";
 import { TextField } from "./TextField";
-import { Button } from "./Button";
-import { calculateTime, getTotalTimeInSeconds } from "../calc";
+import { calculateTime, getTotalTimeInSeconds } from "../utils/calc";
 
 export const TimeForm = () => {
   const formik = useFormikContext<FormState>();
@@ -75,7 +75,12 @@ export const TimeForm = () => {
           value={formik.values.seconds}
           onChange={formik.handleChange}
         />
-        <Button sx={{ marginLeft: 0.5 }} onClick={setTime}>
+        <Button
+          size="small"
+          variant="contained"
+          sx={{ marginLeft: 0.5 }}
+          onClick={setTime}
+        >
           Calculate
         </Button>
       </Box>

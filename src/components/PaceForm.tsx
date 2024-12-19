@@ -1,13 +1,13 @@
 import { useFormikContext } from "formik";
 
-import { getTotalTimeInSeconds, calculatePace } from "../calc";
+import { getTotalTimeInSeconds, calculatePace } from "../utils/calc";
 import { TextField } from "./TextField";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { Button } from "./Button";
 import { FormState } from "../types";
 import { Unit } from "../types";
 
@@ -79,7 +79,12 @@ export const PaceForm = () => {
           value={values.paceSeconds}
           variant="outlined"
         />
-        <Button sx={{ marginLeft: 0.5 }} onClick={setPace}>
+        <Button
+          size="small"
+          variant="contained"
+          sx={{ marginLeft: 0.5 }}
+          onClick={setPace}
+        >
           Calculate
         </Button>
       </Box>

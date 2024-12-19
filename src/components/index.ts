@@ -1,7 +1,6 @@
-import { Button } from "./Button";
-import { TextField } from "./TextField";
-import { PaceForm } from "./PaceForm";
-import { DistanceForm } from "./DistanceForm";
-import { TimeForm } from "./TimeForm";
-
-export { Button, TextField, PaceForm, DistanceForm, TimeForm };
+export * from "./Calculator";
+export * from "./Splits";
+export * from "./PaceForm";
+export * from "./DistanceForm";
+export * from "./TimeForm";
+export * from "./TextField";

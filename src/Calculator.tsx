@@ -27,23 +27,25 @@ export const Calculator = () => {
     raceDistance: "",
   };
 
-  const formik = useFormik<FormState>({
-    initialValues,
-    onSubmit: (vals) => console.log(vals),
-  });
-
-  const getTotalPaceSeconds = (): number => {
-    const { paceHours, paceMinutes, paceSeconds } = formik.values;
-    const total = getTotalTimeInSeconds(paceHours, paceMinutes, paceSeconds);
-    return total;
-  };
-
-  const generateSplits = () => {
-    const distance =
-      typeof formik.values.distance === "string" ? 0 : formik.values.distance;
-    const totalPaceSeconds = getTotalPaceSeconds();
+  const generateSplits = ({
+    paceHours,
+    paceMinutes,
+    paceSeconds,
+    distance,
+  }: {
+    paceHours: number | string;
+    paceMinutes: number | string;
+    paceSeconds: number | string;
+    distance: number | string;
+  }) => {
+    const totalPaceSeconds = getTotalTimeInSeconds(
+      paceHours,
+      paceMinutes,
+      paceSeconds
+    );
     const splits = [];
-    for (let i = 1; i <= distance; i++) {
+    const d = typeof distance === "string" ? 0 : distance;
+    for (let i = 1; i <= d; i++) {
       const splitTime = calculateTime(totalPaceSeconds, i);
       splits.push({
         split: i,
@@ -73,27 +75,42 @@ export const Calculator = () => {
         }}
       >
         <Formik initialValues={initialValues} onSubmit={() => {}}>
-          <>
-            <Box
-              sx={{
-                "& > *": { marginBottom: 3 },
-              }}
-            >
-              <TimeForm />
-              <PaceForm />
-              <DistanceForm />
-            </Box>
-            <Box sx={{ marginTop: 2 }}>
-              <Button fullWidth onClick={formik.handleReset}>
-                Reset
-              </Button>
-            </Box>
-            <Box sx={{ marginTop: 2 }}>
-              <Button fullWidth onClick={() => setSplits(generateSplits())}>
-                Generate Splits
-              </Button>
-            </Box>
-          </>
+          {({ values, handleReset }) => (
+            <>
+              <Box
+                sx={{
+                  "& > *": { marginBottom: 3 },
+                }}
+              >
+                <TimeForm />
+                <PaceForm />
+                <DistanceForm />
+              </Box>
+              <Box sx={{ marginTop: 2 }}>
+                <Button fullWidth onClick={handleReset}>
+                  Reset
+                </Button>
+              </Box>
+              <Box sx={{ marginTop: 2 }}>
+                <Button
+                  fullWidth
+                  color="secondary"
+                  onClick={() =>
+                    setSplits(
+                      generateSplits({
+                        paceHours: values.paceHours,
+                        paceMinutes: values.paceMinutes,
+                        paceSeconds: values.paceSeconds,
+                        distance: values.distance,
+                      })
+                    )
+                  }
+                >
+                  Generate Splits
+                </Button>
+              </Box>
+            </>
+          )}
         </Formik>
       </Box>
       {splits.length > 0 && <Splits splits={splits} />}

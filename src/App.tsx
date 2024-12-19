@@ -4,14 +4,21 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Calculator } from "./Calculator";
 
 const theme = createTheme({
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "#5178fc",
-        },
-      },
+  palette: {
+    primary: {
+      main: "#5178fc",
+      light: "#7393FC",
+      dark: "#3854B0",
+      contrastText: "#fff",
     },
+    secondary: {
+      main: "#f50057",
+      light: "#F73378",
+      dark: "#AB003C",
+      contrastText: "#fff",
+    },
+  },
+  components: {
     MuiInputBase: {
       styleOverrides: {
         input: {

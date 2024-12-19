@@ -9,7 +9,7 @@ built with react + material ui + typescript
 
 hosting + CI courtesy of Netlify
 
-![Image of Run Calculator](https://github.com/user-attachments/assets/ce700a18-a2f0-491b-bd1e-d3e2ff7e689e)
+![Screenshot 2024-12-19 at 5 13 45 AM](https://github.com/user-attachments/assets/98d5b8fe-f0a1-44df-884a-75e819ade015)
 
 # get started
 ```sh

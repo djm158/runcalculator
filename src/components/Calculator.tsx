@@ -4,7 +4,7 @@ import Grid2 from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-import { getTotalTimeInSeconds, calculateTime } from "../utils/calc";
+import { generateSplits } from "../utils";
 import { Splits, Split } from "./Splits";
 import { PaceForm } from "./PaceForm";
 import { DistanceForm } from "./DistanceForm";
@@ -29,36 +29,6 @@ export const Calculator = () => {
     raceDistance: "",
   };
 
-  const generateSplits = ({
-    paceHours,
-    paceMinutes,
-    paceSeconds,
-    distance,
-  }: {
-    paceHours: number | string;
-    paceMinutes: number | string;
-    paceSeconds: number | string;
-    distance: number | string;
-  }) => {
-    const totalPaceSeconds = getTotalTimeInSeconds(
-      paceHours,
-      paceMinutes,
-      paceSeconds
-    );
-    const splits = [];
-    const d = typeof distance === "string" ? 0 : distance;
-    for (let i = 1; i <= d; i++) {
-      const splitTime = calculateTime(totalPaceSeconds, i);
-      splits.push({
-        split: i,
-        hours: splitTime.hours,
-        minutes: splitTime.minutes,
-        seconds: splitTime.seconds,
-      });
-    }
-    return splits;
-  };
-
   return (
     <Grid2
       container
@@ -78,7 +48,14 @@ export const Calculator = () => {
       >
         <Formik initialValues={initialValues} onSubmit={() => {}}>
           {({ values, handleReset }) => {
-            const { paceHours, paceMinutes, paceSeconds, distance } = values;
+            const {
+              hours,
+              minutes,
+              seconds,
+              distance,
+              paceUnit,
+              distanceUnit,
+            } = values;
             return (
               <>
                 <Box
@@ -103,10 +80,11 @@ export const Calculator = () => {
                     onClick={() =>
                       setSplits(
                         generateSplits({
-                          paceHours,
-                          paceMinutes,
-                          paceSeconds,
+                          hours,
+                          minutes,
+                          seconds,
                           distance,
+                          distanceUnit,
                         })
                       )
                     }

@@ -68,14 +68,7 @@ export const Calculator = () => {
       justifyContent="center"
       style={{ minHeight: "90vh" }}
     >
-      <Box
-        className={styles.calculator}
-        sx={{
-          padding: "2rem",
-          borderRadius: "5px",
-          backgroundColor: "#191f33",
-        }}
-      >
+      <Box className={styles.calculator}>
         <Formik initialValues={initialValues} onSubmit={() => {}}>
           {({ values, handleReset }) => {
             const { paceHours, paceMinutes, paceSeconds, distance } = values;

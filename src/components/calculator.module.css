@@ -1,7 +1,11 @@
+.calculator {
+  padding: 2rem;
+  border-radius: 5px;
+  background-color: #191f33;
+}
+
 @media (max-width: 540px) {
   .calculator {
-    width: 100%;
-    padding: 0.2rem;
-    padding: 0;
+    padding: 1rem;
   }
 }

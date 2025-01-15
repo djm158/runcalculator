@@ -41,14 +41,7 @@ export const Calculator = () => {
       <Box className={styles.calculator}>
         <Formik initialValues={initialValues} onSubmit={() => {}}>
           {({ values, handleReset }) => {
-            const {
-              hours,
-              minutes,
-              seconds,
-              distance,
-              paceUnit,
-              distanceUnit,
-            } = values;
+            const { hours, minutes, seconds, distance, distanceUnit } = values;
             return (
               <>
                 <Box

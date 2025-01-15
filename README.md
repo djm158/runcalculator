@@ -1,40 +1,39 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6b0cc0c5-26fb-40e5-a4a9-3e1d893c429b/deploy-status)](https://app.netlify.com/sites/musing-wiles-f46ad5/deploys)
 
 # [runcalculator](https://runner-math.netlify.app/)
-calculator for determining time/pace/distance for running
 
-built in loving memory of coolrunning's pace calculator
+Calculator for determining time/pace/distance for running
 
-built with react + material ui + typescript
+Made in loving memory of coolrunning's pace calculator
+
+Built with React, Material UI, and TypeScript
 
 hosting + CI courtesy of Netlify
 
 ![Screenshot 2024-12-19 at 5 13 45 AM](https://github.com/user-attachments/assets/98d5b8fe-f0a1-44df-884a-75e819ade015)
 
-# get started
+# Get started
+
 ```sh
 $ git clone https://github.com/djm158/runcalculator
 $ cd runcalculator
-$ npm install
+$ pnpm install
 ```
 
-# build
-
+# Build
 
 ```sh
-$ npm build
+$ pnpm build
 ```
 
-# test
+# Test
 
 ```sh
-$ npm test
+$ pnpm test
 ```
 
-# develop
+# Develop
+
 ```sh
-$ npm start
+$ pnpm start
 ```
-
-# TODO
-* keyboard shortcut for clear (esc)

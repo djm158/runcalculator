@@ -20,8 +20,8 @@
     "serve": "vite preview",
     "test": "vitest run",
     "lint": "eslint .",
-    "format": "prettier --write .",
-    "prettier": "prettier --check .",
+    "format": "prettier --write ./src",
+    "prettier": "prettier --check ./src",
     "typecheck": "tsc --noEmit",
     "checks": "pnpm run lint && pnpm run prettier && pnpm run typecheck"
   },

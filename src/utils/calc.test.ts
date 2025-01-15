@@ -19,6 +19,6 @@ it("calculates time", () => {
 
 it("calculates distance", () => {
   expect(
-    calculateDistance(60 * 60, 60 * 8, Unit.MILES, Unit.MILES)
+    calculateDistance(60 * 60, 60 * 8, Unit.MILES, Unit.MILES),
   ).toStrictEqual(7.5);
 });

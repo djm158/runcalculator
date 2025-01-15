@@ -12,7 +12,7 @@ export const calculatePace = (
   seconds: number,
   distance: number,
   paceUnit: Unit,
-  distanceUnit: Unit
+  distanceUnit: Unit,
 ): Time => {
   if (distance === 0) {
     return getTime(0);
@@ -33,7 +33,7 @@ export const calculateDistance = (
   seconds: number,
   paceSeconds: number,
   paceUnit: Unit,
-  distanceUnit: Unit
+  distanceUnit: Unit,
 ): number => {
   if (paceUnit === distanceUnit) {
     return seconds / paceSeconds;
@@ -60,7 +60,7 @@ const getTime = (time: number): Time => {
 export const getTotalTimeInSeconds = (
   hours: number | string,
   minutes: number | string,
-  seconds: number | string
+  seconds: number | string,
 ) => {
   const hrs = typeof hours === "string" ? 0 : hours;
   const mins = typeof minutes === "string" ? 0 : minutes;

@@ -23,14 +23,14 @@ export const generateSplits = ({
     totalSeconds,
     distance as number,
     distanceUnit, // Force distance units to avoid genearting a split with a different unit than the distance (e.g. if pace is)
-    distanceUnit
+    distanceUnit,
   );
   const splits = [];
   const d = typeof distance === "string" ? 0 : distance;
   const totalPaceSeconds = getTotalTimeInSeconds(
     paceHours,
     paceMinutes,
-    paceSeconds
+    paceSeconds,
   );
   for (let i = 1; i <= d; i++) {
     const splitTime = calculateTime(totalPaceSeconds, i);

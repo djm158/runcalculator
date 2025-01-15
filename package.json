@@ -20,7 +20,10 @@
     "serve": "vite preview",
     "test": "vitest run",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prettier": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "checks": "pnpm run lint && pnpm run prettier && pnpm run typecheck"
   },
   "browserslist": [
     ">0.2%",
@@ -38,6 +41,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "@vitejs/plugin-react-swc": "^3.7.2",
     "eslint": "^9.18.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",

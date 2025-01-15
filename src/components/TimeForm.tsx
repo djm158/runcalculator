@@ -21,7 +21,7 @@ export const TimeForm = () => {
       hours: hrs,
     } = calculateTime(
       getTotalTimeInSeconds(paceHours, paceMinutes, paceSeconds),
-      distance
+      distance,
     );
     formik.setValues({
       ...formik.values,

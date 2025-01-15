@@ -25,7 +25,7 @@ export const PaceForm = () => {
       getTotalTimeInSeconds(values.hours, values.minutes, values.seconds),
       distance,
       values.paceUnit,
-      values.distanceUnit
+      values.distanceUnit,
     );
     setValues({
       ...values,

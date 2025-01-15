@@ -29,12 +29,12 @@ export const DistanceForm = () => {
     const totalSeconds = getTotalTimeInSeconds(
       values.hours,
       values.minutes,
-      values.seconds
+      values.seconds,
     );
     const totalPaceSeconds = getTotalTimeInSeconds(
       values.paceHours,
       values.paceMinutes,
-      values.paceSeconds
+      values.paceSeconds,
     );
     const distance =
       totalPaceSeconds > 0
@@ -42,7 +42,7 @@ export const DistanceForm = () => {
             totalSeconds,
             totalPaceSeconds,
             formik.values.paceUnit,
-            formik.values.distanceUnit
+            formik.values.distanceUnit,
           )
         : 0;
     formik.setFieldValue("distance", distance);

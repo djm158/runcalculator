@@ -71,7 +71,7 @@ export const Calculator = () => {
                           seconds,
                           distance,
                           distanceUnit,
-                        })
+                        }),
                       )
                     }
                   >

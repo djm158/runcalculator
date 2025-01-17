@@ -11,41 +11,48 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 export const DistanceForm = () => {
-  const formik = useFormikContext<FormState>();
-  const values = formik.values;
+  const { setFieldValue, values, handleChange } = useFormikContext<FormState>();
+  const {
+    raceDistance,
+    distance,
+    hours,
+    minutes,
+    seconds,
+    paceHours,
+    paceMinutes,
+    paceSeconds,
+    distanceUnit,
+    paceUnit,
+  } = values;
 
   const handleRaceChange = (event: SelectChangeEvent<RaceDistance>) => {
-    const raceDistance =
+    const newRaceDistance =
       predefinedRaces[event.target.value as RaceDistance] || 0;
     const distance =
-      formik.values.distanceUnit === Unit.MILES
-        ? raceDistance / MILES_TO_KILOMETERS
-        : raceDistance;
-    formik.setFieldValue("distance", distance);
-    formik.setFieldValue("raceDistance", event.target.value);
+      distanceUnit === Unit.MILES
+        ? newRaceDistance / MILES_TO_KILOMETERS
+        : newRaceDistance;
+    setFieldValue("distance", distance);
+    setFieldValue("raceDistance", event.target.value);
   };
 
   const setDistance = () => {
-    const totalSeconds = getTotalTimeInSeconds(
-      values.hours,
-      values.minutes,
-      values.seconds,
-    );
+    const totalSeconds = getTotalTimeInSeconds(hours, minutes, seconds);
     const totalPaceSeconds = getTotalTimeInSeconds(
-      values.paceHours,
-      values.paceMinutes,
-      values.paceSeconds,
+      paceHours,
+      paceMinutes,
+      paceSeconds,
     );
     const distance =
       totalPaceSeconds > 0
         ? calculateDistance(
             totalSeconds,
             totalPaceSeconds,
-            formik.values.paceUnit,
-            formik.values.distanceUnit,
+            paceUnit,
+            distanceUnit,
           )
         : 0;
-    formik.setFieldValue("distance", distance);
+    setFieldValue("distance", distance);
   };
   return (
     <Box component="form">
@@ -66,8 +73,8 @@ export const DistanceForm = () => {
           name="distance"
           variant="outlined"
           type="number"
-          value={formik.values.distance}
-          onChange={formik.handleChange}
+          value={distance}
+          onChange={handleChange}
           sx={{
             width: 120,
           }}
@@ -77,8 +84,8 @@ export const DistanceForm = () => {
           <Select
             labelId="distance-unit"
             id="unit-select"
-            value={formik.values.distanceUnit}
-            onChange={formik.handleChange}
+            value={distanceUnit}
+            onChange={handleChange}
             name="distanceUnit"
           >
             <MenuItem value={Unit.MILES}>Miles</MenuItem>
@@ -102,7 +109,7 @@ export const DistanceForm = () => {
           id="race-select"
           onChange={handleRaceChange}
           displayEmpty
-          value={formik.values.raceDistance}
+          value={raceDistance}
         >
           {Object.keys(predefinedRaces).map((race) => (
             <MenuItem key={race} value={race}>

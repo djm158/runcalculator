@@ -1,15 +1,16 @@
 import { useFormikContext } from "formik";
-
-import { getTotalTimeInSeconds, calculatePace } from "../utils/calc";
-import { TextField } from "./TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+
+import { getTotalTimeInSeconds, calculatePace } from "../utils/calc";
 import { FormState } from "../types";
 import { Unit } from "../types";
+
+import { TextField } from "./TextField";
 
 export const PaceForm = () => {
   const { values, handleChange, setValues } = useFormikContext<FormState>();

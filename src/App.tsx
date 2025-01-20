@@ -1,6 +1,7 @@
 import "./styles.css";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+
 import { Calculator } from "./components/Calculator";
 
 const theme = createTheme({

@@ -57,25 +57,23 @@ export const Calculator = () => {
                 <Button className="w-full mt-2" onClick={handleReset}>
                   Reset
                 </Button>
-                <Box sx={{ marginTop: 2 }}>
-                  <Button
-                    className="w-full"
-                    color="secondary"
-                    onClick={() =>
-                      setSplits(
-                        generateSplits({
-                          hours,
-                          minutes,
-                          seconds,
-                          distance,
-                          distanceUnit,
-                        }),
-                      )
-                    }
-                  >
-                    Generate Splits
-                  </Button>
-                </Box>
+                <Button
+                  className="w-full mt-2"
+                  color="secondary"
+                  onClick={() =>
+                    setSplits(
+                      generateSplits({
+                        hours,
+                        minutes,
+                        seconds,
+                        distance,
+                        distanceUnit,
+                      }),
+                    )
+                  }
+                >
+                  Generate Splits
+                </Button>
               </>
             );
           }}

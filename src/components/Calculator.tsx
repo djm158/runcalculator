@@ -5,12 +5,12 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 import { generateSplits } from "../utils";
+import { Unit, FormState } from "../types";
+
 import { Splits, Split } from "./Splits";
 import { PaceForm } from "./PaceForm";
 import { DistanceForm } from "./DistanceForm";
 import { TimeForm } from "./TimeForm";
-import { Unit, FormState } from "../types";
-
 import styles from "./calculator.module.css";
 
 export const Calculator = () => {

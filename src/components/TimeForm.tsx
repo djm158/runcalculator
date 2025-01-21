@@ -3,8 +3,9 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
 import { FormState } from "../types";
-import { TextField } from "./TextField";
 import { calculateTime, getTotalTimeInSeconds } from "../utils/calc";
+
+import { TextField } from "./TextField";
 
 export const TimeForm = () => {
   const formik = useFormikContext<FormState>();

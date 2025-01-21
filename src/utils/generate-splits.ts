@@ -1,4 +1,5 @@
 import { Unit } from "../types";
+
 import { getTotalTimeInSeconds, calculateTime, calculatePace } from "./calc";
 
 export const generateSplits = ({

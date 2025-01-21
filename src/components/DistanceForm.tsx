@@ -1,14 +1,16 @@
 import { useFormikContext } from "formik";
-import { predefinedRaces, MILES_TO_KILOMETERS } from "../const";
-import { getTotalTimeInSeconds, calculateDistance } from "../utils/calc";
-import { FormState, RaceDistance, Unit } from "../types";
-import { TextField } from "./TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+
+import { FormState, RaceDistance, Unit } from "../types";
+import { getTotalTimeInSeconds, calculateDistance } from "../utils/calc";
+import { predefinedRaces, MILES_TO_KILOMETERS } from "../const";
+
+import { TextField } from "./TextField";
 
 export const DistanceForm = () => {
   const { setFieldValue, values, handleChange } = useFormikContext<FormState>();

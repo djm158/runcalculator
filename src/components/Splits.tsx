@@ -1,5 +1,3 @@
-import Box from "@mui/material/Box";
-
 import styles from "./splits.module.css";
 
 export type Split = {
@@ -15,14 +13,7 @@ interface SplitsProps {
 
 export const Splits = ({ splits }: SplitsProps) => {
   return (
-    <Box
-      sx={{
-        padding: "2rem",
-        borderRadius: "5px",
-        backgroundColor: "#191f33",
-        marginTop: "2rem",
-      }}
-    >
+    <div className="p-4 rounded-md bg-[#191f33] mt-4">
       <table>
         <thead>
           <tr>
@@ -48,6 +39,6 @@ export const Splits = ({ splits }: SplitsProps) => {
           ))}
         </tbody>
       </table>
-    </Box>
+    </div>
   );
 };

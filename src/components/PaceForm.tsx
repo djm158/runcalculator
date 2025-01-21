@@ -1,6 +1,4 @@
 import { useFormikContext } from "formik";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,7 +8,8 @@ import { getTotalTimeInSeconds, calculatePace } from "../utils/calc";
 import { FormState } from "../types";
 import { Unit } from "../types";
 
-import { TextField } from "./TextField";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export const PaceForm = () => {
   const { values, handleChange, setValues } = useFormikContext<FormState>();
@@ -36,59 +35,42 @@ export const PaceForm = () => {
     });
   };
   return (
-    <Box component="form">
+    <div>
       <p>Pace</p>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          "& > div": { margin: 0.8 },
-          "& > :first-of-type": { marginLeft: 0 },
-        }}
-      >
-        <TextField
-          InputProps={{
-            inputProps: { min: 0 },
-          }}
-          onChange={handleChange}
+      <div className="flex items-center">
+        <Input
           placeholder="Hrs"
           name="paceHours"
           type="number"
           value={values.paceHours}
-          variant="outlined"
-        />
-        <TextField
-          InputProps={{
-            inputProps: { min: 0, max: 59 },
-          }}
           onChange={handleChange}
+          min={0}
+          className="w-20 h-14"
+        />
+        <Input
           placeholder="Min"
-          type="number"
           name="paceMinutes"
+          type="number"
           value={values.paceMinutes}
-          variant="outlined"
-        />
-        <TextField
-          InputProps={{
-            inputProps: { min: 0, max: 59, step: 0.1 },
-          }}
           onChange={handleChange}
+          min={0}
+          max={59}
+          className="w-20 h-14"
+        />
+        <Input
           placeholder="Sec"
           name="paceSeconds"
           type="number"
           value={values.paceSeconds}
-          variant="outlined"
+          onChange={handleChange}
+          min={0}
+          max={59}
+          className="w-20 h-14"
         />
-        <Button
-          size="small"
-          variant="contained"
-          sx={{ marginLeft: 0.5 }}
-          onClick={setPace}
-        >
+        <Button size="sm" className="ml-3" onClick={setPace}>
           Calculate
         </Button>
-      </Box>
+      </div>
       <FormControl variant="filled" sx={{ width: 120, marginTop: 0.8 }}>
         <InputLabel>Unit</InputLabel>
         <Select
@@ -102,6 +84,6 @@ export const PaceForm = () => {
           <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
         </Select>
       </FormControl>
-    </Box>
+    </div>
   );
 };

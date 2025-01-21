@@ -4,13 +4,20 @@ import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 
 import { getTotalTimeInSeconds, calculatePace } from "../utils/calc";
 import { FormState } from "../types";
 import { Unit } from "../types";
 
 import { TextField } from "./TextField";
+
+import {
+  Select,
+  SelectTrigger,
+  SelectItem,
+  SelectValue,
+  SelectContent,
+} from "@/components/ui/select";
 
 export const PaceForm = () => {
   const { values, handleChange, setValues } = useFormikContext<FormState>();
@@ -89,19 +96,21 @@ export const PaceForm = () => {
           Calculate
         </Button>
       </Box>
-      <FormControl variant="filled" sx={{ width: 120, marginTop: 0.8 }}>
-        <InputLabel>Unit</InputLabel>
-        <Select
-          labelId="pace-unit"
-          id="pace-unit-select"
-          name="paceUnit"
-          value={values.paceUnit}
-          onChange={handleChange}
-        >
-          <MenuItem value={Unit.MILES}>Miles</MenuItem>
-          <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
-        </Select>
-      </FormControl>
+      <Select
+        value={values.paceUnit}
+        onValueChange={(value) =>
+          handleChange({ target: { name: "paceUnit", value } })
+        }
+        name="paceUnit"
+      >
+        <SelectTrigger className="w-32">
+          <SelectValue placeholder="Unit" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value={Unit.MILES}>Miles</SelectItem>
+          <SelectItem value={Unit.KILOMETERS}>Kilometers</SelectItem>
+        </SelectContent>
+      </Select>
     </Box>
   );
 };

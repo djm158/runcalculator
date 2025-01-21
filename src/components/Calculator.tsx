@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Formik } from "formik";
 import Grid2 from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 
 import { generateSplits } from "../utils";
 import { Unit, FormState } from "../types";
@@ -12,6 +11,8 @@ import { PaceForm } from "./PaceForm";
 import { DistanceForm } from "./DistanceForm";
 import { TimeForm } from "./TimeForm";
 import styles from "./calculator.module.css";
+
+import { Button } from "@/components/ui/button";
 
 export const Calculator = () => {
   const [splits, setSplits] = useState<Split[]>([]);
@@ -53,15 +54,12 @@ export const Calculator = () => {
                   <PaceForm />
                   <DistanceForm />
                 </Box>
-                <Box sx={{ marginTop: 2 }}>
-                  <Button fullWidth variant="contained" onClick={handleReset}>
-                    Reset
-                  </Button>
-                </Box>
+                <Button className="w-full mt-2" onClick={handleReset}>
+                  Reset
+                </Button>
                 <Box sx={{ marginTop: 2 }}>
                   <Button
-                    fullWidth
-                    variant="contained"
+                    className="w-full"
                     color="secondary"
                     onClick={() =>
                       setSplits(

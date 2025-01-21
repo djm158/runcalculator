@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Formik } from "formik";
 import Grid2 from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 
 import { generateSplits } from "../utils";
 import { Unit, FormState } from "../types";
@@ -12,6 +11,8 @@ import { PaceForm } from "./PaceForm";
 import { DistanceForm } from "./DistanceForm";
 import { TimeForm } from "./TimeForm";
 import styles from "./calculator.module.css";
+
+import { Button } from "@/components/ui/button";
 
 export const Calculator = () => {
   const [splits, setSplits] = useState<Split[]>([]);
@@ -53,31 +54,26 @@ export const Calculator = () => {
                   <PaceForm />
                   <DistanceForm />
                 </Box>
-                <Box sx={{ marginTop: 2 }}>
-                  <Button fullWidth variant="contained" onClick={handleReset}>
-                    Reset
-                  </Button>
-                </Box>
-                <Box sx={{ marginTop: 2 }}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="secondary"
-                    onClick={() =>
-                      setSplits(
-                        generateSplits({
-                          hours,
-                          minutes,
-                          seconds,
-                          distance,
-                          distanceUnit,
-                        }),
-                      )
-                    }
-                  >
-                    Generate Splits
-                  </Button>
-                </Box>
+                <Button className="w-full my-3" onClick={handleReset}>
+                  Reset
+                </Button>
+                <Button
+                  className="w-full"
+                  variant="secondary"
+                  onClick={() =>
+                    setSplits(
+                      generateSplits({
+                        hours,
+                        minutes,
+                        seconds,
+                        distance,
+                        distanceUnit,
+                      }),
+                    )
+                  }
+                >
+                  Generate Splits
+                </Button>
               </>
             );
           }}

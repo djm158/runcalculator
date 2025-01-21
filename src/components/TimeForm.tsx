@@ -9,8 +9,7 @@ import { Button } from "@/components/ui/button";
 export const TimeForm = () => {
   const formik = useFormikContext<FormState>();
 
-  const setTime = (e) => {
-    e.preventDefault();
+  const setTime = () => {
     const distance =
       typeof formik.values.distance === "string" ? 0 : formik.values.distance;
     if (distance === 0) return;
@@ -32,7 +31,7 @@ export const TimeForm = () => {
     });
   };
   return (
-    <form>
+    <div>
       <p>Time</p>
       <div className="flex items-center">
         <div className="items-center justify-between inline-flex basis-2/3">
@@ -70,6 +69,6 @@ export const TimeForm = () => {
           Calculate
         </Button>
       </div>
-    </form>
+    </div>
   );
 };

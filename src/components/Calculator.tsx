@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Formik } from "formik";
-import Grid2 from "@mui/material/Grid2";
-import Box from "@mui/material/Box";
 
 import { generateSplits } from "../utils";
 import { Unit, FormState } from "../types";
@@ -10,7 +8,6 @@ import { Splits, Split } from "./Splits";
 import { PaceForm } from "./PaceForm";
 import { DistanceForm } from "./DistanceForm";
 import { TimeForm } from "./TimeForm";
-import styles from "./calculator.module.css";
 
 import { Button } from "@/components/ui/button";
 
@@ -31,30 +28,19 @@ export const Calculator = () => {
   };
 
   return (
-    <Grid2
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      style={{ minHeight: "90vh" }}
-    >
-      <Box className={styles.calculator}>
+    <div className="min-h-[90vh] flex flex-col items-center justify-center">
+      <div className="rounded-lg bg-[#191f33] p-2 xs:p-8 xs:max-w-full">
         <Formik initialValues={initialValues} onSubmit={() => {}}>
           {({ values, handleReset }) => {
             const { hours, minutes, seconds, distance, distanceUnit } = values;
             return (
               <>
-                <Box
-                  sx={{
-                    "& > *": { marginBottom: 3 },
-                  }}
-                >
+                <div className="space-y-6">
                   <TimeForm />
                   <PaceForm />
                   <DistanceForm />
-                </Box>
-                <Button className="w-full my-3" onClick={handleReset}>
+                </div>
+                <Button className="w-full mt-8 mb-3" onClick={handleReset}>
                   Reset
                 </Button>
                 <Button
@@ -78,8 +64,8 @@ export const Calculator = () => {
             );
           }}
         </Formik>
-      </Box>
+      </div>
       {splits.length > 0 && <Splits splits={splits} />}
-    </Grid2>
+    </div>
   );
 };

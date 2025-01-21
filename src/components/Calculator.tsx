@@ -59,7 +59,7 @@ export const Calculator = () => {
                 </Button>
                 <Button
                   className="w-full"
-                  color="secondary"
+                  variant="secondary"
                   onClick={() =>
                     setSplits(
                       generateSplits({

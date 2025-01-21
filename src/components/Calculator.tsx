@@ -54,11 +54,11 @@ export const Calculator = () => {
                   <PaceForm />
                   <DistanceForm />
                 </Box>
-                <Button className="w-full mt-2" onClick={handleReset}>
+                <Button className="w-full my-3" onClick={handleReset}>
                   Reset
                 </Button>
                 <Button
-                  className="w-full mt-2"
+                  className="w-full"
                   color="secondary"
                   onClick={() =>
                     setSplits(

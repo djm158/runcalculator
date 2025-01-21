@@ -34,7 +34,7 @@ export const TimeForm = () => {
     <div>
       <p>Time</p>
       <div className="flex items-center">
-        <div className="items-center justify-between inline-flex basis-2/3">
+        <div className="items-center justify-between inline-flex basis-2/3 space-x-3">
           <Input
             placeholder="Hrs"
             name="hours"

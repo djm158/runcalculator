@@ -40,7 +40,7 @@ export const PaceForm = () => {
   return (
     <div>
       <p>Pace</p>
-      <div className="flex items-center">
+      <div className="flex items-center space-x-3 pb-2">
         <Input
           placeholder="Hrs"
           name="paceHours"

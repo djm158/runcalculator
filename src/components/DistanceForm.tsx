@@ -60,7 +60,7 @@ export const DistanceForm = () => {
   return (
     <div>
       <p>Distance</p>
-      <div className="flex items-center">
+      <div className="flex items-center space-x-3 pb-2">
         <Input
           placeholder="Distance"
           name="distance"

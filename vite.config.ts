@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import path from "path";
 
 import { defineConfig } from "vite";
@@ -10,6 +12,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // @ts-expect-error I don't know why this is not working
   test: {
     globals: true,
     environment: "jsdom",

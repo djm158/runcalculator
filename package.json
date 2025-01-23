@@ -32,6 +32,7 @@
     "format": "prettier --write ./src",
     "prettier": "prettier --check ./src",
     "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc -b --watch",
     "checks": "pnpm run lint && pnpm run prettier && pnpm run typecheck"
   },
   "browserslist": [

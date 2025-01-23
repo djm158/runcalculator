@@ -1,5 +1,3 @@
-import "./styles.css";
-
 import { Calculator } from "./components/Calculator";
 
 export const App = () => {

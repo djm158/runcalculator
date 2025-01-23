@@ -69,7 +69,6 @@ export const DistanceForm = () => {
           onChange={handleChange}
           min={0}
           step={0.1}
-          className="w-[120px]"
         />
         <Select
           value={distanceUnit}
@@ -78,7 +77,7 @@ export const DistanceForm = () => {
           }
           name="distanceUnit"
         >
-          <SelectTrigger className="w-32">
+          <SelectTrigger>
             <SelectValue placeholder="Unit" />
           </SelectTrigger>
           <SelectContent>
@@ -91,7 +90,7 @@ export const DistanceForm = () => {
         </Button>
       </div>
       <Select value={raceDistance} onValueChange={handleRaceChange}>
-        <SelectTrigger className="w-32">
+        <SelectTrigger>
           <SelectValue placeholder="Race" />
         </SelectTrigger>
         <SelectContent>

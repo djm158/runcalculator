@@ -10,6 +10,7 @@ import { DistanceForm } from "./DistanceForm";
 import { TimeForm } from "./TimeForm";
 
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const Calculator = () => {
   const [splits, setSplits] = useState<Split[]>([]);
@@ -28,14 +29,19 @@ export const Calculator = () => {
   };
 
   return (
-    <div className="min-h-[90vh] flex flex-col items-center justify-center">
-      <div className="rounded-lg bg-[#191f33] p-2 xs:p-8 xs:max-w-full">
+    <Card className="bg-white/30 dark:bg-black/30 backdrop-blur-lg">
+      <CardHeader className="border-b">
+        <CardTitle className="text-pink-600 dark:text-pink-300">
+          Pace Calculator
+        </CardTitle>
+      </CardHeader>
+      <div className="flex flex-col items-center justify-center p-6">
         <Formik initialValues={initialValues} onSubmit={() => {}}>
           {({ values, handleReset }) => {
             const { hours, minutes, seconds, distance, distanceUnit } = values;
             return (
               <>
-                <div className="space-y-6">
+                <div className="space-y-6 w-full">
                   <TimeForm />
                   <PaceForm />
                   <DistanceForm />
@@ -64,8 +70,8 @@ export const Calculator = () => {
             );
           }}
         </Formik>
+        {splits.length > 0 && <Splits splits={splits} />}
       </div>
-      {splits.length > 0 && <Splits splits={splits} />}
-    </div>
+    </Card>
   );
 };

@@ -48,7 +48,6 @@ export const PaceForm = () => {
           value={values.paceHours}
           onChange={handleChange}
           min={0}
-          className="w-20 h-14"
         />
         <Input
           placeholder="Min"
@@ -58,7 +57,6 @@ export const PaceForm = () => {
           onChange={handleChange}
           min={0}
           max={59}
-          className="w-20 h-14"
         />
         <Input
           placeholder="Sec"
@@ -68,7 +66,6 @@ export const PaceForm = () => {
           onChange={handleChange}
           min={0}
           max={59}
-          className="w-20 h-14"
         />
         <Button size="sm" className="ml-3" onClick={setPace}>
           Calculate

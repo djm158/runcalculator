@@ -1,6 +1,6 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6b0cc0c5-26fb-40e5-a4a9-3e1d893c429b/deploy-status)](https://app.netlify.com/sites/musing-wiles-f46ad5/deploys)
 
-# [runcalculator](https://runner-math.netlify.app/)
+# [runcalculator](https://runner-toolkit.netlify.app/)
 
 Calculator for determining time/pace/distance for running
 

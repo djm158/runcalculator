@@ -1,6 +1,12 @@
-import Box from "@mui/material/Box";
-
-import styles from "./splits.module.css";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 export type Split = {
   split: number;
@@ -15,39 +21,35 @@ interface SplitsProps {
 
 export const Splits = ({ splits }: SplitsProps) => {
   return (
-    <Box
-      sx={{
-        padding: "2rem",
-        borderRadius: "5px",
-        backgroundColor: "#191f33",
-        marginTop: "2rem",
-      }}
-    >
-      <table>
-        <thead>
-          <tr>
-            <th>Split</th>
-            <th>Hours</th>
-            <th>Minutes</th>
-            <th>Seconds</th>
-          </tr>
-        </thead>
-        <tbody>
-          {splits.map((split, index) => (
-            <tr
+    <div className="p-4 rounded-md bg-[#191f33] mt-4">
+      <Table>
+        <TableHeader>
+          <TableRow className="border-none">
+            <TableHead className="text-white text-center">Split</TableHead>
+            <TableHead className="text-white text-center">Hours</TableHead>
+            <TableHead className="text-white text-center">Minutes</TableHead>
+            <TableHead className="text-white text-center">Seconds</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {splits.map(({ split, hours, minutes, seconds }, index) => (
+            <TableRow
               key={index}
-              className={
-                index % 2 === 0 ? styles["tr-light"] : styles["tr-dark"]
-              }
+              className={cn(
+                index % 2 === 0 ? "bg-[#2a2f45]" : "bg-[#191f33]",
+                "border-none",
+                "text-white",
+                "text-center",
+              )}
             >
-              <td>{split.split}</td>
-              <td>{split.hours}</td>
-              <td>{split.minutes}</td>
-              <td>{split.seconds}</td>
-            </tr>
+              <TableCell>{split}</TableCell>
+              <TableCell>{hours}</TableCell>
+              <TableCell>{minutes}</TableCell>
+              <TableCell>{seconds}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </Box>
+        </TableBody>
+      </Table>
+    </div>
   );
 };

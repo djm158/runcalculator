@@ -1,3 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ... */
+
 * {
   box-sizing: border-box;
 }
@@ -6,10 +12,6 @@ body,
 html {
   margin: 0;
   padding: 0;
-}
-
-body {
-  background-color: #2e3550;
 }
 
 p {
@@ -27,5 +29,61 @@ p {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 228 100% 95%;
+    --foreground: 228 5% 0%;
+    --card: 228 50% 90%;
+    --card-foreground: 228 5% 10%;
+    --popover: 228 100% 95%;
+    --popover-foreground: 228 100% 0%;
+    --primary: 228 27% 24.7%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 228 30% 70%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 190 30% 85%;
+    --muted-foreground: 228 5% 35%;
+    --accent: 190 30% 80%;
+    --accent-foreground: 228 5% 10%;
+    --destructive: 0 100% 30%;
+    --destructive-foreground: 228 5% 90%;
+    --border: 228 30% 50%;
+    --input: 228 30% 18%;
+    --ring: 228 27% 24.7%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 228 50% 5%;
+    --foreground: 228 5% 90%;
+    --card: 228 50% 0%;
+    --card-foreground: 228 5% 90%;
+    --popover: 228 50% 5%;
+    --popover-foreground: 228 5% 90%;
+    --primary: 228 27% 24.7%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 228 30% 10%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 190 30% 15%;
+    --muted-foreground: 228 5% 60%;
+    --accent: 190 30% 15%;
+    --accent-foreground: 228 5% 90%;
+    --destructive: 0 100% 30%;
+    --destructive-foreground: 228 5% 90%;
+    --border: 228 30% 18%;
+    --input: 228 30% 18%;
+    --ring: 228 27% 24.7%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

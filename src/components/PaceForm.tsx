@@ -1,16 +1,18 @@
 import { useFormikContext } from "formik";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 
-import { getTotalTimeInSeconds, calculatePace } from "../utils/calc";
-import { FormState } from "../types";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectTrigger,
+  SelectItem,
+  SelectValue,
+  SelectContent,
+} from "@/components/ui/select";
+
 import { Unit } from "../types";
-
-import { TextField } from "./TextField";
+import { FormState } from "../types";
+import { getTotalTimeInSeconds, calculatePace } from "../utils/calc";
 
 export const PaceForm = () => {
   const { values, handleChange, setValues } = useFormikContext<FormState>();
@@ -36,72 +38,54 @@ export const PaceForm = () => {
     });
   };
   return (
-    <Box component="form">
-      <p>Pace</p>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          "& > div": { margin: 0.8 },
-          "& > :first-of-type": { marginLeft: 0 },
-        }}
-      >
-        <TextField
-          InputProps={{
-            inputProps: { min: 0 },
-          }}
-          onChange={handleChange}
+    <div>
+      <h2 className="text-lg font-semibold">Pace</h2>
+      <div className="flex items-center space-x-3 pb-2">
+        <Input
           placeholder="Hrs"
           name="paceHours"
           type="number"
           value={values.paceHours}
-          variant="outlined"
-        />
-        <TextField
-          InputProps={{
-            inputProps: { min: 0, max: 59 },
-          }}
           onChange={handleChange}
+          min={0}
+        />
+        <Input
           placeholder="Min"
-          type="number"
           name="paceMinutes"
+          type="number"
           value={values.paceMinutes}
-          variant="outlined"
-        />
-        <TextField
-          InputProps={{
-            inputProps: { min: 0, max: 59, step: 0.1 },
-          }}
           onChange={handleChange}
+          min={0}
+          max={59}
+        />
+        <Input
           placeholder="Sec"
           name="paceSeconds"
           type="number"
           value={values.paceSeconds}
-          variant="outlined"
+          onChange={handleChange}
+          min={0}
+          max={59}
         />
-        <Button
-          size="small"
-          variant="contained"
-          sx={{ marginLeft: 0.5 }}
-          onClick={setPace}
-        >
+        <Button variant="pink" size="sm" className="ml-3" onClick={setPace}>
           Calculate
         </Button>
-      </Box>
-      <FormControl variant="filled" sx={{ width: 120, marginTop: 0.8 }}>
-        <InputLabel>Unit</InputLabel>
-        <Select
-          labelId="pace-unit"
-          id="pace-unit-select"
-          name="paceUnit"
-          value={values.paceUnit}
-          onChange={handleChange}
-        >
-          <MenuItem value={Unit.MILES}>Miles</MenuItem>
-          <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
+      </div>
+      <Select
+        value={values.paceUnit}
+        onValueChange={(value) =>
+          handleChange({ target: { name: "paceUnit", value } })
+        }
+        name="paceUnit"
+      >
+        <SelectTrigger className="w-32">
+          <SelectValue placeholder="Unit" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value={Unit.MILES}>Miles</SelectItem>
+          <SelectItem value={Unit.KILOMETERS}>Kilometers</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
   );
 };

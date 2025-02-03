@@ -1,11 +1,10 @@
 import { useFormikContext } from "formik";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 import { FormState } from "../types";
 import { calculateTime, getTotalTimeInSeconds } from "../utils/calc";
-
-import { TextField } from "./TextField";
 
 export const TimeForm = () => {
   const formik = useFormikContext<FormState>();
@@ -32,59 +31,39 @@ export const TimeForm = () => {
     });
   };
   return (
-    <Box component="form">
-      <p>Time</p>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          "& > div": { margin: 0.8 },
-          "& > :first-of-type": { marginLeft: 0 },
-        }}
-      >
-        <TextField
-          InputProps={{
-            inputProps: { min: 0 },
-          }}
+    <div>
+      <h2 className="text-lg font-semibold">Time</h2>
+      <div className="flex items-center space-x-3 pb-2">
+        <Input
           placeholder="Hrs"
           name="hours"
-          variant="outlined"
           type="number"
-          value={formik.values.hours}
           onChange={formik.handleChange}
+          value={formik.values.hours}
         />
-        <TextField
-          InputProps={{
-            inputProps: { min: 0, max: 59 },
-          }}
+        <Input
           placeholder="Min"
           name="minutes"
-          variant="outlined"
           type="number"
+          onChange={formik.handleChange}
           value={formik.values.minutes}
-          onChange={formik.handleChange}
+          min={0}
+          max={59}
         />
-        <TextField
-          InputProps={{
-            inputProps: { min: 0, max: 59, step: 0.1 },
-          }}
+        <Input
           placeholder="Sec"
-          variant="outlined"
-          type="number"
           name="seconds"
-          value={formik.values.seconds}
+          type="number"
           onChange={formik.handleChange}
+          value={formik.values.seconds}
+          min={0}
+          max={59}
+          step={0.1}
         />
-        <Button
-          size="small"
-          variant="contained"
-          sx={{ marginLeft: 0.5 }}
-          onClick={setTime}
-        >
+        <Button variant="pink" size="sm" className="ml-3" onClick={setTime}>
           Calculate
         </Button>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };

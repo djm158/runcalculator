@@ -1,6 +1,6 @@
-import { Unit } from "../types";
-
 import { generateSplits } from "./generate-splits";
+
+import { Unit } from "../types";
 
 describe("generateSplits", () => {
   it("generates splits correctly for a given time and distance", () => {

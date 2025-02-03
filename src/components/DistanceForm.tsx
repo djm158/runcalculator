@@ -1,16 +1,18 @@
 import { useFormikContext } from "formik";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { predefinedRaces, MILES_TO_KILOMETERS } from "../const";
 import { FormState, RaceDistance, Unit } from "../types";
 import { getTotalTimeInSeconds, calculateDistance } from "../utils/calc";
-import { predefinedRaces, MILES_TO_KILOMETERS } from "../const";
-
-import { TextField } from "./TextField";
 
 export const DistanceForm = () => {
   const { setFieldValue, values, handleChange } = useFormikContext<FormState>();
@@ -27,15 +29,14 @@ export const DistanceForm = () => {
     paceUnit,
   } = values;
 
-  const handleRaceChange = (event: SelectChangeEvent<RaceDistance>) => {
-    const newRaceDistance =
-      predefinedRaces[event.target.value as RaceDistance] || 0;
+  const handleRaceChange = (value: RaceDistance) => {
+    const newRaceDistance = predefinedRaces[value];
     const distance =
       distanceUnit === Unit.MILES
         ? newRaceDistance / MILES_TO_KILOMETERS
         : newRaceDistance;
     setFieldValue("distance", distance);
-    setFieldValue("raceDistance", event.target.value);
+    setFieldValue("raceDistance", value);
   };
 
   const setDistance = () => {
@@ -57,69 +58,49 @@ export const DistanceForm = () => {
     setFieldValue("distance", distance);
   };
   return (
-    <Box component="form">
-      <p>Distance</p>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          "& > div": { margin: 0.8 },
-          "& > :first-of-type": { marginLeft: 0 },
-        }}
-      >
-        <TextField
-          InputProps={{
-            inputProps: { min: 0, step: 0.1 },
-          }}
+    <div>
+      <h2 className="text-lg font-semibold">Distance</h2>
+      <div className="flex items-center space-x-3 pb-2">
+        <Input
           placeholder="Distance"
           name="distance"
-          variant="outlined"
           type="number"
           value={distance}
           onChange={handleChange}
-          sx={{
-            width: 120,
-          }}
+          min={0}
+          step={0.1}
         />
-        <FormControl variant="filled" sx={{ width: 120 }}>
-          <InputLabel>Unit</InputLabel>
-          <Select
-            labelId="distance-unit"
-            id="unit-select"
-            value={distanceUnit}
-            onChange={handleChange}
-            name="distanceUnit"
-          >
-            <MenuItem value={Unit.MILES}>Miles</MenuItem>
-            <MenuItem value={Unit.KILOMETERS}>Kilometers</MenuItem>
-          </Select>
-        </FormControl>
-        <Button
-          size="small"
-          variant="contained"
-          sx={{ marginLeft: 0.5 }}
-          onClick={setDistance}
+        <Select
+          value={distanceUnit}
+          onValueChange={(value) =>
+            handleChange({ target: { name: "distanceUnit", value } })
+          }
+          name="distanceUnit"
         >
+          <SelectTrigger>
+            <SelectValue placeholder="Unit" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={Unit.MILES}>Miles</SelectItem>
+            <SelectItem value={Unit.KILOMETERS}>Kilometers</SelectItem>
+          </SelectContent>
+        </Select>
+        <Button variant="pink" size="sm" className="ml-3" onClick={setDistance}>
           Calculate
         </Button>
-      </Box>
-
-      <FormControl variant="filled" sx={{ width: 120, marginTop: 0.8 }}>
-        <InputLabel>Race</InputLabel>
-        <Select
-          labelId="race-select"
-          id="race-select"
-          onChange={handleRaceChange}
-          displayEmpty
-          value={raceDistance}
-        >
+      </div>
+      <Select value={raceDistance} onValueChange={handleRaceChange}>
+        <SelectTrigger>
+          <SelectValue placeholder="Race" />
+        </SelectTrigger>
+        <SelectContent>
           {Object.keys(predefinedRaces).map((race) => (
-            <MenuItem key={race} value={race}>
+            <SelectItem key={race} value={race}>
               {race}
-            </MenuItem>
+            </SelectItem>
           ))}
-        </Select>
-      </FormControl>
-    </Box>
+        </SelectContent>
+      </Select>
+    </div>
   );
 };

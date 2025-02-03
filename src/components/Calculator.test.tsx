@@ -5,6 +5,7 @@ import {
   waitFor,
   within,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { Calculator } from "./Calculator";
 
@@ -104,9 +105,11 @@ describe("Calculator", () => {
       expect(screen.getAllByPlaceholderText("Min")[1]).toHaveValue(5);
     });
 
-    fireEvent.mouseDown(screen.getAllByRole("combobox")[0]);
-    const listbox = within(screen.getByRole("listbox"));
-    fireEvent.click(listbox.getByText("Kilometers"));
+    userEvent.click(screen.getAllByRole("combobox")[0]);
+    await waitFor(() => {
+      const listbox = screen.getByRole("listbox");
+      fireEvent.click(within(listbox).getByText("Kilometers"));
+    });
     fireEvent.click(screen.getAllByText("Calculate")[1]);
 
     await waitFor(() => {
@@ -133,9 +136,11 @@ describe("Calculator", () => {
 
     // Mousedown the distance unit combobox and select kilometers
     // Then recalculate the distance
-    fireEvent.mouseDown(screen.getAllByRole("combobox")[1]);
-    const listbox = within(screen.getByRole("listbox"));
-    fireEvent.click(listbox.getByText("Kilometers"));
+    userEvent.click(screen.getAllByRole("combobox")[1]);
+    await waitFor(() => {
+      const listbox = within(screen.getByRole("listbox"));
+      fireEvent.click(listbox.getByText("Kilometers"));
+    });
 
     fireEvent.click(screen.getAllByText("Calculate")[2]);
 
@@ -145,9 +150,11 @@ describe("Calculator", () => {
 
     // Mousedown the distance unit combobox and select miles
     // Then recalculate the distance
-    fireEvent.mouseDown(screen.getAllByRole("combobox")[1]);
-    const listbox2 = within(screen.getByRole("listbox"));
-    fireEvent.click(listbox2.getByText("Miles"));
+    userEvent.click(screen.getAllByRole("combobox")[1]);
+    await waitFor(() => {
+      const listbox2 = within(screen.getByRole("listbox"));
+      fireEvent.click(listbox2.getByText("Miles"));
+    });
 
     fireEvent.click(screen.getAllByText("Calculate")[2]);
 
@@ -176,9 +183,11 @@ describe("Calculator", () => {
 
     // Mousedown the distance unit combobox and select kilometers
     // Then recalculate the distance
-    fireEvent.mouseDown(screen.getAllByRole("combobox")[1]);
-    const listbox = within(screen.getByRole("listbox"));
-    fireEvent.click(listbox.getByText("Kilometers"));
+    userEvent.click(screen.getAllByRole("combobox")[1]);
+    await waitFor(() => {
+      const listbox = within(screen.getByRole("listbox"));
+      fireEvent.click(listbox.getByText("Kilometers"));
+    });
 
     fireEvent.click(screen.getAllByText("Calculate")[2]);
 

@@ -1,41 +1,19 @@
-import "./styles.css";
-
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-
 import { Calculator } from "./components/Calculator";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#5178fc",
-      light: "#7393FC",
-      dark: "#3854B0",
-      contrastText: "#fff",
-    },
-    secondary: {
-      main: "#f50057",
-      light: "#F73378",
-      dark: "#AB003C",
-      contrastText: "#fff",
-    },
-  },
-  components: {
-    MuiInputBase: {
-      styleOverrides: {
-        input: {
-          color: "#292d3a",
-          backgroundColor: "#fffcfc",
-          borderRadius: "4px",
-        },
-      },
-    },
-  },
-});
+import { ThemeProvider } from "./components/theme/theme-provider";
+import { ThemeToggle } from "./components/theme/theme-toggle";
+import "./styles.css";
 
 export const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <Calculator />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="min-h-screen w-full bg-gradient-to-br dark:from-pink-900 dark:to-blue-900 text-foreground p-4">
+        <main className="container mx-auto">
+          <div className="flex justify-end">
+            <ThemeToggle />
+          </div>
+          <Calculator containerClassName="mx-auto" />
+        </main>
+      </div>
     </ThemeProvider>
   );
 };

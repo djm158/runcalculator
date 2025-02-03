@@ -1,10 +1,11 @@
 import { useFormikContext } from "formik";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 import { FormState } from "../types";
 import { calculateTime, getTotalTimeInSeconds } from "../utils/calc";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 export const TimeForm = () => {
   const formik = useFormikContext<FormState>();

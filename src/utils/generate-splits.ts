@@ -1,6 +1,7 @@
+import { getTotalTimeInSeconds, calculateTime, calculatePace } from "./calc";
+
 import { Unit } from "../types";
 
-import { getTotalTimeInSeconds, calculateTime, calculatePace } from "./calc";
 
 export const generateSplits = ({
   hours,

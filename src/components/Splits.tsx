@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import {
   Table,
   TableHeader,
@@ -7,6 +6,7 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 export type Split = {
   split: number;

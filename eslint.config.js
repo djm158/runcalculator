@@ -34,13 +34,24 @@ export default tseslint.config(
         {
           "newlines-between": "always",
           groups: [
-            "builtin",
             "external",
+            "builtin",
             "internal",
-            "parent",
             "sibling",
+            "parent",
             "index",
           ],
+          pathGroups: [
+            {
+              pattern: "@/**",
+              group: "internal",
+            },
+          ],
+          pathGroupsExcludedImportTypes: ["internal"],
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
         },
       ],
     },

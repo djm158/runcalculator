@@ -1,17 +1,18 @@
-import { useState } from "react";
 import { Formik } from "formik";
-
-import { generateSplits } from "../utils";
-import { Unit, FormState } from "../types";
-
-import { Splits, Split } from "./Splits";
-import { PaceForm } from "./PaceForm";
-import { DistanceForm } from "./DistanceForm";
-import { TimeForm } from "./TimeForm";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+
+import { DistanceForm } from "./DistanceForm";
+import { PaceForm } from "./PaceForm";
+import { Splits, Split } from "./Splits";
+import { TimeForm } from "./TimeForm";
+
+import { Unit, FormState } from "../types";
+import { generateSplits } from "../utils";
+
 
 export const Calculator = ({
   containerClassName,

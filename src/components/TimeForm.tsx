@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { FormState } from "../types";
 import { calculateTime, getTotalTimeInSeconds } from "../utils/calc";
 
-
 export const TimeForm = () => {
   const formik = useFormikContext<FormState>();
 

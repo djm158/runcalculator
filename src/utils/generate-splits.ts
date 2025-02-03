@@ -2,7 +2,6 @@ import { getTotalTimeInSeconds, calculateTime, calculatePace } from "./calc";
 
 import { Unit } from "../types";
 
-
 export const generateSplits = ({
   hours,
   minutes,

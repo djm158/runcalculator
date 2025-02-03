@@ -13,7 +13,6 @@ import { TimeForm } from "./TimeForm";
 import { Unit, FormState } from "../types";
 import { generateSplits } from "../utils";
 
-
 export const Calculator = ({
   containerClassName,
 }: {

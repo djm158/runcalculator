@@ -59,7 +59,7 @@ export const DistanceForm = () => {
   };
   return (
     <div>
-      <p>Distance</p>
+      <h2 className="text-lg font-semibold">Distance</h2>
       <div className="flex items-center space-x-3 pb-2">
         <Input
           placeholder="Distance"
@@ -85,7 +85,7 @@ export const DistanceForm = () => {
             <SelectItem value={Unit.KILOMETERS}>Kilometers</SelectItem>
           </SelectContent>
         </Select>
-        <Button size="sm" className="ml-3" onClick={setDistance}>
+        <Button variant="pink" size="sm" className="ml-3" onClick={setDistance}>
           Calculate
         </Button>
       </div>

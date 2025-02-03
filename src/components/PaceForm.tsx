@@ -39,7 +39,7 @@ export const PaceForm = () => {
   };
   return (
     <div>
-      <p>Pace</p>
+      <h2 className="text-lg font-semibold">Pace</h2>
       <div className="flex items-center space-x-3 pb-2">
         <Input
           placeholder="Hrs"
@@ -67,7 +67,7 @@ export const PaceForm = () => {
           min={0}
           max={59}
         />
-        <Button size="sm" className="ml-3" onClick={setPace}>
+        <Button variant="pink" size="sm" className="ml-3" onClick={setPace}>
           Calculate
         </Button>
       </div>

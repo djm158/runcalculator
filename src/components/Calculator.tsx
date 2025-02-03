@@ -11,8 +11,13 @@ import { TimeForm } from "./TimeForm";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
-export const Calculator = () => {
+export const Calculator = ({
+  containerClassName,
+}: {
+  containerClassName?: string;
+}) => {
   const [splits, setSplits] = useState<Split[]>([]);
 
   const initialValues: FormState = {
@@ -29,7 +34,12 @@ export const Calculator = () => {
   };
 
   return (
-    <Card className="bg-white/30 dark:bg-black/30 backdrop-blur-lg">
+    <Card
+      className={cn(
+        "bg-white/30 dark:bg-black/30 backdrop-blur-lg max-w-3xl",
+        containerClassName,
+      )}
+    >
       <CardHeader className="border-b">
         <CardTitle className="text-pink-600 dark:text-pink-300">
           Pace Calculator
@@ -51,7 +61,7 @@ export const Calculator = () => {
                 </Button>
                 <Button
                   className="w-full"
-                  variant="secondary"
+                  variant="pink"
                   onClick={() =>
                     setSplits(
                       generateSplits({

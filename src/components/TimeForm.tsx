@@ -32,7 +32,7 @@ export const TimeForm = () => {
   };
   return (
     <div>
-      <p>Time</p>
+      <h2 className="text-lg font-semibold">Time</h2>
       <div className="flex items-center space-x-3 pb-2">
         <Input
           placeholder="Hrs"
@@ -60,7 +60,7 @@ export const TimeForm = () => {
           max={59}
           step={0.1}
         />
-        <Button size="sm" className="ml-3" onClick={setTime}>
+        <Button variant="pink" size="sm" className="ml-3" onClick={setTime}>
           Calculate
         </Button>
       </div>

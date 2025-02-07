@@ -10,9 +10,9 @@ import {
   SelectContent,
 } from "@/components/ui/select";
 
-import { Unit } from "../types";
-import { FormState } from "../types";
-import { getTotalTimeInSeconds, calculatePace } from "../utils/calc";
+import { Unit } from "../../types";
+import { FormState } from "../../types";
+import { getTotalTimeInSeconds, calculatePace } from "../../utils/calc";
 
 export const PaceForm = () => {
   const { values, handleChange, setValues } = useFormikContext<FormState>();

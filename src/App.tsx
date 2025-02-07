@@ -1,4 +1,4 @@
-import { Calculator } from "./components/Calculator";
+import { Calculator } from "./components/calculator";
 import { ThemeProvider } from "./components/theme/theme-provider";
 import { ThemeToggle } from "./components/theme/theme-toggle";
 import "./styles.css";

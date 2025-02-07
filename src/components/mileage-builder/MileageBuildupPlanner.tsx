@@ -140,9 +140,7 @@ export const MileageBuildupPlanner = () => {
                   className="flex items-center gap-2 justify-evenly"
                   key={item.value}
                 >
-                  <Label className="text-base" htmlFor={item.value}>
-                    {item.label}
-                  </Label>
+                  <Label htmlFor={item.value}>{item.label}</Label>
                   <Checkbox
                     className="data-[state=checked]:bg-primary data-[state=checked]:text-blue-500 h-6 w-6"
                     onCheckedChange={(checked) => {

@@ -9,10 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import { predefinedRaces, MILES_TO_KILOMETERS } from "../../const";
-import { FormState, RaceDistance, Unit } from "../../types";
-import { getTotalTimeInSeconds, calculateDistance } from "../../utils/calc";
+import { predefinedRaces, MILES_TO_KILOMETERS } from "@/const";
+import { FormState, RaceDistance, Unit } from "@/types";
+import { getTotalTimeInSeconds, calculateDistance } from "@/utils/calc";
 
 export const DistanceForm = () => {
   const { setFieldValue, values, handleChange } = useFormikContext<FormState>();

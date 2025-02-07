@@ -15,25 +15,25 @@ hosting + CI courtesy of Netlify
 # Install
 
 ```sh
-$ git clone https://github.com/djm158/runcalculator
-$ cd runcalculator
-$ pnpm install
+git clone https://github.com/djm158/runcalculator
+cd runcalculator
+pnpm install
 ```
 
 # Build
 
 ```sh
-$ pnpm build
+pnpm build
 ```
 
 # Test
 
 ```sh
-$ pnpm test
+pnpm test
 ```
 
 # Develop
 
 ```sh
-$ pnpm start
+pnpm dev
 ```

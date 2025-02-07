@@ -44,7 +44,7 @@ export const Calculator = ({
           Pace Calculator
         </CardTitle>
       </CardHeader>
-      <div className="flex flex-col items-center justify-center p-6">
+      <div className="flex flex-col items-center justify-center p-3 sm:p-6">
         <Formik initialValues={initialValues} onSubmit={() => {}}>
           {({ values, handleReset }) => {
             const { hours, minutes, seconds, distance, distanceUnit } = values;

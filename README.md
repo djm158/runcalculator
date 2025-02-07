@@ -6,14 +6,13 @@ Calculator for determining time/pace/distance for running
 
 Made in loving memory of coolrunning's pace calculator
 
-Built with React, Shadcn, and TypeScript
+Built with React, Vite, Shadcn, and TypeScript
 
 hosting + CI courtesy of Netlify
 
 ![Screenshot 2025-02-02 at 9 05 58 PM](https://github.com/user-attachments/assets/848b60e7-3d75-47be-9b93-9e1245b85602)
 
-# Get started
-
+# Install
 
 ```sh
 $ git clone https://github.com/djm158/runcalculator

@@ -35,7 +35,7 @@ export const Calculator = ({
   return (
     <Card
       className={cn(
-        "bg-white/30 dark:bg-black/30 backdrop-blur-lg max-w-3xl",
+        "bg-white/30 dark:bg-black/30 backdrop-blur-lg",
         containerClassName,
       )}
     >
@@ -55,26 +55,32 @@ export const Calculator = ({
                   <PaceForm />
                   <DistanceForm />
                 </div>
-                <Button className="w-full mt-8 mb-3" onClick={handleReset}>
-                  Reset
-                </Button>
-                <Button
-                  className="w-full"
-                  variant="pink"
-                  onClick={() =>
-                    setSplits(
-                      generateSplits({
-                        hours,
-                        minutes,
-                        seconds,
-                        distance,
-                        distanceUnit,
-                      }),
-                    )
-                  }
-                >
-                  Generate Splits
-                </Button>
+
+                <div className="flex flex-col gap-4 mt-4 w-full">
+                  <Button
+                    variant="pink"
+                    onClick={() =>
+                      setSplits(
+                        generateSplits({
+                          hours,
+                          minutes,
+                          seconds,
+                          distance,
+                          distanceUnit,
+                        }),
+                      )
+                    }
+                  >
+                    Generate Splits
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-pink-500 text-pink-500 hover:bg-pink-100 dark:hover:bg-pink-950"
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </Button>
+                </div>
               </>
             );
           }}

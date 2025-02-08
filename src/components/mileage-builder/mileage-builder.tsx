@@ -73,8 +73,6 @@ export const MileageBuilder = () => {
     const increase = Number.parseFloat(increasePercentage) / 100;
     // const runs = Number.parseInt(runsPerWeek);
     const runs = daysOfWeek.length;
-    console.log(runs);
-    console.log(daysOfWeek);
     const downWeeks = Number.parseInt(recoveryWeekFrequency);
     const target = Number.parseFloat(targetMileage);
     const longRunPercent = Number.parseFloat(longRunPercentage) / 100;
@@ -95,9 +93,18 @@ export const MileageBuilder = () => {
         const weekPlan = {
           week,
           totalMileage: weeklyMileage,
-          runs: Array(runs).fill(otherRunsMileage),
+          runs: Array(daysOfWeekItems.length)
+            .fill(0)
+            .map((_, index) => {
+              if (daysOfWeek.includes(daysOfWeekItems[index].value)) {
+                if (daysOfWeekItems[index].value === longRunDay) {
+                  return longRunMileage;
+                }
+                return otherRunsMileage;
+              }
+              return 0;
+            }),
         };
-        weekPlan.runs[weekPlan.runs.length - 1] = longRunMileage;
 
         newPlan.push(weekPlan);
 
@@ -111,7 +118,17 @@ export const MileageBuilder = () => {
           newPlan.push({
             week: week + 1,
             totalMileage: currentMileage,
-            runs: Array(runs).fill(currentMileage / runs),
+            runs: Array(daysOfWeekItems.length)
+              .fill(0)
+              .map((_, index) => {
+                if (daysOfWeekItems[index].value === longRunDay) {
+                  return currentMileage * longRunPercent;
+                }
+                return (
+                  (currentMileage - currentMileage * longRunPercent) /
+                  (runs - 1)
+                );
+              }),
           });
         }
       }
@@ -249,17 +266,17 @@ export const MileageBuilder = () => {
                   <TableHead className="text-blue-600 dark:text-blue-300">
                     Week
                   </TableHead>
-                  <TableHead className="text-blue-600 dark:text-blue-300">
-                    Total Mileage
-                  </TableHead>
-                  {daysOfWeek.map((day, i) => (
+                  {daysOfWeekItems.map((day, i) => (
                     <TableHead
                       key={i}
                       className="text-blue-600 dark:text-blue-300"
                     >
-                      {day}
+                      {day.label}
                     </TableHead>
                   ))}
+                  <TableHead className="text-blue-600 dark:text-blue-300">
+                    Total Mileage
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -269,10 +286,12 @@ export const MileageBuilder = () => {
                     className="border-b border-blue-100 dark:border-blue-900"
                   >
                     <TableCell>{week.week}</TableCell>
-                    <TableCell>{week.totalMileage.toFixed(2)}</TableCell>
                     {week.runs.map((run, runIndex) => (
-                      <TableCell key={runIndex}>{run.toFixed(2)}</TableCell>
+                      <TableCell key={runIndex}>
+                        {run === 0 ? "Rest" : run.toFixed(2)}
+                      </TableCell>
                     ))}
+                    <TableCell>{week.totalMileage.toFixed(2)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

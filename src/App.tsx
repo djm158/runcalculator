@@ -18,7 +18,7 @@ export const App = () => {
 
           <Tabs
             defaultValue="pace"
-            className="w-full container max-w-3xl mx-auto"
+            className="w-full container max-w-4xl mx-auto"
           >
             <TabsList className="grid w-full grid-cols-3 bg-white/20 dark:bg-black/20 backdrop-blur-lg rounded-lg p-1">
               <TabsTrigger

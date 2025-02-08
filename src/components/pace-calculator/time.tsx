@@ -6,27 +6,28 @@ import { FormState } from "@/types";
 import { calculateTime, getTotalTimeInSeconds } from "@/utils/calc";
 
 export const Time = () => {
-  const formik = useFormikContext<FormState>();
+  const { values, handleChange, setValues } = useFormikContext<FormState>();
 
   const setTime = () => {
-    const distance =
-      typeof formik.values.distance === "string" ? 0 : formik.values.distance;
+    const distance = Number.parseFloat(values.distance) || 0;
     if (distance === 0) return;
 
-    const { paceHours, paceMinutes, paceSeconds } = formik.values;
-    const {
-      seconds: secs,
-      minutes: mins,
-      hours: hrs,
-    } = calculateTime(
-      getTotalTimeInSeconds(paceHours, paceMinutes, paceSeconds),
+    const totalPaceSeconds = getTotalTimeInSeconds(
+      values.paceHours,
+      values.paceMinutes,
+      values.paceSeconds,
+    );
+
+    const { seconds, minutes, hours } = calculateTime(
+      totalPaceSeconds,
       distance,
     );
-    formik.setValues({
-      ...formik.values,
-      hours: hrs,
-      minutes: mins,
-      seconds: secs,
+
+    setValues({
+      ...values,
+      hours: hours.toString(),
+      minutes: minutes.toString(),
+      seconds: seconds.toString(),
     });
   };
   return (
@@ -37,15 +38,15 @@ export const Time = () => {
           placeholder="Hrs"
           name="hours"
           type="number"
-          onChange={formik.handleChange}
-          value={formik.values.hours}
+          onChange={handleChange}
+          value={values.hours}
         />
         <Input
           placeholder="Min"
           name="minutes"
           type="number"
-          onChange={formik.handleChange}
-          value={formik.values.minutes}
+          onChange={handleChange}
+          value={values.minutes}
           min={0}
           max={59}
         />
@@ -53,8 +54,8 @@ export const Time = () => {
           placeholder="Sec"
           name="seconds"
           type="number"
-          onChange={formik.handleChange}
-          value={formik.values.seconds}
+          onChange={handleChange}
+          value={values.seconds}
           min={0}
           max={59}
           step={0.1}

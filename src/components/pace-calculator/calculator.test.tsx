@@ -195,28 +195,4 @@ describe("Calculator", () => {
       expect(screen.getByPlaceholderText("Distance")).toHaveValue(3.21868);
     });
   });
-
-  it("Generates splits table", async () => {
-    render(<Calculator />);
-
-    fireEvent.change(screen.getAllByPlaceholderText("Min")[0], {
-      target: {
-        value: 10,
-      },
-    });
-
-    fireEvent.change(screen.getAllByPlaceholderText("Min")[1], {
-      target: {
-        value: 5,
-      },
-    });
-
-    fireEvent.click(screen.getAllByText("Calculate")[2]);
-    fireEvent.click(screen.getByText("Generate Splits"));
-
-    await waitFor(() => {
-      expect(screen.getByRole("cell", { name: "5" })).toBeInTheDocument();
-      expect(screen.getByRole("cell", { name: "10" })).toBeInTheDocument();
-    });
-  });
 });

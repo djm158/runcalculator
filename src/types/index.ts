@@ -14,13 +14,13 @@ export type DistanceUnit = (typeof DistanceUnit)[keyof typeof DistanceUnit];
 
 export interface FormState {
   distanceUnit: Unit;
-  distance: number | string;
-  hours: number | string;
-  minutes: number | string;
-  seconds: number | string;
-  paceHours: number | string;
-  paceMinutes: number | string;
-  paceSeconds: number | string;
+  distance: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
+  paceHours: string;
+  paceMinutes: string;
+  paceSeconds: string;
   paceUnit: Unit;
   raceDistance: RaceDistance | "";
 }

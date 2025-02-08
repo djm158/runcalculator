@@ -16,23 +16,27 @@ export const Pace = () => {
   const { values, handleChange, setValues } = useFormikContext<FormState>();
 
   const setPace = () => {
-    const distance = typeof values.distance === "string" ? 0 : values.distance;
+    const distance = Number.parseFloat(values.distance) || 0;
     if (distance === 0) return;
-    const {
-      seconds: secs,
-      minutes: mins,
-      hours: hrs,
-    } = calculatePace(
-      getTotalTimeInSeconds(values.hours, values.minutes, values.seconds),
+
+    const totalSeconds = getTotalTimeInSeconds(
+      values.hours,
+      values.minutes,
+      values.seconds,
+    );
+
+    const { seconds, minutes, hours } = calculatePace(
+      totalSeconds,
       distance,
       values.paceUnit,
       values.distanceUnit,
     );
+
     setValues({
       ...values,
-      paceHours: hrs,
-      paceMinutes: mins,
-      paceSeconds: secs,
+      paceHours: hours.toString(),
+      paceMinutes: minutes.toString(),
+      paceSeconds: seconds.toString(),
     });
   };
   return (

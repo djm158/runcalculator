@@ -1,6 +1,6 @@
 export const MILES_TO_KILOMETERS = 1.60934;
 export const KILOMETERS_TO_MILES = 1 / MILES_TO_KILOMETERS;
-
+export const SECONDS_PER_MINUTE = 60;
 export const SECONDS_PER_HOUR = 3600;
 
 export const RACED_DISTANCES = {

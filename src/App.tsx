@@ -1,5 +1,6 @@
-import { Calculator } from "@/components/calculator";
-import { MileageBuildupPlanner } from "@/components/mileage-builder";
+import { MileageBuilder } from "@/components/mileage-builder";
+import { PaceCalculator } from "@/components/pace-calculator";
+import { RaceSplitsGenerator } from "@/components/splits-generator/splits-generator";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -40,13 +41,13 @@ export const App = () => {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="pace">
-              <Calculator />
+              <PaceCalculator />
             </TabsContent>
-            {/* <TabsContent value="splits">
+            <TabsContent value="splits">
               <RaceSplitsGenerator />
-            </TabsContent> */}
+            </TabsContent>
             <TabsContent value="mileage">
-              <MileageBuildupPlanner />
+              <MileageBuilder />
             </TabsContent>
           </Tabs>
         </main>

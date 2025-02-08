@@ -12,7 +12,7 @@ import {
 import { Unit, FormState } from "@/types";
 import { getTotalTimeInSeconds, calculatePace } from "@/utils/calc";
 
-export const PaceForm = () => {
+export const Pace = () => {
   const { values, handleChange, setValues } = useFormikContext<FormState>();
 
   const setPace = () => {

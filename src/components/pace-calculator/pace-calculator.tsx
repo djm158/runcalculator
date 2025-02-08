@@ -1,24 +1,19 @@
 import { Formik } from "formik";
-import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Unit, FormState } from "@/types";
-import { generateSplits } from "@/utils";
 
-import { DistanceForm } from "./DistanceForm";
-import { PaceForm } from "./PaceForm";
-import { Splits, Split } from "./Splits";
-import { TimeForm } from "./TimeForm";
+import { Distance } from "./distance";
+import { Pace } from "./pace";
+import { Time } from "./time";
 
-export const Calculator = ({
+export const PaceCalculator = ({
   containerClassName,
 }: {
   containerClassName?: string;
 }) => {
-  const [splits, setSplits] = useState<Split[]>([]);
-
   const initialValues: FormState = {
     distanceUnit: Unit.MILES,
     distance: "",
@@ -46,33 +41,16 @@ export const Calculator = ({
       </CardHeader>
       <div className="flex flex-col items-center justify-center p-3 sm:p-6">
         <Formik initialValues={initialValues} onSubmit={() => {}}>
-          {({ values, handleReset }) => {
-            const { hours, minutes, seconds, distance, distanceUnit } = values;
+          {({ handleReset }) => {
             return (
               <>
                 <div className="space-y-6 w-full">
-                  <TimeForm />
-                  <PaceForm />
-                  <DistanceForm />
+                  <Time />
+                  <Pace />
+                  <Distance />
                 </div>
 
                 <div className="flex flex-col gap-4 mt-4 w-full">
-                  <Button
-                    variant="pink"
-                    onClick={() =>
-                      setSplits(
-                        generateSplits({
-                          hours,
-                          minutes,
-                          seconds,
-                          distance,
-                          distanceUnit,
-                        }),
-                      )
-                    }
-                  >
-                    Generate Splits
-                  </Button>
                   <Button
                     variant="outline"
                     className="border-pink-500 text-pink-500 hover:bg-pink-100 dark:hover:bg-pink-950"
@@ -85,7 +63,6 @@ export const Calculator = ({
             );
           }}
         </Formik>
-        {splits.length > 0 && <Splits splits={splits} />}
       </div>
     </Card>
   );

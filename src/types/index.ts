@@ -5,6 +5,13 @@ export enum Unit {
   KILOMETERS = "Kilometers",
 }
 
+export const DistanceUnit = {
+  MILES: "Miles",
+  KILOMETERS: "Kilometers",
+} as const;
+
+export type DistanceUnit = (typeof DistanceUnit)[keyof typeof DistanceUnit];
+
 export interface FormState {
   distanceUnit: Unit;
   distance: number | string;

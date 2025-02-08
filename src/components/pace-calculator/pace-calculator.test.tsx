@@ -7,11 +7,11 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { Calculator } from "./Calculator";
+import { PaceCalculator } from "./pace-calculator";
 
-describe("Calculator", () => {
+describe("Pace Calculator", () => {
   it("renders", () => {
-    render(<Calculator />);
+    render(<PaceCalculator />);
     expect(screen.getAllByText("Calculate")).toHaveLength(3);
     expect(screen.getByText("Time")).toBeInTheDocument();
     expect(screen.getByText("Pace")).toBeInTheDocument();
@@ -19,7 +19,7 @@ describe("Calculator", () => {
   });
 
   it("calculates time", async () => {
-    render(<Calculator />);
+    render(<PaceCalculator />);
 
     fireEvent.change(screen.getByPlaceholderText("Distance"), {
       target: {
@@ -38,7 +38,7 @@ describe("Calculator", () => {
   });
 
   it("calculates pace", async () => {
-    render(<Calculator />);
+    render(<PaceCalculator />);
 
     fireEvent.change(screen.getByPlaceholderText("Distance"), {
       target: {
@@ -63,7 +63,7 @@ describe("Calculator", () => {
   });
 
   it("calculates distance", async () => {
-    render(<Calculator />);
+    render(<PaceCalculator />);
 
     fireEvent.change(screen.getAllByPlaceholderText("Min")[0], {
       target: {
@@ -87,7 +87,7 @@ describe("Calculator", () => {
   });
 
   it("handles pace conversion from miles to kilometers", async () => {
-    render(<Calculator />);
+    render(<PaceCalculator />);
 
     fireEvent.change(screen.getByPlaceholderText("Distance"), {
       target: {
@@ -119,7 +119,7 @@ describe("Calculator", () => {
   });
 
   it("converts kilometers to miles", async () => {
-    render(<Calculator />);
+    render(<PaceCalculator />);
 
     // Set time to 10 minutes, pace to 5 minutes, and calculate distance
     fireEvent.change(screen.getAllByPlaceholderText("Min")[0], {
@@ -164,7 +164,7 @@ describe("Calculator", () => {
   });
 
   it("converts miles to kilometers", async () => {
-    render(<Calculator />);
+    render(<PaceCalculator />);
 
     // Set time to 10 minutes, pace to 5 minutes, and calculate distance
     fireEvent.change(screen.getAllByPlaceholderText("Min")[0], {
@@ -197,7 +197,7 @@ describe("Calculator", () => {
   });
 
   it("Generates splits table", async () => {
-    render(<Calculator />);
+    render(<PaceCalculator />);
 
     fireEvent.change(screen.getAllByPlaceholderText("Min")[0], {
       target: {

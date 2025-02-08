@@ -53,7 +53,7 @@ const daysOfWeekItems = [
   },
 ];
 
-export const MileageBuildupPlanner = () => {
+export const MileageBuilder = () => {
   const [baseMileage, setBaseMileage] = useState("");
   const [increasePercentage, setIncreasePercentage] = useState("");
   const [recoveryWeekFrequency, setRecoveryWeekFrequency] = useState("");
@@ -125,7 +125,7 @@ export const MileageBuildupPlanner = () => {
     <Card className="bg-white/30 dark:bg-black/30 backdrop-blur-lg border-blue-200 dark:border-blue-800">
       <CardHeader className="border-b border-blue-200 dark:border-blue-800">
         <CardTitle className="text-blue-600 dark:text-blue-300">
-          Mileage Buildup Planner
+          Mileage Builder
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-4">

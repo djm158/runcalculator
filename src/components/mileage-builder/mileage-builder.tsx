@@ -246,7 +246,7 @@ export const MileageBuilder = () => {
               <SelectTrigger id="long-run-day">
                 <SelectValue placeholder="Select long run day" />
               </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-black">
+              <SelectContent>
                 {DAY_ITEMS.map((day) => (
                   <SelectItem key={day.value} value={day.value}>
                     {day.label}

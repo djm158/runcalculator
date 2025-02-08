@@ -23,15 +23,6 @@ p {
   font-size: 16px;
 }
 
-@media (max-width: 540px) {
-  body {
-    background-color: #191f33;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
-}
-
 @layer base {
   :root {
     --background: 228 100% 95%;

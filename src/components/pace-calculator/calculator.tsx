@@ -9,7 +9,7 @@ import { Distance } from "./distance";
 import { Pace } from "./pace";
 import { Time } from "./time";
 
-export const PaceCalculator = ({
+export const Calculator = ({
   containerClassName,
 }: {
   containerClassName?: string;

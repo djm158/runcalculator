@@ -239,22 +239,17 @@ export const MileageBuilder = () => {
           </div>
           <div>
             <Label htmlFor="long-run-day">Long Run Day</Label>
-            <Select value={longRunDay} onValueChange={setLongRunDay}>
+            <Select
+              value={longRunDay}
+              onValueChange={(value) => setLongRunDay(value as Day)}
+            >
               <SelectTrigger id="long-run-day">
                 <SelectValue placeholder="Select long run day" />
               </SelectTrigger>
-              <SelectContent>
-                {[
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                  "Sunday",
-                ].map((day) => (
-                  <SelectItem key={day} value={day}>
-                    {day}
+              <SelectContent className="bg-white dark:bg-black">
+                {DAY_ITEMS.map((day) => (
+                  <SelectItem key={day.value} value={day.value}>
+                    {day.label}
                   </SelectItem>
                 ))}
               </SelectContent>

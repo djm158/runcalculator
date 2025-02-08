@@ -22,7 +22,7 @@ import {
 
 import { Checkbox } from "../ui/checkbox";
 
-const daysOfWeekItems = [
+const DAY_ITEMS: { label: string; value: Day }[] = [
   {
     label: "Monday",
     value: "Monday",
@@ -53,13 +53,22 @@ const daysOfWeekItems = [
   },
 ];
 
+type Day =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
+
 export const MileageBuilder = () => {
   const [baseMileage, setBaseMileage] = useState("");
   const [increasePercentage, setIncreasePercentage] = useState("");
   const [recoveryWeekFrequency, setRecoveryWeekFrequency] = useState("");
   const [targetMileage, setTargetMileage] = useState("");
   const [longRunPercentage, setLongRunPercentage] = useState("");
-  const [longRunDay, setLongRunDay] = useState("Sunday");
+  const [longRunDay, setLongRunDay] = useState<Day>("Sunday");
   const [plan, setPlan] = useState<
     {
       week: number;
@@ -67,12 +76,12 @@ export const MileageBuilder = () => {
       runs: number[];
     }[]
   >([]);
-  const [daysOfWeek, setDaysOfWeek] = useState<string[]>([]);
+  const [runDays, setRunDays] = useState<Day[]>([]);
+
   const generatePlan = () => {
     const base = Number.parseFloat(baseMileage);
     const increase = Number.parseFloat(increasePercentage) / 100;
-    // const runs = Number.parseInt(runsPerWeek);
-    const runs = daysOfWeek.length;
+    const runs = runDays.length;
     const downWeeks = Number.parseInt(recoveryWeekFrequency);
     const target = Number.parseFloat(targetMileage);
     const longRunPercent = Number.parseFloat(longRunPercentage) / 100;
@@ -93,11 +102,12 @@ export const MileageBuilder = () => {
         const weekPlan = {
           week,
           totalMileage: weeklyMileage,
-          runs: Array(daysOfWeekItems.length)
+          runs: Array(DAY_ITEMS.length)
             .fill(0)
             .map((_, index) => {
-              if (daysOfWeek.includes(daysOfWeekItems[index].value)) {
-                if (daysOfWeekItems[index].value === longRunDay) {
+              const day = DAY_ITEMS[index].value;
+              if (runDays.includes(day)) {
+                if (day === longRunDay) {
                   return longRunMileage;
                 }
                 return otherRunsMileage;
@@ -118,10 +128,11 @@ export const MileageBuilder = () => {
           newPlan.push({
             week: week + 1,
             totalMileage: currentMileage,
-            runs: Array(daysOfWeekItems.length)
+            runs: Array(DAY_ITEMS.length)
               .fill(0)
               .map((_, index) => {
-                if (daysOfWeekItems[index].value === longRunDay) {
+                const day = DAY_ITEMS[index].value;
+                if (day === longRunDay) {
                   return currentMileage * longRunPercent;
                 }
                 return (
@@ -132,8 +143,6 @@ export const MileageBuilder = () => {
           });
         }
       }
-      console.log(newPlan);
-
       setPlan(newPlan);
     }
   };
@@ -152,7 +161,7 @@ export const MileageBuilder = () => {
               Which days of the week do you run?
             </Label>
             <div className="grid grid-cols-5 gap-4 py-2">
-              {daysOfWeekItems.map((item) => (
+              {DAY_ITEMS.map((item) => (
                 <div
                   className="flex items-center gap-2 justify-evenly"
                   key={item.value}
@@ -162,11 +171,9 @@ export const MileageBuilder = () => {
                     className="data-[state=checked]:bg-primary data-[state=checked]:text-blue-500 h-6 w-6"
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        setDaysOfWeek([...daysOfWeek, item.value]);
+                        setRunDays([...runDays, item.value]);
                       } else {
-                        setDaysOfWeek(
-                          daysOfWeek.filter((day) => day !== item.value),
-                        );
+                        setRunDays(runDays.filter((day) => day !== item.value));
                       }
                     }}
                     id={item.value}
@@ -266,7 +273,7 @@ export const MileageBuilder = () => {
                   <TableHead className="text-blue-600 dark:text-blue-300">
                     Week
                   </TableHead>
-                  {daysOfWeekItems.map((day, i) => (
+                  {DAY_ITEMS.map((day, i) => (
                     <TableHead
                       key={i}
                       className="text-blue-600 dark:text-blue-300"

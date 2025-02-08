@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { predefinedRaces, MILES_TO_KILOMETERS } from "@/const";
+import { RACED_DISTANCES, MILES_TO_KILOMETERS } from "@/const";
 import { FormState, RaceDistance, Unit } from "@/types";
 import { getTotalTimeInSeconds, calculateDistance } from "@/utils/calc";
 
@@ -29,7 +29,7 @@ export const Distance = () => {
   } = values;
 
   const handleRaceChange = (value: RaceDistance) => {
-    const newRaceDistance = predefinedRaces[value];
+    const newRaceDistance = RACED_DISTANCES[value];
     const distance =
       distanceUnit === Unit.MILES
         ? newRaceDistance / MILES_TO_KILOMETERS
@@ -93,7 +93,7 @@ export const Distance = () => {
           <SelectValue placeholder="Race" />
         </SelectTrigger>
         <SelectContent>
-          {Object.keys(predefinedRaces).map((race) => (
+          {Object.keys(RACED_DISTANCES).map((race) => (
             <SelectItem key={race} value={race}>
               {race}
             </SelectItem>

@@ -1,4 +1,4 @@
-import { predefinedRaces } from "../const";
+import { RACED_DISTANCES } from "../const";
 
 export enum Unit {
   MILES = "Miles",
@@ -25,4 +25,4 @@ export interface FormState {
   raceDistance: RaceDistance | "";
 }
 
-export type RaceDistance = keyof typeof predefinedRaces;
+export type RaceDistance = keyof typeof RACED_DISTANCES;

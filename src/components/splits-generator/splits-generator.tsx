@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { predefinedRaces } from "@/const";
+import { RACED_DISTANCES } from "@/const";
 import { RaceDistance } from "@/types";
 import { calculateSplitTimes } from "@/utils/calculate-split-times";
 
@@ -43,7 +43,7 @@ export const RaceSplitsGenerator = () => {
   };
 
   const handleRaceChange = (value: RaceDistance): void => {
-    const raceDistance = predefinedRaces[value];
+    const raceDistance = RACED_DISTANCES[value];
     const distance = raceDistance / (unit === "miles" ? 1.60934 : 1);
     setDistance(distance.toFixed(2));
     setRaceDistance(value);
@@ -94,7 +94,7 @@ export const RaceSplitsGenerator = () => {
                   <SelectValue placeholder="Race" />
                 </SelectTrigger>
                 <SelectContent>
-                  {Object.keys(predefinedRaces).map((race) => (
+                  {Object.keys(RACED_DISTANCES).map((race) => (
                     <SelectItem key={race} value={race}>
                       {race}
                     </SelectItem>

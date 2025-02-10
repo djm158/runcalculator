@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RACED_DISTANCES } from "@/const";
+import { RACED_DISTANCES, MILES_TO_KILOMETERS } from "@/const";
 import { RaceDistance } from "@/types";
 import { calculateSplitTimes } from "@/utils/calculate-split-times";
 
@@ -44,7 +44,8 @@ export const RaceSplitsGenerator = () => {
 
   const handleRaceChange = (value: RaceDistance): void => {
     const raceDistance = RACED_DISTANCES[value];
-    const distance = raceDistance / (unit === "miles" ? 1.60934 : 1);
+    const distance =
+      raceDistance / (unit === "miles" ? MILES_TO_KILOMETERS : 1);
     setDistance(distance.toFixed(2));
     setRaceDistance(value);
   };

@@ -33,16 +33,16 @@ export const Time = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold">Time</h2>
-      <div className="flex items-center space-x-3 pb-2">
+      <div className="grid grid-rows-2 grid-cols-3 md:grid-cols-pace-calculator md:grid-rows-1 gap-3 pb-2">
         <Input
-          placeholder="Hrs"
+          placeholder="HH"
           name="hours"
           type="number"
           onChange={handleChange}
           value={values.hours}
         />
         <Input
-          placeholder="Min"
+          placeholder="MM"
           name="minutes"
           type="number"
           onChange={handleChange}
@@ -51,7 +51,7 @@ export const Time = () => {
           max={59}
         />
         <Input
-          placeholder="Sec"
+          placeholder="SS"
           name="seconds"
           type="number"
           onChange={handleChange}
@@ -60,7 +60,12 @@ export const Time = () => {
           max={59}
           step={0.1}
         />
-        <Button variant="pink" size="sm" className="ml-3" onClick={setTime}>
+        <Button
+          variant="pink"
+          size="sm"
+          className="col-span-1 col-start-3 md:col-start-4"
+          onClick={setTime}
+        >
           Calculate
         </Button>
       </div>

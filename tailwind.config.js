@@ -54,6 +54,10 @@ export default {
           5: "hsl(var(--chart-5))",
         },
       },
+      gridTemplateColumns: {
+        "pace-calculator": "1fr 1fr 1fr auto",
+        "distance-calculator": "1fr 1fr auto",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

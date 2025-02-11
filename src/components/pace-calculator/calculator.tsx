@@ -44,7 +44,7 @@ export const Calculator = ({
           {({ handleReset }) => {
             return (
               <>
-                <div className="space-y-6 w-full">
+                <div className="space-y-3 md:space-y-6 w-full">
                   <Time />
                   <Pace />
                   <Distance />

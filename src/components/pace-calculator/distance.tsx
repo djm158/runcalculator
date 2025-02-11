@@ -59,7 +59,7 @@ export const Distance = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold">Distance</h2>
-      <div className="flex items-center space-x-3 pb-2">
+      <div className="grid grid-cols-3 md:grid-cols-distance-calculator gap-3 pb-2">
         <Input
           placeholder="Distance"
           name="distance"
@@ -84,22 +84,27 @@ export const Distance = () => {
             <SelectItem value={Unit.KILOMETERS}>Kilometers</SelectItem>
           </SelectContent>
         </Select>
-        <Button variant="pink" size="sm" className="ml-3" onClick={setDistance}>
+        <Button
+          variant="pink"
+          size="sm"
+          onClick={setDistance}
+          // className="md:col-start-3"
+        >
           Calculate
         </Button>
+        <Select value={raceDistance} onValueChange={handleRaceChange}>
+          <SelectTrigger className="col-span-3 md:col-span-1 md:row-start-2">
+            <SelectValue placeholder="Race" />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.keys(RACED_DISTANCES).map((race) => (
+              <SelectItem key={race} value={race}>
+                {race}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
-      <Select value={raceDistance} onValueChange={handleRaceChange}>
-        <SelectTrigger>
-          <SelectValue placeholder="Race" />
-        </SelectTrigger>
-        <SelectContent>
-          {Object.keys(RACED_DISTANCES).map((race) => (
-            <SelectItem key={race} value={race}>
-              {race}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
     </div>
   );
 };

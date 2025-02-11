@@ -42,9 +42,9 @@ export const Pace = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold">Pace</h2>
-      <div className="grid grid-cols-3 md:grid-cols-[1fr_1fr_1fr_auto] grid-rows-2 gap-3 pb-2">
+      <div className="grid grid-cols-3 md:grid-cols-pace-calculator grid-rows-2 gap-3 pb-2">
         <Input
-          placeholder="Hrs"
+          placeholder="HH"
           name="paceHours"
           type="number"
           value={values.paceHours}
@@ -52,7 +52,7 @@ export const Pace = () => {
           min={0}
         />
         <Input
-          placeholder="Min"
+          placeholder="MM"
           name="paceMinutes"
           type="number"
           value={values.paceMinutes}
@@ -61,7 +61,7 @@ export const Pace = () => {
           max={59}
         />
         <Input
-          placeholder="Sec"
+          placeholder="SS"
           name="paceSeconds"
           type="number"
           value={values.paceSeconds}
@@ -84,7 +84,12 @@ export const Pace = () => {
             <SelectItem value={Unit.KILOMETERS}>Kilometers</SelectItem>
           </SelectContent>
         </Select>
-        <Button variant="pink" size="sm" onClick={setPace}>
+        <Button
+          variant="pink"
+          size="sm"
+          onClick={setPace}
+          className="md:col-start-4"
+        >
           Calculate
         </Button>
       </div>

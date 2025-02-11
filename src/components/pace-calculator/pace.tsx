@@ -42,7 +42,7 @@ export const Pace = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold">Pace</h2>
-      <div className="flex items-center space-x-3 pb-2">
+      <div className="grid grid-cols-3 md:grid-cols-[1fr_1fr_1fr_auto] grid-rows-2 gap-3 pb-2">
         <Input
           placeholder="Hrs"
           name="paceHours"
@@ -69,25 +69,25 @@ export const Pace = () => {
           min={0}
           max={59}
         />
-        <Button variant="pink" size="sm" className="ml-3" onClick={setPace}>
+        <Select
+          value={values.paceUnit}
+          onValueChange={(value) =>
+            handleChange({ target: { name: "paceUnit", value } })
+          }
+          name="paceUnit"
+        >
+          <SelectTrigger className="col-span-2 md:col-span-1 md:row-start-2">
+            <SelectValue placeholder="Unit" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={Unit.MILES}>Miles</SelectItem>
+            <SelectItem value={Unit.KILOMETERS}>Kilometers</SelectItem>
+          </SelectContent>
+        </Select>
+        <Button variant="pink" size="sm" onClick={setPace}>
           Calculate
         </Button>
       </div>
-      <Select
-        value={values.paceUnit}
-        onValueChange={(value) =>
-          handleChange({ target: { name: "paceUnit", value } })
-        }
-        name="paceUnit"
-      >
-        <SelectTrigger className="w-32">
-          <SelectValue placeholder="Unit" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={Unit.MILES}>Miles</SelectItem>
-          <SelectItem value={Unit.KILOMETERS}>Kilometers</SelectItem>
-        </SelectContent>
-      </Select>
     </div>
   );
 };

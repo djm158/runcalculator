@@ -12,6 +12,16 @@ import { Unit } from "@/types";
 import { Calculator } from "./calculator";
 import { Placeholders } from "./content";
 
+// CURRENT LAYOUT:
+/*
+ * Distance: [Input] [Unit ▼] [Calculate]
+ *          [Race ▼]
+ *
+ * Time: [HH] [MM] [SS] [Calculate]
+ *
+ * Pace: [HH] [MM] [SS] [Calculate]
+ *       [Unit ▼]
+ */
 const Buttons = {
   DISTANCE: 0,
   TIME: 1,

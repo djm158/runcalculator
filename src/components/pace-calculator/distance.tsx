@@ -59,7 +59,7 @@ export const Distance = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold">Distance</h2>
-      <div className="grid grid-cols-3 md:grid-cols-distance-calculator gap-3 pb-2">
+      <div className="grid grid-cols-3 md:grid-cols-distance-calculator gap-3">
         <Input
           placeholder="Distance"
           name="distance"
@@ -88,12 +88,12 @@ export const Distance = () => {
           variant="pink"
           size="sm"
           onClick={setDistance}
-          // className="md:col-start-3"
+          className="col-span-3 md:col-start-3 md:col-span-1"
         >
           Calculate
         </Button>
         <Select value={raceDistance} onValueChange={handleRaceChange}>
-          <SelectTrigger className="col-span-3 md:col-span-1 md:row-start-2">
+          <SelectTrigger className="md:col-span-1 row-start-1 md:row-start-2">
             <SelectValue placeholder="Race" />
           </SelectTrigger>
           <SelectContent>

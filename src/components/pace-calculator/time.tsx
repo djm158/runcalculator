@@ -33,7 +33,7 @@ export const Time = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold">Time</h2>
-      <div className="grid grid-rows-2 grid-cols-3 md:grid-cols-pace-calculator md:grid-rows-1 gap-3 pb-2">
+      <div className="grid grid-rows-2 grid-cols-3 md:grid-cols-pace-calculator md:grid-rows-1 gap-3">
         <Input
           placeholder="HH"
           name="hours"
@@ -63,7 +63,7 @@ export const Time = () => {
         <Button
           variant="pink"
           size="sm"
-          className="col-span-1 col-start-3 md:col-start-4"
+          className="col-span-3 md:col-span-1 md:col-start-4"
           onClick={setTime}
         >
           Calculate

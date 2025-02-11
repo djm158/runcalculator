@@ -45,9 +45,9 @@ export const Calculator = ({
             return (
               <>
                 <div className="space-y-3 md:space-y-6 w-full">
+                  <Distance />
                   <Time />
                   <Pace />
-                  <Distance />
                 </div>
 
                 <div className="flex flex-col gap-4 mt-4 w-full">

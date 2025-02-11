@@ -42,7 +42,7 @@ export const Pace = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold">Pace</h2>
-      <div className="grid grid-cols-3 md:grid-cols-pace-calculator grid-rows-2 gap-3 pb-2">
+      <div className="grid grid-cols-3 md:grid-cols-pace-calculator grid-rows-2 gap-3">
         <Input
           placeholder="HH"
           name="paceHours"
@@ -76,7 +76,7 @@ export const Pace = () => {
           }
           name="paceUnit"
         >
-          <SelectTrigger className="col-span-2 md:col-span-1 md:row-start-2">
+          <SelectTrigger className="col-span-1 md:row-start-2">
             <SelectValue placeholder="Unit" />
           </SelectTrigger>
           <SelectContent>
@@ -88,7 +88,7 @@ export const Pace = () => {
           variant="pink"
           size="sm"
           onClick={setPace}
-          className="md:col-start-4"
+          className="row-start-2 col-start-2 col-span-2 md:row-start-1 md:col-start-4 md:col-span-1"
         >
           Calculate
         </Button>

@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { FormState } from "@/types";
 import { calculateTime, getTotalTimeInSeconds } from "@/utils/calc";
 
+import { Placeholders } from "./content";
+
 export const Time = () => {
   const { values, handleChange, setValues } = useFormikContext<FormState>();
 
@@ -35,14 +37,14 @@ export const Time = () => {
       <h2 className="text-lg font-semibold">Time</h2>
       <div className="grid grid-rows-2 grid-cols-3 md:grid-cols-pace-calculator md:grid-rows-1 gap-3">
         <Input
-          placeholder="HH"
+          placeholder={Placeholders.HOURS}
           name="hours"
           type="number"
           onChange={handleChange}
           value={values.hours}
         />
         <Input
-          placeholder="MM"
+          placeholder={Placeholders.MINUTES}
           name="minutes"
           type="number"
           onChange={handleChange}
@@ -51,7 +53,7 @@ export const Time = () => {
           max={59}
         />
         <Input
-          placeholder="SS"
+          placeholder={Placeholders.SECONDS}
           name="seconds"
           type="number"
           onChange={handleChange}
@@ -66,7 +68,7 @@ export const Time = () => {
           className="col-span-3 md:col-span-1 md:col-start-4"
           onClick={setTime}
         >
-          Calculate
+          {Placeholders.CALCULATE}
         </Button>
       </div>
     </div>

@@ -13,6 +13,8 @@ import { RACED_DISTANCES, MILES_TO_KILOMETERS } from "@/const";
 import { FormState, RaceDistance, Unit } from "@/types";
 import { getTotalTimeInSeconds, calculateDistance } from "@/utils/calc";
 
+import { Placeholders } from "./content";
+
 export const Distance = () => {
   const { setFieldValue, values, handleChange } = useFormikContext<FormState>();
   const {
@@ -61,7 +63,7 @@ export const Distance = () => {
       <h2 className="text-lg font-semibold">Distance</h2>
       <div className="grid grid-cols-3 md:grid-cols-distance-calculator gap-3">
         <Input
-          placeholder="Distance"
+          placeholder={Placeholders.DISTANCE}
           name="distance"
           type="number"
           value={distance}
@@ -77,7 +79,7 @@ export const Distance = () => {
           name="distanceUnit"
         >
           <SelectTrigger>
-            <SelectValue placeholder="Unit" />
+            <SelectValue placeholder={Placeholders.UNIT} />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={Unit.MILES}>Miles</SelectItem>
@@ -90,11 +92,11 @@ export const Distance = () => {
           onClick={setDistance}
           className="col-span-3 md:col-start-3 md:col-span-1"
         >
-          Calculate
+          {Placeholders.CALCULATE}
         </Button>
         <Select value={raceDistance} onValueChange={handleRaceChange}>
           <SelectTrigger className="md:col-span-1 row-start-1 md:row-start-2">
-            <SelectValue placeholder="Race" />
+            <SelectValue placeholder={Placeholders.RACE} />
           </SelectTrigger>
           <SelectContent>
             {Object.keys(RACED_DISTANCES).map((race) => (

@@ -12,6 +12,8 @@ import {
 import { Unit, FormState } from "@/types";
 import { getTotalTimeInSeconds, calculatePace } from "@/utils/calc";
 
+import { Placeholders } from "./content";
+
 export const Pace = () => {
   const { values, handleChange, setValues } = useFormikContext<FormState>();
 
@@ -44,7 +46,7 @@ export const Pace = () => {
       <h2 className="text-lg font-semibold">Pace</h2>
       <div className="grid grid-cols-3 md:grid-cols-pace-calculator grid-rows-2 gap-3">
         <Input
-          placeholder="HH"
+          placeholder={Placeholders.HOURS}
           name="paceHours"
           type="number"
           value={values.paceHours}
@@ -52,7 +54,7 @@ export const Pace = () => {
           min={0}
         />
         <Input
-          placeholder="MM"
+          placeholder={Placeholders.MINUTES}
           name="paceMinutes"
           type="number"
           value={values.paceMinutes}
@@ -61,7 +63,7 @@ export const Pace = () => {
           max={59}
         />
         <Input
-          placeholder="SS"
+          placeholder={Placeholders.SECONDS}
           name="paceSeconds"
           type="number"
           value={values.paceSeconds}
@@ -77,7 +79,7 @@ export const Pace = () => {
           name="paceUnit"
         >
           <SelectTrigger className="col-span-1 md:row-start-2">
-            <SelectValue placeholder="Unit" />
+            <SelectValue placeholder={Placeholders.UNIT} />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={Unit.MILES}>Miles</SelectItem>
@@ -90,7 +92,7 @@ export const Pace = () => {
           onClick={setPace}
           className="row-start-2 col-start-2 col-span-2 md:row-start-1 md:col-start-4 md:col-span-1"
         >
-          Calculate
+          {Placeholders.CALCULATE}
         </Button>
       </div>
     </div>

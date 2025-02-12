@@ -256,6 +256,13 @@ export const MileageBuilder = () => {
             </Select>
           </div>
           <Button
+            disabled={
+              !baseMileage ||
+              !increasePercentage ||
+              !recoveryWeekFrequency ||
+              !targetMileage ||
+              !longRunPercentage
+            }
             onClick={generatePlan}
             className="bg-blue-500 hover:bg-blue-600 text-white"
           >

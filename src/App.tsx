@@ -11,15 +11,12 @@ export const App = () => {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="min-h-screen w-full bg-gradient-to-br dark:from-pink-900 dark:to-blue-900 text-foreground p-4">
-        <main className="container mx-auto">
+        <main className="sm:container mx-auto">
           <div className="flex justify-end mb-4">
             <ThemeToggle />
           </div>
 
-          <Tabs
-            defaultValue="pace"
-            className="w-full container max-w-4xl mx-auto"
-          >
+          <Tabs defaultValue="pace" className="w-full max-w-4xl">
             <TabsList className="grid w-full grid-cols-3 bg-white/20 dark:bg-black/20 backdrop-blur-lg rounded-lg p-1">
               <TabsTrigger
                 value="pace"

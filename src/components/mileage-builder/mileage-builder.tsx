@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -20,62 +21,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Checkbox } from "../ui/checkbox";
-
-const DAY_ITEMS: { label: string; value: Day }[] = [
-  {
-    label: "Monday",
-    value: "Monday",
-  },
-  {
-    label: "Tuesday",
-    value: "Tuesday",
-  },
-  {
-    label: "Wednesday",
-    value: "Wednesday",
-  },
-  {
-    label: "Thursday",
-    value: "Thursday",
-  },
-  {
-    label: "Friday",
-    value: "Friday",
-  },
-  {
-    label: "Saturday",
-    value: "Saturday",
-  },
-  {
-    label: "Sunday",
-    value: "Sunday",
-  },
-];
-
-type Day =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
-
-const formatMileage = (mileage: number, roundDecimals: boolean) => {
-  if (mileage === 0) {
-    return "Rest";
-  }
-  if (roundDecimals) {
-    return Math.round(mileage);
-  }
-  return mileage.toFixed(2);
-};
-
-const DEFAULT_INCREASE_PERCENTAGE = "10";
-const DEFAULT_RECOVERY_WEEK_PERCENTAGE = "80";
-const DEFAULT_RECOVERY_WEEK_FREQUENCY = "3";
-const DEFAULT_LONG_RUN_PERCENTAGE = "30";
+import {
+  DEFAULT_INCREASE_PERCENTAGE,
+  DEFAULT_LONG_RUN_PERCENTAGE,
+  DEFAULT_RECOVERY_WEEK_FREQUENCY,
+  DEFAULT_RECOVERY_WEEK_PERCENTAGE,
+  DAY_ITEMS,
+} from "./const";
+import { Day } from "./types";
+import { formatMileage } from "./utils";
 
 export const MileageBuilder = () => {
   const [baseMileage, setBaseMileage] = useState("");

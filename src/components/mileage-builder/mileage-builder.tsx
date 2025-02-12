@@ -72,12 +72,26 @@ const formatMileage = (mileage: number, roundDecimals: boolean) => {
   return mileage.toFixed(2);
 };
 
+const DEFAULT_INCREASE_PERCENTAGE = "10";
+const DEFAULT_RECOVERY_WEEK_PERCENTAGE = "80";
+const DEFAULT_RECOVERY_WEEK_FREQUENCY = "3";
+const DEFAULT_LONG_RUN_PERCENTAGE = "30";
+
 export const MileageBuilder = () => {
   const [baseMileage, setBaseMileage] = useState("");
-  const [increasePercentage, setIncreasePercentage] = useState("");
-  const [recoveryWeekFrequency, setRecoveryWeekFrequency] = useState("");
+  const [increasePercentage, setIncreasePercentage] = useState(
+    DEFAULT_INCREASE_PERCENTAGE,
+  );
+  const [recoveryWeekFrequency, setRecoveryWeekFrequency] = useState(
+    DEFAULT_RECOVERY_WEEK_FREQUENCY,
+  );
+  const [recoveryWeekPercentage, setRecoveryWeekPercentage] = useState(
+    DEFAULT_RECOVERY_WEEK_PERCENTAGE,
+  );
   const [targetMileage, setTargetMileage] = useState("");
-  const [longRunPercentage, setLongRunPercentage] = useState("");
+  const [longRunPercentage, setLongRunPercentage] = useState(
+    DEFAULT_LONG_RUN_PERCENTAGE,
+  );
   const [longRunDay, setLongRunDay] = useState<Day>("Sunday");
   const [plan, setPlan] = useState<
     {
@@ -96,38 +110,37 @@ export const MileageBuilder = () => {
     const downWeeks = Number.parseInt(recoveryWeekFrequency);
     const target = Number.parseFloat(targetMileage);
     const longRunPercent = Number.parseFloat(longRunPercentage) / 100;
+    const recoveryPercent = Number.parseFloat(recoveryWeekPercentage) / 100;
 
     if (base && increase && runs && downWeeks && target && longRunPercent) {
       let currentMileage = base;
       const newPlan = [];
       let week = 1;
 
-      while (currentMileage < target) {
-        const isDownWeek = week % (downWeeks + 1) === 0;
-        const weeklyMileage = isDownWeek
-          ? currentMileage * 0.8
-          : currentMileage;
+      const generateWeekPlan = (weekNumber: number, weeklyMileage: number) => {
         const longRunMileage = weeklyMileage * longRunPercent;
         const otherRunsMileage = (weeklyMileage - longRunMileage) / (runs - 1);
 
-        const weekPlan = {
-          week,
+        return {
+          week: weekNumber,
           totalMileage: weeklyMileage,
           runs: Array(DAY_ITEMS.length)
             .fill(0)
             .map((_, index) => {
               const day = DAY_ITEMS[index].value;
-              if (runDays.includes(day)) {
-                if (day === longRunDay) {
-                  return longRunMileage;
-                }
-                return otherRunsMileage;
-              }
-              return 0;
+              if (!runDays.includes(day)) return 0;
+              return day === longRunDay ? longRunMileage : otherRunsMileage;
             }),
         };
+      };
 
-        newPlan.push(weekPlan);
+      while (currentMileage < target) {
+        const isDownWeek = week % (downWeeks + 1) === 0;
+        const weeklyMileage = isDownWeek
+          ? currentMileage * recoveryPercent
+          : currentMileage;
+
+        newPlan.push(generateWeekPlan(week, weeklyMileage));
 
         if (!isDownWeek) {
           currentMileage *= 1 + increase;
@@ -136,26 +149,7 @@ export const MileageBuilder = () => {
 
         // Add the final week to the plan if the current mileage is greater than the target
         if (currentMileage > target) {
-          newPlan.push({
-            week: week + 1,
-            totalMileage: currentMileage,
-            runs: Array(DAY_ITEMS.length)
-              .fill(0)
-              .map((_, index) => {
-                const day = DAY_ITEMS[index].value;
-                console.log(day, runDays, longRunDay);
-                if (runDays.includes(day)) {
-                  if (day === longRunDay) {
-                    return currentMileage * longRunPercent;
-                  }
-                  return (
-                    (currentMileage - currentMileage * longRunPercent) /
-                    (runs - 1)
-                  );
-                }
-                return 0;
-              }),
-          });
+          newPlan.push(generateWeekPlan(week + 1, currentMileage));
         }
       }
       setPlan(newPlan);
@@ -206,6 +200,7 @@ export const MileageBuilder = () => {
                 value={baseMileage}
                 onChange={(e) => setBaseMileage(e.target.value)}
                 placeholder="Enter base mileage"
+                type="number"
               />
             </div>
             <div>
@@ -215,6 +210,7 @@ export const MileageBuilder = () => {
                 value={increasePercentage}
                 onChange={(e) => setIncreasePercentage(e.target.value)}
                 placeholder="Enter increase %"
+                type="number"
               />
             </div>
           </div>
@@ -226,9 +222,29 @@ export const MileageBuilder = () => {
                 value={longRunPercentage}
                 onChange={(e) => setLongRunPercentage(e.target.value)}
                 placeholder="Enter long run %"
+                type="number"
               />
             </div>
-
+            <div>
+              <Label htmlFor="long-run-day">Long Run Day</Label>
+              <Select
+                value={longRunDay}
+                onValueChange={(value) => setLongRunDay(value as Day)}
+              >
+                <SelectTrigger id="long-run-day" ariaLabel="Long Run Day Menu">
+                  <SelectValue placeholder="Select long run day" />
+                </SelectTrigger>
+                <SelectContent>
+                  {DAY_ITEMS.map((day) => (
+                    <SelectItem key={day.value} value={day.value}>
+                      {day.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="recovery-week-frequency">
                 Recovery Week Frequency
@@ -238,6 +254,19 @@ export const MileageBuilder = () => {
                 value={recoveryWeekFrequency}
                 onChange={(e) => setRecoveryWeekFrequency(e.target.value)}
                 placeholder="Enter recovery week frequency"
+                type="number"
+              />
+            </div>
+            <div>
+              <Label htmlFor="recovery-week-percentage">
+                Recovery Week Percentage
+              </Label>
+              <Input
+                id="recovery-week-percentage"
+                value={recoveryWeekPercentage}
+                onChange={(e) => setRecoveryWeekPercentage(e.target.value)}
+                placeholder="Enter recovery week %"
+                type="number"
               />
             </div>
           </div>
@@ -249,37 +278,20 @@ export const MileageBuilder = () => {
                 value={targetMileage}
                 onChange={(e) => setTargetMileage(e.target.value)}
                 placeholder="Enter target mileage"
+                type="number"
               />
             </div>
-          </div>
-          <div>
-            <Label htmlFor="long-run-day">Long Run Day</Label>
-            <Select
-              value={longRunDay}
-              onValueChange={(value) => setLongRunDay(value as Day)}
-            >
-              <SelectTrigger id="long-run-day" ariaLabel="Long Run Day Menu">
-                <SelectValue placeholder="Select long run day" />
-              </SelectTrigger>
-              <SelectContent>
-                {DAY_ITEMS.map((day) => (
-                  <SelectItem key={day.value} value={day.value}>
-                    {day.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center gap-2">
-            <Label htmlFor="round-decimals">Round Decimals</Label>
-            <Checkbox
-              id="round-decimals"
-              className="data-[state=checked]:bg-primary data-[state=checked]:text-blue-500 h-6 w-6"
-              checked={roundDecimals}
-              onCheckedChange={(checked) =>
-                checked !== "indeterminate" && setRoundDecimals(checked)
-              }
-            />
+            <div className="flex items-center gap-2">
+              <Label htmlFor="round-decimals">Round Decimals</Label>
+              <Checkbox
+                id="round-decimals"
+                className="data-[state=checked]:bg-primary data-[state=checked]:text-blue-500 h-6 w-6"
+                checked={roundDecimals}
+                onCheckedChange={(checked) =>
+                  checked !== "indeterminate" && setRoundDecimals(checked)
+                }
+              />
+            </div>
           </div>
           <Button
             disabled={

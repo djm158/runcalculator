@@ -62,6 +62,16 @@ type Day =
   | "Saturday"
   | "Sunday";
 
+const formatMileage = (mileage: number, roundDecimals: boolean) => {
+  if (mileage === 0) {
+    return "Rest";
+  }
+  if (roundDecimals) {
+    return Math.round(mileage);
+  }
+  return mileage.toFixed(2);
+};
+
 export const MileageBuilder = () => {
   const [baseMileage, setBaseMileage] = useState("");
   const [increasePercentage, setIncreasePercentage] = useState("");
@@ -77,6 +87,7 @@ export const MileageBuilder = () => {
     }[]
   >([]);
   const [runDays, setRunDays] = useState<Day[]>([]);
+  const [roundDecimals, setRoundDecimals] = useState(false);
 
   const generatePlan = () => {
     const base = Number.parseFloat(baseMileage);
@@ -92,7 +103,7 @@ export const MileageBuilder = () => {
       let week = 1;
 
       while (currentMileage < target) {
-        const isDownWeek = week % downWeeks === 0;
+        const isDownWeek = week % (downWeeks + 1) === 0;
         const weeklyMileage = isDownWeek
           ? currentMileage * 0.8
           : currentMileage;
@@ -132,13 +143,17 @@ export const MileageBuilder = () => {
               .fill(0)
               .map((_, index) => {
                 const day = DAY_ITEMS[index].value;
-                if (day === longRunDay) {
-                  return currentMileage * longRunPercent;
+                console.log(day, runDays, longRunDay);
+                if (runDays.includes(day)) {
+                  if (day === longRunDay) {
+                    return currentMileage * longRunPercent;
+                  }
+                  return (
+                    (currentMileage - currentMileage * longRunPercent) /
+                    (runs - 1)
+                  );
                 }
-                return (
-                  (currentMileage - currentMileage * longRunPercent) /
-                  (runs - 1)
-                );
+                return 0;
               }),
           });
         }
@@ -255,13 +270,26 @@ export const MileageBuilder = () => {
               </SelectContent>
             </Select>
           </div>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="round-decimals">Round Decimals</Label>
+            <Checkbox
+              id="round-decimals"
+              className="data-[state=checked]:bg-primary data-[state=checked]:text-blue-500 h-6 w-6"
+              checked={roundDecimals}
+              onCheckedChange={(checked) =>
+                checked !== "indeterminate" && setRoundDecimals(checked)
+              }
+            />
+          </div>
           <Button
             disabled={
               !baseMileage ||
               !increasePercentage ||
               !recoveryWeekFrequency ||
               !targetMileage ||
-              !longRunPercentage
+              !longRunPercentage ||
+              runDays.length === 0 ||
+              !runDays.includes(longRunDay)
             }
             onClick={generatePlan}
             className="bg-blue-500 hover:bg-blue-600 text-white"
@@ -297,10 +325,12 @@ export const MileageBuilder = () => {
                     <TableCell>{week.week}</TableCell>
                     {week.runs.map((run, runIndex) => (
                       <TableCell key={runIndex}>
-                        {run === 0 ? "Rest" : run.toFixed(2)}
+                        {formatMileage(run, roundDecimals)}
                       </TableCell>
                     ))}
-                    <TableCell>{week.totalMileage.toFixed(2)}</TableCell>
+                    <TableCell>
+                      {formatMileage(week.totalMileage, roundDecimals)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

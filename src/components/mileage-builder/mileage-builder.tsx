@@ -160,10 +160,10 @@ export const MileageBuilder = () => {
             <Label className="text-lg mb-2">
               Which days of the week do you run?
             </Label>
-            <div className="grid grid-cols-5 gap-4 py-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4 py-2 pr-10 md:pr-0">
               {DAY_ITEMS.map((item) => (
                 <div
-                  className="flex items-center gap-2 justify-evenly"
+                  className="flex items-center justify-between w-full md:w-[120px]"
                   key={item.value}
                 >
                   <Label htmlFor={item.value}>{item.label}</Label>
@@ -183,7 +183,7 @@ export const MileageBuilder = () => {
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="base-mileage">Base Weekly Mileage</Label>
               <Input
@@ -203,7 +203,7 @@ export const MileageBuilder = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="long-run-percentage">Long Run Percentage</Label>
               <Input
@@ -226,7 +226,7 @@ export const MileageBuilder = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="target-mileage">Target Weekly Mileage</Label>
               <Input

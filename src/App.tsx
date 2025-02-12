@@ -23,7 +23,7 @@ export const App = () => {
             <TabsList className="grid w-full grid-cols-3 bg-white/20 dark:bg-black/20 backdrop-blur-lg rounded-lg p-1">
               <TabsTrigger
                 value="pace"
-                className="data-[state=active]:bg-pink-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-pink-600 data-[state=active]:text-white"
               >
                 Pace Calculator
               </TabsTrigger>

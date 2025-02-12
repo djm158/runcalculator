@@ -243,7 +243,7 @@ export const MileageBuilder = () => {
               value={longRunDay}
               onValueChange={(value) => setLongRunDay(value as Day)}
             >
-              <SelectTrigger id="long-run-day">
+              <SelectTrigger id="long-run-day" ariaLabel="Long Run Day Menu">
                 <SelectValue placeholder="Select long run day" />
               </SelectTrigger>
               <SelectContent>

@@ -80,7 +80,7 @@ export const RaceSplitsGenerator = () => {
                   setUnit(value)
                 }
               >
-                <SelectTrigger id="race-unit">
+                <SelectTrigger id="race-unit" ariaLabel="Unit Menu">
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>
                 <SelectContent>
@@ -91,7 +91,7 @@ export const RaceSplitsGenerator = () => {
             </div>
             <div>
               <Select value={raceDistance} onValueChange={handleRaceChange}>
-                <SelectTrigger>
+                <SelectTrigger ariaLabel="Race Distance Menu">
                   <SelectValue placeholder="Race" />
                 </SelectTrigger>
                 <SelectContent>

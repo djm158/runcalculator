@@ -78,7 +78,10 @@ export const Pace = () => {
           }
           name="paceUnit"
         >
-          <SelectTrigger className="col-span-1 md:row-start-2">
+          <SelectTrigger
+            className="col-span-1 md:row-start-2"
+            ariaLabel="Pace Unit Menu"
+          >
             <SelectValue placeholder={Placeholders.UNIT} />
           </SelectTrigger>
           <SelectContent>

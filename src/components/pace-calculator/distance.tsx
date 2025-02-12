@@ -78,7 +78,7 @@ export const Distance = () => {
           }
           name="distanceUnit"
         >
-          <SelectTrigger>
+          <SelectTrigger ariaLabel="Distance Unit Menu">
             <SelectValue placeholder={Placeholders.UNIT} />
           </SelectTrigger>
           <SelectContent>
@@ -95,7 +95,10 @@ export const Distance = () => {
           {Placeholders.CALCULATE}
         </Button>
         <Select value={raceDistance} onValueChange={handleRaceChange}>
-          <SelectTrigger className="md:col-span-1 row-start-1 md:row-start-2">
+          <SelectTrigger
+            className="md:col-span-1 row-start-1 md:row-start-2"
+            ariaLabel="Predefined Race Distances"
+          >
             <SelectValue placeholder={Placeholders.RACE} />
           </SelectTrigger>
           <SelectContent>

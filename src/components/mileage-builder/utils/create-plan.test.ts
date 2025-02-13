@@ -1,7 +1,6 @@
 import { createPlan } from "./create-plan";
 
-import { WEEKDAY_INDICES } from "../const";
-import { Day } from "../types";
+import { Day, WEEKDAY_INDICES } from "../day";
 
 describe("createPlan", () => {
   const defaultParams = {

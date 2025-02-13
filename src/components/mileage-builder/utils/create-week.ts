@@ -1,5 +1,4 @@
-import { Weekdays } from "../const";
-import { Day } from "../types";
+import { Day, Weekdays } from "../day";
 
 export const formatMileage = (mileage: number, roundDecimals: boolean) => {
   if (mileage === 0) {

@@ -1,6 +1,6 @@
 import { createWeek } from "./create-week";
 
-import { Day } from "../types";
+import { Day } from "../day";
 
 export const createPlan = ({
   baseMileage,

@@ -1,4 +1,11 @@
-import { Day } from "./types";
+export type Day =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 
 type WeekdayOption = {
   label: string;
@@ -47,11 +54,6 @@ export const WEEKDAY_OPTIONS: WeekdayOption[] = [
     value: Days.SUNDAY,
   },
 ];
-
-export const DEFAULT_INCREASE_PERCENTAGE = "10";
-export const DEFAULT_RECOVERY_WEEK_PERCENTAGE = "80";
-export const DEFAULT_RECOVERY_WEEK_FREQUENCY = "3";
-export const DEFAULT_LONG_RUN_PERCENTAGE = "30";
 
 export const WEEKDAY_INDICES = {
   MONDAY: 0,

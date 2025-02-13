@@ -21,14 +21,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { Day, WEEKDAY_OPTIONS } from "./day";
 import {
   DEFAULT_INCREASE_PERCENTAGE,
   DEFAULT_LONG_RUN_PERCENTAGE,
   DEFAULT_RECOVERY_WEEK_FREQUENCY,
   DEFAULT_RECOVERY_WEEK_PERCENTAGE,
-  WEEKDAY_OPTIONS,
-} from "./const";
-import { Day } from "./types";
+} from "./defaults";
 import { formatMileage, createPlan } from "./utils";
 
 export const MileageBuilder = () => {

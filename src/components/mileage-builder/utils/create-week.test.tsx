@@ -1,6 +1,6 @@
 import { createWeek } from "./create-week";
 
-import { WEEKDAY_INDICES } from "../const";
+import { WEEKDAY_INDICES } from "../day";
 
 describe("generateWeekPlan", () => {
   it("generates a week plan with correct total mileage", () => {

@@ -50,6 +50,16 @@ export const RaceSplitsGenerator = () => {
     setRaceDistance(value);
   };
 
+  const handleUnitChange = (value: "miles" | "kilometers"): void => {
+    setUnit(value);
+    const distanceValue = Number.parseFloat(distance);
+    const newDistance =
+      value === "miles"
+        ? distanceValue / MILES_TO_KILOMETERS
+        : distanceValue * MILES_TO_KILOMETERS;
+    setDistance(newDistance.toFixed(2));
+  };
+
   return (
     <Card className="bg-white/30 dark:bg-black/30 backdrop-blur-lg border-purple-200 dark:border-purple-800">
       <CardHeader className="border-b border-purple-200 dark:border-purple-800">
@@ -61,7 +71,7 @@ export const RaceSplitsGenerator = () => {
         <div className="grid gap-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="race-distance">Race Distance</Label>
+              <Label htmlFor="race-distance">Distance</Label>
               <Input
                 id="race-distance"
                 value={distance}
@@ -74,12 +84,7 @@ export const RaceSplitsGenerator = () => {
             </div>
             <div>
               <Label htmlFor="race-unit">Unit</Label>
-              <Select
-                value={unit}
-                onValueChange={(value: "miles" | "kilometers") =>
-                  setUnit(value)
-                }
-              >
+              <Select value={unit} onValueChange={handleUnitChange}>
                 <SelectTrigger id="race-unit" ariaLabel="Unit Menu">
                   <SelectValue placeholder="Select unit" />
                 </SelectTrigger>

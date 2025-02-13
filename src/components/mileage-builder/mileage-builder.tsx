@@ -29,7 +29,7 @@ import {
   DAY_ITEMS,
 } from "./const";
 import { Day } from "./types";
-import { formatMileage, generateWeekPlan } from "./utils";
+import { formatMileage, createPlan } from "./utils";
 
 export const MileageBuilder = () => {
   const [baseMileage, setBaseMileage] = useState("");
@@ -57,56 +57,29 @@ export const MileageBuilder = () => {
   const [runDays, setRunDays] = useState<Day[]>([]);
   const [roundDecimals, setRoundDecimals] = useState(false);
 
-  const generatePlan = () => {
-    const base = Number.parseFloat(baseMileage);
-    const increase = Number.parseFloat(increasePercentage) / 100;
-    const runs = runDays.length;
-    const downWeeks = Number.parseInt(recoveryWeekFrequency);
-    const target = Number.parseFloat(targetMileage);
-    const longRunPercent = Number.parseFloat(longRunPercentage) / 100;
-    const recoveryPercent = Number.parseFloat(recoveryWeekPercentage) / 100;
-
-    if (base && increase && runs && downWeeks && target && longRunPercent) {
-      let currentMileage = base;
-      const newPlan = [];
-      let week = 1;
-
-      while (currentMileage < target) {
-        const isDownWeek = week % (downWeeks + 1) === 0;
-        const weeklyMileage = isDownWeek
-          ? currentMileage * recoveryPercent
-          : currentMileage;
-
-        newPlan.push(
-          generateWeekPlan({
-            weekNumber: week,
-            weeklyMileage,
-            longRunPercent,
-            runDays,
-            longRunDay,
-          }),
-        );
-
-        if (!isDownWeek) {
-          currentMileage *= 1 + increase;
-        }
-        week++;
-
-        // Add the final week to the plan if the current mileage is greater than the target
-        if (currentMileage > target) {
-          newPlan.push(
-            generateWeekPlan({
-              weekNumber: week + 1,
-              weeklyMileage: currentMileage,
-              longRunPercent,
-              runDays,
-              longRunDay,
-            }),
-          );
-        }
-      }
-      setPlan(newPlan);
+  const handleGeneratePlan = () => {
+    if (
+      !baseMileage ||
+      !increasePercentage ||
+      !recoveryWeekFrequency ||
+      !targetMileage ||
+      !longRunPercentage ||
+      runDays.length === 0 ||
+      !runDays.includes(longRunDay)
+    ) {
+      return;
     }
+    const newPlan = createPlan({
+      baseMileage: Number.parseFloat(baseMileage),
+      increasePercentage: Number.parseFloat(increasePercentage),
+      runDays,
+      recoveryWeekFrequency: Number.parseInt(recoveryWeekFrequency),
+      targetMileage: Number.parseFloat(targetMileage),
+      longRunPercentage: Number.parseFloat(longRunPercentage),
+      recoveryWeekPercentage: Number.parseFloat(recoveryWeekPercentage),
+      longRunDay,
+    });
+    setPlan(newPlan);
   };
 
   return (
@@ -256,7 +229,7 @@ export const MileageBuilder = () => {
               runDays.length === 0 ||
               !runDays.includes(longRunDay)
             }
-            onClick={generatePlan}
+            onClick={handleGeneratePlan}
             className="bg-blue-500 hover:bg-blue-600 text-white"
           >
             Generate Plan

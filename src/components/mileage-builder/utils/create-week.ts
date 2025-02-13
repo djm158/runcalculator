@@ -1,5 +1,5 @@
-import { DAY_ITEMS } from "./const";
-import { Day } from "./types";
+import { DAY_ITEMS } from "../const";
+import { Day } from "../types";
 
 export const formatMileage = (mileage: number, roundDecimals: boolean) => {
   if (mileage === 0) {
@@ -11,7 +11,7 @@ export const formatMileage = (mileage: number, roundDecimals: boolean) => {
   return mileage.toFixed(2);
 };
 
-export const generateWeekPlan = ({
+export const createWeek = ({
   weekNumber,
   weeklyMileage,
   longRunPercent,
@@ -24,9 +24,14 @@ export const generateWeekPlan = ({
   runDays: Day[];
   longRunDay: Day;
 }) => {
-  const longRunMileage = weeklyMileage * longRunPercent;
-  const otherRunsMileage =
-    (weeklyMileage - longRunMileage) / (runDays.length - 1);
+  let longRunMileage = weeklyMileage * longRunPercent;
+  let otherRunsMileage = 0;
+  if (runDays.length > 1) {
+    otherRunsMileage = (weeklyMileage - longRunMileage) / (runDays.length - 1);
+  } else {
+    longRunMileage = weeklyMileage;
+    otherRunsMileage = 0;
+  }
 
   return {
     week: weekNumber,

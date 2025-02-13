@@ -1,9 +1,10 @@
-import { DAY_ITEMS } from "./const";
-import { generateWeekPlan } from "./utils";
+import { createWeek } from "./create-week";
+
+import { DAY_ITEMS } from "../const";
 
 describe("generateWeekPlan", () => {
   it("generates a week plan with correct total mileage", () => {
-    const result = generateWeekPlan({
+    const result = createWeek({
       weekNumber: 1,
       weeklyMileage: 30,
       longRunPercent: 0.3,
@@ -15,7 +16,7 @@ describe("generateWeekPlan", () => {
   });
 
   it("calculates long run mileage correctly", () => {
-    const result = generateWeekPlan({
+    const result = createWeek({
       weekNumber: 1,
       weeklyMileage: 40,
       longRunPercent: 0.4, // 40% of total mileage
@@ -28,7 +29,7 @@ describe("generateWeekPlan", () => {
   });
 
   it("distributes remaining mileage evenly across other run days", () => {
-    const result = generateWeekPlan({
+    const result = createWeek({
       weekNumber: 1,
       weeklyMileage: 30,
       longRunPercent: 0.3, // 9 miles for long run
@@ -49,7 +50,7 @@ describe("generateWeekPlan", () => {
   });
 
   it("sets non-run days to 0 mileage", () => {
-    const result = generateWeekPlan({
+    const result = createWeek({
       weekNumber: 1,
       weeklyMileage: 20,
       longRunPercent: 0.5,

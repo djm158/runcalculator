@@ -16,7 +16,7 @@ export const App = () => {
             <ThemeToggle />
           </div>
 
-          <Tabs defaultValue="pace" className="w-full max-w-4xl">
+          <Tabs defaultValue="pace" className="w-full max-w-4xl mx-auto">
             <TabsList className="grid w-full grid-cols-3 bg-white/20 dark:bg-black/20 backdrop-blur-lg rounded-lg p-1">
               <TabsTrigger
                 value="pace"

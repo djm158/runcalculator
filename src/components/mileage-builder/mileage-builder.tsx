@@ -29,7 +29,7 @@ import {
   DAY_ITEMS,
 } from "./const";
 import { Day } from "./types";
-import { formatMileage } from "./utils";
+import { formatMileage, generateWeekPlan } from "./utils";
 
 export const MileageBuilder = () => {
   const [baseMileage, setBaseMileage] = useState("");
@@ -71,30 +71,21 @@ export const MileageBuilder = () => {
       const newPlan = [];
       let week = 1;
 
-      const generateWeekPlan = (weekNumber: number, weeklyMileage: number) => {
-        const longRunMileage = weeklyMileage * longRunPercent;
-        const otherRunsMileage = (weeklyMileage - longRunMileage) / (runs - 1);
-
-        return {
-          week: weekNumber,
-          totalMileage: weeklyMileage,
-          runs: Array(DAY_ITEMS.length)
-            .fill(0)
-            .map((_, index) => {
-              const day = DAY_ITEMS[index].value;
-              if (!runDays.includes(day)) return 0;
-              return day === longRunDay ? longRunMileage : otherRunsMileage;
-            }),
-        };
-      };
-
       while (currentMileage < target) {
         const isDownWeek = week % (downWeeks + 1) === 0;
         const weeklyMileage = isDownWeek
           ? currentMileage * recoveryPercent
           : currentMileage;
 
-        newPlan.push(generateWeekPlan(week, weeklyMileage));
+        newPlan.push(
+          generateWeekPlan({
+            weekNumber: week,
+            weeklyMileage,
+            longRunPercent,
+            runDays,
+            longRunDay,
+          }),
+        );
 
         if (!isDownWeek) {
           currentMileage *= 1 + increase;
@@ -103,7 +94,15 @@ export const MileageBuilder = () => {
 
         // Add the final week to the plan if the current mileage is greater than the target
         if (currentMileage > target) {
-          newPlan.push(generateWeekPlan(week + 1, currentMileage));
+          newPlan.push(
+            generateWeekPlan({
+              weekNumber: week + 1,
+              weeklyMileage: currentMileage,
+              longRunPercent,
+              runDays,
+              longRunDay,
+            }),
+          );
         }
       }
       setPlan(newPlan);

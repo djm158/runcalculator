@@ -28,7 +28,7 @@ import {
   DEFAULT_RECOVERY_WEEK_FREQUENCY,
   DEFAULT_RECOVERY_WEEK_PERCENTAGE,
 } from "./defaults";
-import { formatMileage, createPlan } from "./utils";
+import { createPlan, formatMileage } from "./utils";
 
 export const MileageBuilder = () => {
   const [baseMileage, setBaseMileage] = useState("");

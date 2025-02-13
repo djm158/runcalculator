@@ -1,5 +1,10 @@
-import { MILES_TO_KILOMETERS, KILOMETERS_TO_MILES } from "../const";
-import { Unit } from "../types";
+import {
+  MILES_TO_KILOMETERS,
+  KILOMETERS_TO_MILES,
+  SECONDS_PER_HOUR,
+  SECONDS_PER_MINUTE,
+} from "@/const";
+import { Unit } from "@/types";
 
 interface Time {
   seconds: number;
@@ -16,12 +21,16 @@ export const calculatePace = (
   if (distance === 0) {
     return getTime(0);
   }
-  if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
-    return getTime(seconds / (distance / MILES_TO_KILOMETERS));
-  } else if (paceUnit === Unit.KILOMETERS && distanceUnit === Unit.MILES) {
-    return getTime(seconds / (distance / KILOMETERS_TO_MILES));
+
+  let adjustedDistance = distance;
+  if (paceUnit !== distanceUnit) {
+    adjustedDistance =
+      paceUnit === Unit.MILES
+        ? distance / MILES_TO_KILOMETERS
+        : distance / KILOMETERS_TO_MILES;
   }
-  return getTime(seconds / distance);
+
+  return getTime(seconds / adjustedDistance);
 };
 
 export const calculateTime = (seconds: number, distance: number): Time => {
@@ -34,36 +43,39 @@ export const calculateDistance = (
   paceUnit: Unit,
   distanceUnit: Unit,
 ): number => {
-  if (paceUnit === distanceUnit) {
-    return seconds / paceSeconds;
-  } else if (paceUnit === Unit.MILES && distanceUnit === Unit.KILOMETERS) {
-    return seconds / (paceSeconds * KILOMETERS_TO_MILES);
-  } else if (paceUnit === Unit.KILOMETERS && distanceUnit === Unit.MILES) {
-    return seconds / (paceSeconds * MILES_TO_KILOMETERS);
-  }
-  return 0;
+  const conversionFactor =
+    paceUnit === distanceUnit
+      ? 1
+      : paceUnit === Unit.MILES
+        ? KILOMETERS_TO_MILES
+        : MILES_TO_KILOMETERS;
+
+  return seconds / (paceSeconds * conversionFactor);
 };
 
 const getTime = (time: number): Time => {
-  const decimalHours = time / 60 ** 2;
-  const hours = Math.floor(decimalHours);
-  const decimalMinutes = (decimalHours - hours) * 60;
-  const minutes = Math.floor(decimalMinutes);
+  const hours = Math.floor(time / SECONDS_PER_HOUR);
+  const remainingSeconds = time % SECONDS_PER_HOUR;
+  const minutes = Math.floor(remainingSeconds / SECONDS_PER_MINUTE);
+  const seconds = Number.parseFloat(
+    (remainingSeconds % SECONDS_PER_MINUTE).toFixed(2),
+  );
+
   return {
-    seconds: Number.parseFloat(((decimalMinutes - minutes) * 60).toFixed(2)),
+    seconds,
     minutes,
     hours,
   };
 };
 
 export const getTotalTimeInSeconds = (
-  hours: number | string,
-  minutes: number | string,
-  seconds: number | string,
+  hours: string,
+  minutes: string,
+  seconds: string,
 ) => {
-  const hrs = typeof hours === "string" ? 0 : hours;
-  const mins = typeof minutes === "string" ? 0 : minutes;
-  const secs = typeof seconds === "string" ? 0 : seconds;
-  const total = hrs * 60 * 60 + mins * 60 + secs;
-  return total;
+  const hrs = Number.parseInt(hours) || 0;
+  const mins = Number.parseInt(minutes) || 0;
+  const secs = Number.parseInt(seconds) || 0;
+
+  return hrs * SECONDS_PER_HOUR + mins * SECONDS_PER_MINUTE + secs;
 };

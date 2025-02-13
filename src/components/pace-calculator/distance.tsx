@@ -9,11 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { predefinedRaces, MILES_TO_KILOMETERS } from "@/const";
+import { RACED_DISTANCES, MILES_TO_KILOMETERS } from "@/const";
 import { FormState, RaceDistance, Unit } from "@/types";
 import { getTotalTimeInSeconds, calculateDistance } from "@/utils/calc";
 
-export const DistanceForm = () => {
+import { Placeholders } from "./content";
+
+export const Distance = () => {
   const { setFieldValue, values, handleChange } = useFormikContext<FormState>();
   const {
     raceDistance,
@@ -29,7 +31,7 @@ export const DistanceForm = () => {
   } = values;
 
   const handleRaceChange = (value: RaceDistance) => {
-    const newRaceDistance = predefinedRaces[value];
+    const newRaceDistance = RACED_DISTANCES[value];
     const distance =
       distanceUnit === Unit.MILES
         ? newRaceDistance / MILES_TO_KILOMETERS
@@ -59,9 +61,9 @@ export const DistanceForm = () => {
   return (
     <div>
       <h2 className="text-lg font-semibold">Distance</h2>
-      <div className="flex items-center space-x-3 pb-2">
+      <div className="grid grid-cols-3 md:grid-cols-distance-calculator gap-3">
         <Input
-          placeholder="Distance"
+          placeholder={Placeholders.DISTANCE}
           name="distance"
           type="number"
           value={distance}
@@ -76,30 +78,38 @@ export const DistanceForm = () => {
           }
           name="distanceUnit"
         >
-          <SelectTrigger>
-            <SelectValue placeholder="Unit" />
+          <SelectTrigger ariaLabel="Distance Unit Menu">
+            <SelectValue placeholder={Placeholders.UNIT} />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={Unit.MILES}>Miles</SelectItem>
             <SelectItem value={Unit.KILOMETERS}>Kilometers</SelectItem>
           </SelectContent>
         </Select>
-        <Button variant="pink" size="sm" className="ml-3" onClick={setDistance}>
-          Calculate
+        <Button
+          variant="pink"
+          size="sm"
+          onClick={setDistance}
+          className="col-span-3 md:col-start-3 md:col-span-1"
+        >
+          {Placeholders.CALCULATE}
         </Button>
+        <Select value={raceDistance} onValueChange={handleRaceChange}>
+          <SelectTrigger
+            className="md:col-span-1 row-start-1 md:row-start-2"
+            ariaLabel="Predefined Race Distances"
+          >
+            <SelectValue placeholder={Placeholders.RACE} />
+          </SelectTrigger>
+          <SelectContent>
+            {Object.keys(RACED_DISTANCES).map((race) => (
+              <SelectItem key={race} value={race}>
+                {race}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
-      <Select value={raceDistance} onValueChange={handleRaceChange}>
-        <SelectTrigger>
-          <SelectValue placeholder="Race" />
-        </SelectTrigger>
-        <SelectContent>
-          {Object.keys(predefinedRaces).map((race) => (
-            <SelectItem key={race} value={race}>
-              {race}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
     </div>
   );
 };

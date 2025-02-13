@@ -1,4 +1,4 @@
-import { DAY_ITEMS } from "../const";
+import { Weekdays } from "../const";
 import { Day } from "../types";
 
 export const formatMileage = (mileage: number, roundDecimals: boolean) => {
@@ -36,10 +36,10 @@ export const createWeek = ({
   return {
     week: weekNumber,
     totalMileage: weeklyMileage,
-    runs: Array(DAY_ITEMS.length)
+    runs: Array(Weekdays.length)
       .fill(0)
       .map((_, index) => {
-        const day = DAY_ITEMS[index].value;
+        const day = Weekdays[index];
         if (!runDays.includes(day)) return 0;
         return day === longRunDay ? longRunMileage : otherRunsMileage;
       }),

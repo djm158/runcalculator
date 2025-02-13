@@ -1,6 +1,6 @@
 import { createWeek } from "./create-week";
 
-import { DAY_ITEMS } from "../const";
+import { WEEKDAY_INDICES } from "../const";
 
 describe("generateWeekPlan", () => {
   it("generates a week plan with correct total mileage", () => {
@@ -24,8 +24,7 @@ describe("generateWeekPlan", () => {
       longRunDay: "Sunday",
     });
 
-    const sundayIndex = DAY_ITEMS.findIndex((item) => item.value === "Sunday");
-    expect(result.runs[sundayIndex]).toBe(16); // 40 * 0.4 = 16 miles
+    expect(result.runs[WEEKDAY_INDICES.SUNDAY]).toBe(16); // 40 * 0.4 = 16 miles
   });
 
   it("distributes remaining mileage evenly across other run days", () => {
@@ -37,16 +36,14 @@ describe("generateWeekPlan", () => {
       longRunDay: "Sunday",
     });
 
-    const mondayIndex = DAY_ITEMS.findIndex((item) => item.value === "Monday");
-    const wednesdayIndex = DAY_ITEMS.findIndex(
-      (item) => item.value === "Wednesday",
-    );
-    const fridayIndex = DAY_ITEMS.findIndex((item) => item.value === "Friday");
+    expect(result.runs[WEEKDAY_INDICES.MONDAY]).toBe(7);
+    expect(result.runs[WEEKDAY_INDICES.WEDNESDAY]).toBe(7);
+    expect(result.runs[WEEKDAY_INDICES.FRIDAY]).toBe(7);
 
     // Remaining 21 miles split between 3 days = 7 miles each
-    expect(result.runs[mondayIndex]).toBe(7);
-    expect(result.runs[wednesdayIndex]).toBe(7);
-    expect(result.runs[fridayIndex]).toBe(7);
+    expect(result.runs[WEEKDAY_INDICES.MONDAY]).toBe(7);
+    expect(result.runs[WEEKDAY_INDICES.WEDNESDAY]).toBe(7);
+    expect(result.runs[WEEKDAY_INDICES.FRIDAY]).toBe(7);
   });
 
   it("sets non-run days to 0 mileage", () => {
@@ -58,18 +55,8 @@ describe("generateWeekPlan", () => {
       longRunDay: "Sunday",
     });
 
-    const tuesdayIndex = DAY_ITEMS.findIndex(
-      (item) => item.value === "Tuesday",
-    );
-    const thursdayIndex = DAY_ITEMS.findIndex(
-      (item) => item.value === "Thursday",
-    );
-    const saturdayIndex = DAY_ITEMS.findIndex(
-      (item) => item.value === "Saturday",
-    );
-
-    expect(result.runs[tuesdayIndex]).toBe(0);
-    expect(result.runs[thursdayIndex]).toBe(0);
-    expect(result.runs[saturdayIndex]).toBe(0);
+    expect(result.runs[WEEKDAY_INDICES.TUESDAY]).toBe(0);
+    expect(result.runs[WEEKDAY_INDICES.THURSDAY]).toBe(0);
+    expect(result.runs[WEEKDAY_INDICES.SATURDAY]).toBe(0);
   });
 });

@@ -26,7 +26,7 @@ import {
   DEFAULT_LONG_RUN_PERCENTAGE,
   DEFAULT_RECOVERY_WEEK_FREQUENCY,
   DEFAULT_RECOVERY_WEEK_PERCENTAGE,
-  DAY_ITEMS,
+  WEEKDAY_OPTIONS,
 } from "./const";
 import { Day } from "./types";
 import { formatMileage, createPlan } from "./utils";
@@ -96,7 +96,7 @@ export const MileageBuilder = () => {
               Which days of the week do you run?
             </Label>
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4 py-2 pr-10 md:pr-0">
-              {DAY_ITEMS.map((item) => (
+              {WEEKDAY_OPTIONS.map((item) => (
                 <div
                   className="flex items-center justify-between w-full md:w-[120px]"
                   key={item.value}
@@ -161,7 +161,7 @@ export const MileageBuilder = () => {
                   <SelectValue placeholder="Select long run day" />
                 </SelectTrigger>
                 <SelectContent>
-                  {DAY_ITEMS.map((day) => (
+                  {WEEKDAY_OPTIONS.map((day) => (
                     <SelectItem key={day.value} value={day.value}>
                       {day.label}
                     </SelectItem>
@@ -241,7 +241,7 @@ export const MileageBuilder = () => {
                   <TableHead className="text-blue-600 dark:text-blue-300">
                     Week
                   </TableHead>
-                  {DAY_ITEMS.map((day, i) => (
+                  {WEEKDAY_OPTIONS.map((day, i) => (
                     <TableHead
                       key={i}
                       className="text-blue-600 dark:text-blue-300"

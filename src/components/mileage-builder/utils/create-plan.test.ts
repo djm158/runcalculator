@@ -1,6 +1,6 @@
 import { createPlan } from "./create-plan";
 
-import { DAY_ITEMS } from "../const";
+import { WEEKDAY_INDICES } from "../const";
 import { Day } from "../types";
 
 describe("createPlan", () => {
@@ -48,20 +48,13 @@ describe("createPlan", () => {
     // For 20 miles total with 30% long run:
     // Long run should be 6 miles
     // Other 3 runs should be ~4.67 miles each
-    const sundayIndex = DAY_ITEMS.findIndex((day) => day.value === "Sunday");
-    const longRun = firstWeek.runs[sundayIndex];
+    const longRun = firstWeek.runs[WEEKDAY_INDICES.SUNDAY];
     expect(longRun).toBeCloseTo(6);
 
     // Check other run days have correct mileage
-    const mondayIndex = DAY_ITEMS.findIndex((day) => day.value === "Monday");
-    const wednesdayIndex = DAY_ITEMS.findIndex(
-      (day) => day.value === "Wednesday",
-    );
-    const fridayIndex = DAY_ITEMS.findIndex((day) => day.value === "Friday");
-
-    expect(firstWeek.runs[mondayIndex]).toBeCloseTo(4.67, 1);
-    expect(firstWeek.runs[wednesdayIndex]).toBeCloseTo(4.67, 1);
-    expect(firstWeek.runs[fridayIndex]).toBeCloseTo(4.67, 1);
+    expect(firstWeek.runs[WEEKDAY_INDICES.MONDAY]).toBeCloseTo(4.67, 1);
+    expect(firstWeek.runs[WEEKDAY_INDICES.WEDNESDAY]).toBeCloseTo(4.67, 1);
+    expect(firstWeek.runs[WEEKDAY_INDICES.FRIDAY]).toBeCloseTo(4.67, 1);
   });
 
   it("stops when target mileage is reached", () => {
@@ -89,8 +82,7 @@ describe("createPlan", () => {
 
     const firstWeek = plan[0];
     // With only one run day, all mileage should be on Sunday
-    const sundayIndex = DAY_ITEMS.findIndex((day) => day.value === "Sunday");
-    expect(firstWeek.runs[sundayIndex]).toBe(10);
+    expect(firstWeek.runs[WEEKDAY_INDICES.SUNDAY]).toBe(10);
     // Other days should be 0
     expect(firstWeek.runs.filter((miles) => miles > 0).length).toBe(1);
   });

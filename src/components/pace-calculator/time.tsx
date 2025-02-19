@@ -23,6 +23,8 @@ export const Time = () => {
     const { seconds, minutes, hours } = calculateTime(
       totalPaceSeconds,
       distance,
+      values.paceUnit,
+      values.distanceUnit,
     );
 
     setValues({

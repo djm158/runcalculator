@@ -58,6 +58,19 @@ export const Distance = () => {
         : 0;
     setFieldValue("distance", distance);
   };
+
+  const handleDistanceUnitChange = (value: string) => {
+    handleChange({ target: { name: "distanceUnit", value } });
+    setFieldValue(
+      "distance",
+      value === Unit.KILOMETERS
+        ? // Coming from miles, so convert to kilometers
+          parseFloat(distance) * MILES_TO_KILOMETERS
+        : // Coming from kilometers, so convert to miles
+          parseFloat(distance) / MILES_TO_KILOMETERS,
+    );
+  };
+
   return (
     <div>
       <h2 className="text-lg font-semibold">Distance</h2>
@@ -73,9 +86,7 @@ export const Distance = () => {
         />
         <Select
           value={distanceUnit}
-          onValueChange={(value) =>
-            handleChange({ target: { name: "distanceUnit", value } })
-          }
+          onValueChange={handleDistanceUnitChange}
           name="distanceUnit"
         >
           <SelectTrigger ariaLabel="Distance Unit Menu">

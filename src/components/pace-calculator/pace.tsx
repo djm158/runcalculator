@@ -15,10 +15,57 @@ import { getTotalTimeInSeconds, calculatePace } from "@/utils/calc";
 import { Placeholders } from "./content";
 
 export const Pace = () => {
-  const { values, handleChange, setValues } = useFormikContext<FormState>();
+  const { values, handleChange, setFieldValue } = useFormikContext<FormState>();
+
+  const updatePaceFields = (
+    hours: number,
+    minutes: number,
+    seconds: number,
+  ) => {
+    setFieldValue("paceHours", hours.toString());
+    setFieldValue("paceMinutes", minutes.toString());
+    setFieldValue("paceSeconds", seconds.toString());
+  };
+
+  const calculatePaceValues = (
+    totalSeconds: number,
+    distance: number,
+    paceUnit: Unit,
+    distanceUnit: Unit,
+  ) => {
+    if (distance === 0) return { hours: 0, minutes: 0, seconds: 0 };
+    return calculatePace(totalSeconds, distance, paceUnit, distanceUnit);
+  };
 
   const setPace = () => {
     const distance = Number.parseFloat(values.distance) || 0;
+
+    const totalSeconds = getTotalTimeInSeconds(
+      values.hours,
+      values.minutes,
+      values.seconds,
+    );
+
+    const paceValues = calculatePaceValues(
+      totalSeconds,
+      distance,
+      values.paceUnit,
+      values.distanceUnit,
+    );
+
+    if (paceValues) {
+      updatePaceFields(
+        paceValues.hours,
+        paceValues.minutes,
+        paceValues.seconds,
+      );
+    }
+  };
+
+  const handlePaceUnitChange = (value: string) => {
+    setFieldValue("paceUnit", value);
+
+    const distance = Number.parseFloat(values.distance);
     if (distance === 0) return;
 
     const totalSeconds = getTotalTimeInSeconds(
@@ -27,20 +74,22 @@ export const Pace = () => {
       values.seconds,
     );
 
-    const { seconds, minutes, hours } = calculatePace(
+    const paceValues = calculatePaceValues(
       totalSeconds,
       distance,
-      values.paceUnit,
+      value as Unit,
       values.distanceUnit,
     );
 
-    setValues({
-      ...values,
-      paceHours: hours.toString(),
-      paceMinutes: minutes.toString(),
-      paceSeconds: seconds.toString(),
-    });
+    if (paceValues) {
+      updatePaceFields(
+        paceValues.hours,
+        paceValues.minutes,
+        paceValues.seconds,
+      );
+    }
   };
+
   return (
     <div>
       <h2 className="text-lg font-semibold">Pace</h2>
@@ -73,9 +122,7 @@ export const Pace = () => {
         />
         <Select
           value={values.paceUnit}
-          onValueChange={(value) =>
-            handleChange({ target: { name: "paceUnit", value } })
-          }
+          onValueChange={handlePaceUnitChange}
           name="paceUnit"
         >
           <SelectTrigger

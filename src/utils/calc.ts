@@ -33,8 +33,14 @@ export const calculatePace = (
   return getTime(seconds / adjustedDistance);
 };
 
-export const calculateTime = (seconds: number, distance: number): Time => {
-  return getTime(seconds * distance);
+export const calculateTime = (
+  seconds: number,
+  distance: number,
+  paceUnit: Unit,
+  distanceUnit: Unit,
+): Time => {
+  const conversionFactor = getConversionFactor(paceUnit, distanceUnit);
+  return getTime(seconds * distance * conversionFactor);
 };
 
 export const calculateDistance = (
@@ -43,28 +49,27 @@ export const calculateDistance = (
   paceUnit: Unit,
   distanceUnit: Unit,
 ): number => {
-  const conversionFactor =
-    paceUnit === distanceUnit
-      ? 1
-      : paceUnit === Unit.MILES
-        ? KILOMETERS_TO_MILES
-        : MILES_TO_KILOMETERS;
-
+  const conversionFactor = getConversionFactor(paceUnit, distanceUnit);
   return seconds / (paceSeconds * conversionFactor);
 };
 
-const getTime = (time: number): Time => {
-  const hours = Math.floor(time / SECONDS_PER_HOUR);
-  const remainingSeconds = time % SECONDS_PER_HOUR;
+const getConversionFactor = (fromUnit: Unit, toUnit: Unit): number => {
+  if (fromUnit === toUnit) return 1;
+  return fromUnit === Unit.MILES ? KILOMETERS_TO_MILES : MILES_TO_KILOMETERS;
+};
+
+const getTime = (totalSeconds: number): Time => {
+  const hours = Math.floor(totalSeconds / SECONDS_PER_HOUR);
+  const remainingSeconds = totalSeconds % SECONDS_PER_HOUR;
   const minutes = Math.floor(remainingSeconds / SECONDS_PER_MINUTE);
   const seconds = Number.parseFloat(
     (remainingSeconds % SECONDS_PER_MINUTE).toFixed(2),
   );
 
   return {
-    seconds,
-    minutes,
     hours,
+    minutes,
+    seconds,
   };
 };
 
